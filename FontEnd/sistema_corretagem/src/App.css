@@ -1,0 +1,87 @@
+#root {
+  /* Mantém as margens e paddings, mas com Flexbox */
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: flex; /* Habilita o Flexbox no elemento principal */
+  flex-direction: column;
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  min-height: 100vh; /* Garante que o contêiner tenha a altura total da tela */
+  width: 100%; /*Garante que o contêiner ocupe a largura total   */
+}
+
+/* O restante do seu arquivo App.css pode ficar como está */
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e7e7e7;
+  width: 100%;
+  box-sizing: border-box; /* Adiciona padding sem aumentar a largura total */  
+}
+
+.main-content {
+  display: flex;
+  flex-grow: 1; /* Faz o conteúdo principal ocupar o espaço restante */
+  width: 100%;
+  box-sizing: border-box;  
+}
+
+/* Estilo para a barra lateral */
+.sidebar {
+  width: 180px;
+  background-color: #999;
+  padding: 20px;
+  border-right: 1px solid #e7e7e7;
+}
+
+/* Estilo para o conteúdo (rota) */
+.content {
+  flex-grow: 1;
+  padding: 20px;
+/* Adicione a cor de fundo aqui */
+  background-color: #777; /* Exemplo: um cinza bem claro */
+  /* background-color: #f0f8ff; /* Exemplo: um azul claro */  
+}
+
+/* Ajustes no footer */
+footer {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e7e7e7;
+  text-align: center;
+  color: #6c757d;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;  
+}
+
+/* Estilo para a mensagem de carregamento */
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* Define uma altura mínima para evitar o "salto" */
+  font-size: 24px;
+  color: #555;
+  margin-top: 50px;
+}

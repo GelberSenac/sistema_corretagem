@@ -1,0 +1,33 @@
+source "https://rubygems.org"
+
+# Use Rails 8
+gem "rails", "~> 8.0.2", ">= 8.0.2.1"
+
+# Database
+gem "pg", "~> 1.1"
+
+# Web server
+gem "puma", ">= 5.0"
+
+# JSON API
+# gem "jbuilder"
+
+# Secure password authentication (required for has_secure_password)
+gem "bcrypt"
+
+# CORS
+gem "rack-cors"
+
+# For Windows and JRuby
+gem "tzinfo-data", platforms: %i[ windows jruby ]
+
+# Use Active Storage variants
+# gem "image_processing", "~> 1.2"
+
+gem "bootsnap", require: false
+
+group :development, :test do
+  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "brakeman", require: false
+  gem "rubocop-rails-omakase", require: false
+end

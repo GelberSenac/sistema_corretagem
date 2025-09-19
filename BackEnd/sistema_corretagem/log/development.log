@@ -1,0 +1,2218 @@
+  [1m[35mSQL (10.1ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (3120.9ms)[0m  [1m[35mCREATE DATABASE "sistema_corretagem" ENCODING = 'unicode' /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (375.1ms)[0m  [1m[35mCREATE DATABASE "sistema_corretagem" ENCODING = 'unicode' /*application='SistemaCorretagem'*/[0m
+  [1m[35m (17.2ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (26.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-09-15 18:34:00.569117', '2025-09-15 18:34:00.569120') RETURNING "key" /*application='SistemaCorretagem'*/[0m
+Migrating to CreateUsuarios (20250915183341)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (33.3ms)[0m  [1m[35mCREATE TABLE "usuarios" ("id" bigserial primary key, "nome" character varying, "email" character varying, "login" character varying, "senha" character varying, "cpf" character varying, "ativo" boolean, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250915183341') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (4.0ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Create (1.2ms)[0m  [1m[32mINSERT INTO "usuarios" ("nome", "email", "login", "senha", "cpf", "ativo", "created_at", "updated_at") VALUES ('Admin', 'admin@email.com', 'admin01', 'password', '123.456.789-00', TRUE, '2025-09-15 18:54:52.722150', '2025-09-15 18:54:52.722150') RETURNING "id" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to CreateEnderecos (20250915190608)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (7.9ms)[0m  [1m[35mCREATE TABLE "enderecos" ("id" bigserial primary key, "logradouro" character varying, "numero" character varying, "complemento" character varying, "bairro" character varying, "cidade" character varying, "estado" character varying, "cep" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250915190608') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[36mEndereco Create (4.9ms)[0m  [1m[32mINSERT INTO "enderecos" ("logradouro", "numero", "complemento", "bairro", "cidade", "estado", "cep", "created_at", "updated_at") VALUES ('Rua Exemplo', '123', 'Apto 45', 'Centro', 'Cidade Exemplo', 'EX', '12345-678', '2025-09-15 19:11:01.018961', '2025-09-15 19:11:01.018961') RETURNING "id" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.5ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to AddUsuarioIdToEnderecos (20250915192650)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (30.5ms)[0m  [1m[35mALTER TABLE "enderecos" ADD "usuario_id_id" bigint NOT NULL /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to AddUsuarioIdToEnderecos (20250915192650)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (5.8ms)[0m  [1m[35mALTER TABLE "enderecos" ADD "usuario_id" bigint NOT NULL /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.4ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (5727.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "sistema_corretagem" /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (149.5ms)[0m  [1m[35mCREATE DATABASE "sistema_corretagem" ENCODING = 'unicode' /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (127.2ms)[0m  [1m[35mCREATE DATABASE "sistema_corretagem" ENCODING = 'unicode' /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (5695.0ms)[0m  [1m[35mDROP DATABASE IF EXISTS "sistema_corretagem" /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (191.1ms)[0m  [1m[35mDROP DATABASE IF EXISTS "sistema_corretagem" /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (106.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "sistema_corretagem" /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (466.1ms)[0m  [1m[35mCREATE DATABASE "sistema_corretagem" ENCODING = 'unicode' /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[35mSET search_path TO public /*application='SistemaCorretagem'*/[0m
+  [1m[35m (154.7ms)[0m  [1m[35mCREATE DATABASE "sistema_corretagem" ENCODING = 'unicode' /*application='SistemaCorretagem'*/[0m
+  [1m[35mSQL (14.7ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql" SCHEMA pg_catalog /*application='SistemaCorretagem'*/[0m
+  [1m[35m (18.8ms)[0m  [1m[35mDROP TABLE IF EXISTS "enderecos" CASCADE /*application='SistemaCorretagem'*/[0m
+  [1m[35m (12.4ms)[0m  [1m[35mCREATE TABLE "enderecos" ("id" bigserial primary key, "logradouro" character varying, "numero" character varying, "complemento" character varying, "bairro" character varying, "cidade" character varying, "estado" character varying, "cep" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "usuarios" CASCADE /*application='SistemaCorretagem'*/[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "usuarios" ("id" bigserial primary key, "nome" character varying, "email" character varying, "login" character varying, "senha" character varying, "cpf" character varying, "ativo" boolean, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (12.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250915190608) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250915183341); /*application='SistemaCorretagem'*/[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-09-15 19:37:48.895852', '2025-09-15 19:37:48.895855') RETURNING "key" /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'schema_sha1' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (8.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', 'a27916736240cf33a841b3ef824674acd119ee23', '2025-09-15 19:37:48.902359', '2025-09-15 19:37:48.902360') RETURNING "key" /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to AddUsuarioIdToEnderecos (20250915192650)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (2.6ms)[0m  [1m[35mALTER TABLE "enderecos" ADD "usuario_id" bigint NOT NULL /*application='SistemaCorretagem'*/[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE INDEX "index_enderecos_on_usuario_id" ON "enderecos" ("usuario_id") /*application='SistemaCorretagem'*/[0m
+  [1m[35m (15.7ms)[0m  [1m[35mALTER TABLE "enderecos" ADD CONSTRAINT "fk_rails_e0e4fe0e66"
+FOREIGN KEY ("usuario_id")
+  REFERENCES "usuarios" ("id")
+ /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250915192650') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (5.6ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Create (1.3ms)[0m  [1m[32mINSERT INTO "usuarios" ("nome", "email", "login", "senha", "cpf", "ativo", "created_at", "updated_at") VALUES ('Admin', 'admin@email.com', 'admin01', 'password', '123.456.789-00', TRUE, '2025-09-15 22:14:54.226982', '2025-09-15 22:14:54.226982') RETURNING "id" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (10.8ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Load (1.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" ORDER BY "usuarios"."id" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mEndereco Load (1.9ms)[0m  [1m[34mSELECT "enderecos".* FROM "enderecos" WHERE "enderecos"."usuario_id" = 1 /* loading for pp */ LIMIT 11 /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to CreatePosts (20250915230144)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (12.8ms)[0m  [1m[35mCREATE TABLE "posts" ("id" bigserial primary key, "titulo" character varying, "conteudo" text, "usuario_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, CONSTRAINT "fk_rails_ec85a16176"
+FOREIGN KEY ("usuario_id")
+  REFERENCES "usuarios" ("id")
+) /*application='SistemaCorretagem'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_posts_on_usuario_id" ON "posts" ("usuario_id") /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250915230144') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (1.8ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Started GET "/" for 127.0.0.1 at 2025-09-16 14:28:50 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  
+ArgumentError (Missing :controller key on routes definition, please check your routes.):
+  
+config/routes.rb:2:in 'block in <main>'
+config/routes.rb:1:in '<main>'
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-09-16 14:28:53 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/" for 127.0.0.1 at 2025-09-16 14:31:10 -0300
+  
+SyntaxError (D:/Gelbers/PROJETOS/Programacao/Sistema Integrador/BackEnd/sistema_corretagem/config/routes.rb:2: syntax errors found
+  [2m1 | [mRails.application.routes.draw do
+[1;31m> [m[2m2 | [m  get '/usuarios' to: 'usuarios#index'
+  [2m  | [m                  [1;31m^~[m unexpected local variable or method, expecting end-of-input
+  [2m  | [m                    [1;31m^[m unexpected ':', ignoring it
+  [2m  | [m                    [1;31m^[m unexpected ':', expecting end-of-input
+  [2m3 | [m  get '/usuarios/:id', to: 'usuarios#show'
+  [2m4 | [m  post '/usuarios', to: 'usuarios#create'
+):
+  
+config/routes.rb:2: syntax errors found
+Started GET "/" for 127.0.0.1 at 2025-09-16 14:32:35 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 118ms (Views: 1.9ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2025-09-16 14:32:35 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-16 14:33:43 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (180.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 632ms (Views: -5.6ms | ActiveRecord: 254.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:03:04 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (129.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 135ms (Views: -2.1ms | ActiveRecord: 136.8ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:09:34 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (260.2ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 272ms (Views: -14.7ms | ActiveRecord: 286.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:09:46 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.9ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:09:46 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 4.0ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:14:43 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 3.9ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:53:35 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (127.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 147ms (Views: 11.0ms | ActiveRecord: 135.0ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 15:53:36 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 17:02:53 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (142.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 148ms (Views: -4.1ms | ActiveRecord: 151.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-16 17:02:53 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 4.0ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 09:43:28 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (160.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 171ms (Views: -1.3ms | ActiveRecord: 170.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 09:43:29 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:02:46 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (124.2ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 133ms (Views: -2.1ms | ActiveRecord: 135.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/favicon.ico" for ::1 at 2025-09-17 10:02:46 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/usuarios" for ::1 at 2025-09-17 10:06:20 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.7ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:06:20 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:09:26 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:09:26 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.7ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:12:13 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:12:13 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.9ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:17:43 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (239.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 243ms (Views: -3.9ms | ActiveRecord: 247.0ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:17:43 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.6ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-09-17 10:17:57 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.5ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for ::1 at 2025-09-17 10:17:57 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started POST "/usuarios" for ::1 at 2025-09-17 10:18:44 -0300
+Processing by UsuariosController#create as */*
+  Parameters: {"nome" => "gelber rodolfo", "email" => "[FILTERED]", "login" => "gelberr", "senha" => "123456", "cpf" => "011.901.624-90", "ativo" => true, "usuario" => {"nome" => "gelber rodolfo", "email" => "[FILTERED]", "login" => "gelberr", "senha" => "123456", "cpf" => "011.901.624-90", "ativo" => true}}
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:15:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (3.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'gelberr@gelber.com' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:15:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:15:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '011.901.624-90' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:15:in 'UsuariosController#create'
+  [1m[36mUsuario Create (151.2ms)[0m  [1m[32mINSERT INTO "usuarios" ("nome", "email", "login", "senha", "cpf", "ativo", "created_at", "updated_at") VALUES ('gelber rodolfo', 'gelberr@gelber.com', 'gelberr', '123456', '011.901.624-90', TRUE, '2025-09-17 13:18:44.501955', '2025-09-17 13:18:44.501955') RETURNING "id" /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:15:in 'UsuariosController#create'
+  [1m[36mTRANSACTION (4.2ms)[0m  [1m[35mCOMMIT /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:15:in 'UsuariosController#create'
+Completed 201 Created in 353ms (Views: 1.8ms | ActiveRecord: 159.7ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:36:25 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (101.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 108ms (Views: -0.4ms | ActiveRecord: 108.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:36:25 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.7ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:36:26 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:36:26 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:50:15 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (153.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 160ms (Views: -11.9ms | ActiveRecord: 171.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:50:15 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.8ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:50:15 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (1.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 1.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:50:15 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.0ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:58:07 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (151.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 158ms (Views: -5.7ms | ActiveRecord: 163.0ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 10:58:08 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.9ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 14:13:06 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (279.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 444ms (Views: 20.7ms | ActiveRecord: 306.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-17 14:13:44 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+  [1m[35m (17.0ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (2.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.9ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to AddPasswordDigestToUsuarios (20250917172215)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (115.8ms)[0m  [1m[35mALTER TABLE "usuarios" DROP COLUMN "senha" /*application='SistemaCorretagem'*/[0m
+  [1m[35m (13.7ms)[0m  [1m[35mALTER TABLE "usuarios" ADD "password_digest" character varying /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (2.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250917172215') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (4.5ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Started GET "/" for ::1 at 2025-09-17 14:29:34 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.1ms | GC: 0.0ms)
+Completed 200 OK in 56ms (Views: 4.5ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[36mUsuario Load (4.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 1 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' AND "usuarios"."id" != 1 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' AND "usuarios"."id" != 1 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' AND "usuarios"."id" != 1 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Update (67.9ms)[0m  [1m[33mUPDATE "usuarios" SET "updated_at" = '2025-09-17 17:52:15.767046', "password_digest" = '$2a$12$l.u1XB3kskm7MI0sLcgRgeXVI/hETxrWsfEmLwXThcIDiXn/wOTD2' WHERE "usuarios"."id" = 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (3.3ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 2 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'gelberr@gelber.com' AND "usuarios"."id" != 2 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' AND "usuarios"."id" != 2 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '011.901.624-90' AND "usuarios"."id" != 2 LIMIT 1 /*application='SistemaCorretagem'*/[0m
+  [1m[36mUsuario Update (0.5ms)[0m  [1m[33mUPDATE "usuarios" SET "updated_at" = '2025-09-17 17:53:14.475628', "password_digest" = '$2a$12$.xogMD6af7rzhRNGgtlvJ.GkscKcOI3HkFEuhF.U9o.dBKEuNVU2K' WHERE "usuarios"."id" = 2 /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+Started GET "/" for 127.0.0.1 at 2025-09-17 14:59:47 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (6.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.5ms | GC: 0.0ms)
+Completed 200 OK in 791ms (Views: 201.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2025-09-17 14:59:49 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started POST "/login" for ::1 at 2025-09-17 15:00:58 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+Started POST "/login" for ::1 at 2025-09-17 15:01:09 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+Started POST "/login" for ::1 at 2025-09-17 15:01:27 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+Started POST "/login" for ::1 at 2025-09-17 15:01:33 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+Started POST "/login" for ::1 at 2025-09-17 15:01:45 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+Started POST "/login" for ::1 at 2025-09-17 15:02:09 -0300
+  
+ActionController::RoutingError (uninitialized constant SessionsController)
+Caused by: ActionDispatch::MissingController (uninitialized constant SessionsController)
+Caused by: NameError (uninitialized constant SessionsController)
+
+Information for: ActionController::RoutingError (uninitialized constant SessionsController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant SessionsController):
+  
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+
+Information for cause: NameError (uninitialized constant SessionsController):
+  
+activesupport (8.0.2.1) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2.1) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2.1) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2.1) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2.1) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2.1) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.2.1) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.2.1) lib/rack/conditional_get.rb:44:in 'Rack::ConditionalGet#call'
+rack (3.2.1) lib/rack/head.rb:15:in 'Rack::Head#call'
+activerecord (8.0.2.1) lib/active_record/migration.rb:671:in 'ActiveRecord::Migration::CheckPending#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2.1) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2.1) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2.1) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.2.1) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:61:in 'block in ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:26:in 'ActionDispatch::ServerTiming::Subscriber#collect_events'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/server_timing.rb:60:in 'ActionDispatch::ServerTiming#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.2.1) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+actionpack (8.0.2.1) lib/action_dispatch/middleware/host_authorization.rb:143:in 'ActionDispatch::HostAuthorization#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+rack-cors (3.0.0) lib/rack/cors.rb:102:in 'Rack::Cors#call'
+railties (8.0.2.1) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+puma (7.0.3) lib/puma/configuration.rb:299:in 'Puma::Configuration::ConfigMiddleware#call'
+puma (7.0.3) lib/puma/request.rb:101:in 'block in Puma::Request#handle_request'
+puma (7.0.3) lib/puma/thread_pool.rb:346:in 'Puma::ThreadPool#with_force_shutdown'
+puma (7.0.3) lib/puma/request.rb:100:in 'Puma::Request#handle_request'
+puma (7.0.3) lib/puma/server.rb:497:in 'Puma::Server#process_client'
+puma (7.0.3) lib/puma/server.rb:266:in 'block in Puma::Server#run'
+puma (7.0.3) lib/puma/thread_pool.rb:173:in 'block in Puma::ThreadPool#spawn_thread'
+Started GET "/" for 127.0.0.1 at 2025-09-17 15:08:43 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-17 15:08:44 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.5ms | GC: 0.0ms)
+Completed 200 OK in 1ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-17 15:08:45 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.5ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-17 15:08:51 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (209.2ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 374ms (Views: 11.2ms | ActiveRecord: 284.6ms (1 query, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-09-17 15:08:51 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/" for 127.0.0.1 at 2025-09-17 15:11:04 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.5ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-09-17 15:22:37 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.3ms | GC: 0.0ms)
+Completed 200 OK in 44ms (Views: 12.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 15:22:43 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (228.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 453ms (Views: 54.0ms | ActiveRecord: 302.3ms (1 query, 0 cached) | GC: 0.5ms)
+
+
+Started POST "/login" for ::1 at 2025-09-17 15:41:07 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "fds", "senha" => "fds"}, "sesso" => {"usuario" => {"login" => "fds", "senha" => "fds"}}}
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+NameError (uninitialized constant SessoesController::User):
+  
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started POST "/login" for ::1 at 2025-09-17 15:41:27 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 0ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+NameError (uninitialized constant SessoesController::User):
+  
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started POST "/login" for ::1 at 2025-09-17 15:42:06 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (1.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" IS NULL LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 401 Unauthorized in 167ms (Views: 0.2ms | ActiveRecord: 16.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-17 15:43:22 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 216ms (Views: 0.2ms | ActiveRecord: 11.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 15:43:22 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 15:43:22 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-17 15:47:41 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (0.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 182ms (Views: 0.1ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 15:47:41 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 3ms (Views: 2.7ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 15:47:41 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-17 19:11:48 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "grdt", "senha" => "hgt"}, "sesso" => {"usuario" => {"login" => "grdt", "senha" => "hgt"}}}
+  [1m[36mUsuario Load (1.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'grdt' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 401 Unauthorized in 131ms (Views: 0.5ms | ActiveRecord: 11.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-17 19:12:06 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 184ms (Views: 0.2ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 19:12:07 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 9ms (Views: 8.2ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 19:12:07 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.5ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-09-17 20:25:47 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.1ms | GC: 0.0ms)
+Completed 200 OK in 40ms (Views: 11.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-17 20:28:38 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (287.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 296ms (Views: -13.7ms | ActiveRecord: 309.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-18 14:18:50 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (45.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.4ms | GC: 0.0ms)
+Completed 200 OK in 544ms (Views: 110.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2025-09-18 14:18:54 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started POST "/login" for ::1 at 2025-09-18 14:20:06 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (2.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 1247ms (Views: 0.2ms | ActiveRecord: 378.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:20:08 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.7ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:20:08 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.1ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 14:27:37 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (5.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 564ms (Views: 0.2ms | ActiveRecord: 26.4ms (1 query, 0 cached) | GC: 0.2ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 14:28:03 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (1.4ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 306ms (Views: 0.1ms | ActiveRecord: 1.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 14:32:47 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (1.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 294ms (Views: 0.2ms | ActiveRecord: 1.2ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:32:47 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.6ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:32:48 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 7ms (Views: 6.1ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:36:56 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 7ms (Views: 5.7ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 14:49:22 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (4.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 615ms (Views: 0.2ms | ActiveRecord: 26.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:49:37 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 9ms (Views: 8.1ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 14:49:38 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 10ms (Views: 8.6ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-18 15:13:18 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.1ms | GC: 0.0ms)
+Completed 200 OK in 793ms (Views: 169.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 15:24:13 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (2.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 1148ms (Views: 0.2ms | ActiveRecord: 57.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:24:14 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 8ms (Views: 6.9ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:24:14 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 7ms (Views: 6.0ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 15:32:14 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "geçber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "geçber123"}}}
+  [1m[36mUsuario Load (5.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 401 Unauthorized in 494ms (Views: 0.2ms | ActiveRecord: 26.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-18 15:33:49 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (1.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 335ms (Views: 0.2ms | ActiveRecord: 1.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:33:50 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (139.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 153ms (Views: 0.4ms | ActiveRecord: 140.5ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:33:50 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 11ms (Views: 0.3ms | ActiveRecord: 1.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:35 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (177.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 190ms (Views: -11.4ms | ActiveRecord: 200.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:36 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 9ms (Views: 8.1ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:38 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:38 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:39 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (1.0ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 11ms (Views: 9.3ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:39 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 8ms (Views: 6.7ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:41 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:41 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 9ms (Views: 0.2ms | ActiveRecord: 1.2ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:42 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 8ms (Views: 6.9ms | ActiveRecord: 0.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:42 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 10ms (Views: 9.0ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:44 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:44 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 9ms (Views: 0.1ms | ActiveRecord: 1.0ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:45 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (1.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 13ms (Views: 11.0ms | ActiveRecord: 1.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:46 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (1.0ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 14ms (Views: 13.2ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:48 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:55:48 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 12ms (Views: 0.2ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:50 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 8ms (Views: 6.9ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:55:50 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 21ms (Views: 19.9ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:59:57 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 2.5ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:59:57 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:59:58 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 8ms (Views: 7.5ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 15:59:58 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (1.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 10ms (Views: 7.9ms | ActiveRecord: 1.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 15:59:59 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.2ms | ActiveRecord: 1.0ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:00 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 8ms (Views: 0.1ms | ActiveRecord: 1.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:00:01 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 7ms (Views: 6.2ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:00:01 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 10ms (Views: 8.9ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:02 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:02 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:00:04 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 7ms (Views: 6.5ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:00:04 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.5ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:05 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:05 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:00:07 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 4.6ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:00:07 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 11ms (Views: 8.3ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:09 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:00:09 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.1ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:01:59 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 4.6ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:01:59 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 4.9ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:05:36 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 8ms (Views: 0.2ms | ActiveRecord: 1.4ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:05:36 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:05:49 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:05:49 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.5ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:05:57 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-18 16:05:57 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:06:14 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 7ms (Views: 6.4ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-18 16:06:14 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 10ms (Views: 8.8ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-18 19:11:28 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 27ms (Views: 6.9ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2025-09-18 19:11:29 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-18 19:15:13 -0300
+  
+SyntaxError (D:/Gelbers/PROJETOS/Programacao/Sistema Integrador/BackEnd/sistema_corretagem/app/controllers/usuarios_controller.rb:10: syntax errors found
+  [2m 8 | [m    usuario = Usuario.find(params[:id])
+  [2m 9 | [m    render json: usuario
+[1;31m> [m[2m10 | [m  end  
+  [2m   | [m      [1;31m^[m unexpected local variable or method, expecting end-of-input
+  [2m11 | [m
+  [2m12 | [m  def create
+[2m  ~~~~~~[m
+  [2m37 | [m      render json: usuario.errors, status: :unprocessable_entity
+  [2m38 | [m    end
+[1;31m> [m[2m39 | [m  end  
+  [2m   | [m      [1;31m^[m unexpected local variable or method, expecting end-of-input
+  [2m40 | [m
+  [2m41 | [m  # Estes métodos não são necessários para uma API REST e podem ser removidos
+):
+  
+app/controllers/usuarios_controller.rb:10: syntax errors found
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-09-18 19:15:15 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-18 19:17:34 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  
+SyntaxError (D:/Gelbers/PROJETOS/Programacao/Sistema Integrador/BackEnd/sistema_corretagem/app/controllers/usuarios_controller.rb:39: syntax error found
+  [2m37 | [m      render json: usuario.errors, status: :unprocessable_entity
+  [2m38 | [m    end
+[1;31m> [m[2m39 | [m  end  
+  [2m   | [m      [1;31m^[m unexpected local variable or method, expecting end-of-input
+  [2m40 | [m
+  [2m41 | [m  # Estes métodos não são necessários para uma API REST e podem ser removidos
+):
+  
+app/controllers/usuarios_controller.rb:39: syntax error found
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-18 19:19:41 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  
+SyntaxError (D:/Gelbers/PROJETOS/Programacao/Sistema Integrador/BackEnd/sistema_corretagem/app/controllers/usuarios_controller.rb:12: syntax error found
+  [2m10 | [m    usuario = Usuario.find(params[:id])
+  [2m11 | [m    render json: usuario
+[1;31m> [m[2m12 | [m  end  
+  [2m   | [m      [1;31m^[m unexpected local variable or method, expecting end-of-input
+  [2m13 | [m
+  [2m14 | [m  def create
+):
+  
+app/controllers/usuarios_controller.rb:12: syntax error found
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-18 19:22:06 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (136.2ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 198ms (Views: 1.5ms | ActiveRecord: 159.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/login" for ::1 at 2025-09-18 19:23:48 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/login"):
+  
+Started GET "/favicon.ico" for ::1 at 2025-09-18 19:23:48 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-18 19:30:36 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (133.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 137ms (Views: -4.4ms | ActiveRecord: 141.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-18 19:35:18 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-19 11:18:41 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.0ms | GC: 0.0ms)
+Completed 200 OK in 365ms (Views: 73.9ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-19 11:24:44 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.5ms | GC: 0.0ms)
+Completed 200 OK in 387ms (Views: 84.6ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 11:25:30 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (247.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 569ms (Views: 1.0ms | ActiveRecord: 272.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-09-19 11:25:40 -0300
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.4ms | GC: 0.0ms)
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for ::1 at 2025-09-19 11:25:40 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started GET "/" for 127.0.0.1 at 2025-09-19 11:29:25 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.8ms | GC: 0.0ms)
+Completed 200 OK in 26ms (Views: 6.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-19 11:32:32 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 38ms (Views: 11.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-19 11:32:54 -0300
+Processing by UsuariosController#index as HTML
+  [1m[36mUsuario Load (116.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 178ms (Views: 2.5ms | ActiveRecord: 135.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2025-09-19 11:39:20 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.0ms | GC: 0.0ms)
+Completed 200 OK in 35ms (Views: 9.8ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+Started POST "/login" for ::1 at 2025-09-19 11:39:26 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (1.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 535ms (Views: 0.2ms | ActiveRecord: 27.7ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 11:39:27 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 11:39:27 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 11:39:45 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 11:39:45 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/usuarios/1" for ::1 at 2025-09-19 11:40:09 -0300
+Processing by UsuariosController#update as */*
+  Parameters: {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-17T17:52:15.767Z", "password_digest" => "[FILTERED]", "usuario" => {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-17T17:52:15.767Z", "password_digest" => "[FILTERED]"}}
+  [1m[36mUsuario Load (0.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:22:in 'UsuariosController#update'
+[31mUnpermitted parameters: :id, :created_at, :updated_at, :password_digest. Context: { controller: UsuariosController, action: update, request: #<ActionDispatch::Request:0x0000028afed76370>, params: {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-17T17:52:15.767Z", "password_digest" => "[FILTERED]", "controller" => "usuarios", "action" => "update", "usuario" => {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-17T17:52:15.767Z", "password_digest" => "[FILTERED]"}} }[0m
+  [1m[36mTRANSACTION (12.7ms)[0m  [1m[35mBEGIN /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Update (136.3ms)[0m  [1m[33mUPDATE "usuarios" SET "nome" = 'Admin Teste', "updated_at" = '2025-09-19 14:40:09.210503' WHERE "usuarios"."id" = 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mTRANSACTION (1.6ms)[0m  [1m[35mCOMMIT /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+Completed 200 OK in 243ms (Views: 0.7ms | ActiveRecord: 237.5ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started DELETE "/usuarios/1" for ::1 at 2025-09-19 11:55:33 -0300
+Processing by UsuariosController#destroy as */*
+  Parameters: {"id" => "1"}
+  [1m[36mUsuario Load (117.7ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:31:in 'UsuariosController#destroy'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Exists? (4.1ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' AND "usuarios"."id" != 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' AND "usuarios"."id" != 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' AND "usuarios"."id" != 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Update (1.1ms)[0m  [1m[33mUPDATE "usuarios" SET "ativo" = FALSE, "updated_at" = '2025-09-19 14:55:34.026163' WHERE "usuarios"."id" = 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mCOMMIT /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+Completed 204 No Content in 142ms (ActiveRecord: 134.3ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 11:55:43 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.2ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 11:55:43 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 4ms (Views: 0.1ms | ActiveRecord: 0.7ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 11:55:47 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (2.2ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 11ms (Views: 8.0ms | ActiveRecord: 2.1ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 11:55:47 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 4ms (Views: 3.1ms | ActiveRecord: 0.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/usuarios/1" for ::1 at 2025-09-19 11:55:54 -0300
+Processing by UsuariosController#update as */*
+  Parameters: {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:34.026Z", "password_digest" => "[FILTERED]", "usuario" => {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:34.026Z", "password_digest" => "[FILTERED]"}}
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:22:in 'UsuariosController#update'
+[31mUnpermitted parameters: :id, :created_at, :updated_at, :password_digest. Context: { controller: UsuariosController, action: update, request: #<ActionDispatch::Request:0x0000028a81fd26c8>, params: {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:34.026Z", "password_digest" => "[FILTERED]", "controller" => "usuarios", "action" => "update", "usuario" => {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:34.026Z", "password_digest" => "[FILTERED]"}} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (3.0ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Update (0.4ms)[0m  [1m[33mUPDATE "usuarios" SET "ativo" = TRUE, "updated_at" = '2025-09-19 14:55:54.152154' WHERE "usuarios"."id" = 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+Completed 200 OK in 23ms (Views: 0.6ms | ActiveRecord: 6.0ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
