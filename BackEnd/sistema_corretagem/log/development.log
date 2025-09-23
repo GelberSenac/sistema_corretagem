@@ -2216,3 +2216,581 @@ Processing by UsuariosController#update as */*
 Completed 200 OK in 23ms (Views: 0.6ms | ActiveRecord: 6.0ms (5 queries, 0 cached) | GC: 0.0ms)
 
 
+Started GET "/" for 127.0.0.1 at 2025-09-19 15:20:28 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 3.5ms | GC: 0.0ms)
+Completed 200 OK in 1306ms (Views: 98.7ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+Started POST "/login" for ::1 at 2025-09-19 15:21:15 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (2.3ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 1027ms (Views: 0.4ms | ActiveRecord: 33.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 15:21:16 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.2ms | ActiveRecord: 1.2ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 15:21:16 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 7ms (Views: 0.2ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 15:21:26 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 15:21:26 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-19 15:23:38 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (0.8ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 263ms (Views: 0.2ms | ActiveRecord: 0.8ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 15:23:38 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 4.9ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 15:23:38 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.6ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.5ms | ActiveRecord: 0.6ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 15:23:44 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 2.3ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-19 15:23:44 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 17ms (Views: 0.3ms | ActiveRecord: 2.1ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 15:23:50 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 4.8ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-19 15:23:50 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:4:in 'UsuariosController#index'
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/usuarios" for ::1 at 2025-09-19 15:24:34 -0300
+Processing by UsuariosController#create as */*
+  Parameters: {"nome" => "dgfdfgdfgdfg", "email" => "[FILTERED]", "login" => "ddd", "password" => "[FILTERED]", "cpf" => "12345678909", "ativo" => true, "usuario" => {"nome" => "dgfdfgdfgdfg", "email" => "[FILTERED]", "login" => "ddd", "cpf" => "12345678909", "ativo" => true}}
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (5.8ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'dfgdfgdf@dgfgdf.com' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'ddd' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '12345678909' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+Completed 422 Unprocessable Content in 30ms (Views: 2.5ms | ActiveRecord: 7.8ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/usuarios/2" for ::1 at 2025-09-19 15:25:30 -0300
+Processing by UsuariosController#update as */*
+  Parameters: {"id" => "2", "nome" => "gelber rodolfo dfgdf", "email" => "[FILTERED]", "login" => "gelberr", "cpf" => "011.901.624-90", "ativo" => true, "created_at" => "2025-09-17T13:18:44.501Z", "updated_at" => "2025-09-17T17:53:14.475Z", "password_digest" => "[FILTERED]", "usuario" => {"id" => "2", "nome" => "gelber rodolfo dfgdf", "email" => "[FILTERED]", "login" => "gelberr", "cpf" => "011.901.624-90", "ativo" => true, "created_at" => "2025-09-17T13:18:44.501Z", "updated_at" => "2025-09-17T17:53:14.475Z", "password_digest" => "[FILTERED]"}}
+  [1m[36mUsuario Load (2.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 2 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:22:in 'UsuariosController#update'
+[31mUnpermitted parameters: :id, :created_at, :updated_at, :password_digest. Context: { controller: UsuariosController, action: update, request: #<ActionDispatch::Request:0x000001d2d7441370>, params: {"id" => "2", "nome" => "gelber rodolfo dfgdf", "email" => "[FILTERED]", "login" => "gelberr", "cpf" => "011.901.624-90", "ativo" => true, "created_at" => "2025-09-17T13:18:44.501Z", "updated_at" => "2025-09-17T17:53:14.475Z", "password_digest" => "[FILTERED]", "controller" => "usuarios", "action" => "update", "usuario" => {"id" => "2", "nome" => "gelber rodolfo dfgdf", "email" => "[FILTERED]", "login" => "gelberr", "cpf" => "011.901.624-90", "ativo" => true, "created_at" => "2025-09-17T13:18:44.501Z", "updated_at" => "2025-09-17T17:53:14.475Z", "password_digest" => "[FILTERED]"}} }[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (11.9ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'gelberfhjghjgr@gelber.com' AND "usuarios"."id" != 2 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' AND "usuarios"."id" != 2 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '011.901.624-90' AND "usuarios"."id" != 2 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Update (4.4ms)[0m  [1m[33mUPDATE "usuarios" SET "nome" = 'gelber rodolfo dfgdf', "email" = 'gelberfhjghjgr@gelber.com', "updated_at" = '2025-09-19 18:25:30.931558' WHERE "usuarios"."id" = 2 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mTRANSACTION (1657.2ms)[0m  [1m[35mCOMMIT /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+Completed 200 OK in 1745ms (Views: 2.1ms | ActiveRecord: 1686.6ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/usuarios" for ::1 at 2025-09-19 15:26:55 -0300
+Processing by UsuariosController#create as */*
+  Parameters: {"nome" => "ghfghfgh", "email" => "[FILTERED]", "login" => "teste", "password" => "[FILTERED]", "cpf" => "123.456.789-09", "ativo" => true, "usuario" => {"nome" => "ghfghfgh", "email" => "[FILTERED]", "login" => "teste", "cpf" => "123.456.789-09", "ativo" => true}}
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (11.2ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'fgdfgd@fghggf.com' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'teste' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-09' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[31mROLLBACK /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+Completed 422 Unprocessable Content in 49ms (Views: 2.1ms | ActiveRecord: 14.3ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started DELETE "/usuarios/1" for ::1 at 2025-09-19 15:27:03 -0300
+Processing by UsuariosController#destroy as */*
+  Parameters: {"id" => "1"}
+  [1m[36mUsuario Load (1.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:31:in 'UsuariosController#destroy'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Exists? (8.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' AND "usuarios"."id" != 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' AND "usuarios"."id" != 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' AND "usuarios"."id" != 1 LIMIT 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mUsuario Update (0.9ms)[0m  [1m[33mUPDATE "usuarios" SET "ativo" = FALSE, "updated_at" = '2025-09-19 18:27:03.477160' WHERE "usuarios"."id" = 1 /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mCOMMIT /*action='destroy',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:32:in 'UsuariosController#destroy'
+Completed 204 No Content in 47ms (ActiveRecord: 13.4ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started PATCH "/usuarios/1" for ::1 at 2025-09-19 15:27:17 -0300
+Processing by UsuariosController#update as */*
+  Parameters: {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:54.152Z", "password_digest" => "[FILTERED]", "usuario" => {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:54.152Z", "password_digest" => "[FILTERED]"}}
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."id" = 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:22:in 'UsuariosController#update'
+[31mUnpermitted parameters: :id, :created_at, :updated_at, :password_digest. Context: { controller: UsuariosController, action: update, request: #<ActionDispatch::Request:0x000001d2d7b67b40>, params: {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:54.152Z", "password_digest" => "[FILTERED]", "controller" => "usuarios", "action" => "update", "usuario" => {"id" => "1", "nome" => "Admin Teste", "email" => "[FILTERED]", "login" => "admin01", "cpf" => "123.456.789-00", "ativo" => true, "created_at" => "2025-09-15T22:14:54.226Z", "updated_at" => "2025-09-19T14:55:54.152Z", "password_digest" => "[FILTERED]"}} }[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (5.0ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'admin@email.com' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'admin01' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-00' AND "usuarios"."id" != 1 LIMIT 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mUsuario Update (0.6ms)[0m  [1m[33mUPDATE "usuarios" SET "ativo" = TRUE, "updated_at" = '2025-09-19 18:27:17.377168' WHERE "usuarios"."id" = 1 /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT /*action='update',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:23:in 'UsuariosController#update'
+Completed 200 OK in 33ms (Views: 1.1ms | ActiveRecord: 8.8ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/usuarios" for ::1 at 2025-09-19 15:30:28 -0300
+Processing by UsuariosController#create as */*
+  Parameters: {"nome" => "teste teste", "email" => "[FILTERED]", "login" => "teste01", "password" => "[FILTERED]", "cpf" => "123.456.789-09", "ativo" => true, "usuario" => {"nome" => "teste teste", "email" => "[FILTERED]", "login" => "teste01", "cpf" => "123.456.789-09", "ativo" => true}}
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (4.7ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'teste@teste.com' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'teste01' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-09' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+Completed 422 Unprocessable Content in 22ms (Views: 1.0ms | ActiveRecord: 6.3ms (3 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/usuarios" for ::1 at 2025-09-19 15:33:29 -0300
+Processing by UsuariosController#create as */*
+  Parameters: {"usuario" => {"nome" => "teste teste", "email" => "[FILTERED]", "login" => "teste01", "password" => "[FILTERED]", "cpf" => "123.456.789-09", "ativo" => true}}
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (4.2ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'teste@teste.com' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'teste01' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-09' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Create (233.1ms)[0m  [1m[32mINSERT INTO "usuarios" ("nome", "email", "login", "cpf", "ativo", "created_at", "updated_at", "password_digest") VALUES ('teste teste', 'teste@teste.com', 'teste01', '123.456.789-09', TRUE, '2025-09-19 18:33:30.092143', '2025-09-19 18:33:30.092143', '$2a$12$sMxsvhZmn92q57BwXiBIkOq5ERYli9wqfBnr676gPmExjVGQpu86u') RETURNING "id" /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+Completed 201 Created in 583ms (Views: 1.0ms | ActiveRecord: 239.0ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/usuarios" for ::1 at 2025-09-19 15:34:24 -0300
+Processing by UsuariosController#create as */*
+  Parameters: {"usuario" => {"nome" => "teste02", "email" => "[FILTERED]", "login" => "teste02", "password" => "[FILTERED]", "cpf" => "123.456.789-08", "ativo" => true}}
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (4.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."email" = 'teste02@teste.com' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."login" = 'teste02' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "usuarios" WHERE "usuarios"."cpf" = '123.456.789-08' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mUsuario Create (3.7ms)[0m  [1m[32mINSERT INTO "usuarios" ("nome", "email", "login", "cpf", "ativo", "created_at", "updated_at", "password_digest") VALUES ('teste02', 'teste02@teste.com', 'teste02', '123.456.789-08', TRUE, '2025-09-19 18:34:25.307268', '2025-09-19 18:34:25.307268', '$2a$12$5AcyU1reWaurW8s68W8jgeXaVeEBdCljhMfCnCmntgXPASdx4OaR.') RETURNING "id" /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+  [1m[36mTRANSACTION (292.6ms)[0m  [1m[35mCOMMIT /*action='create',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:14:in 'UsuariosController#create'
+Completed 201 Created in 581ms (Views: 2.0ms | ActiveRecord: 301.6ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+  [1m[35m (2.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (8.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (31.3ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to AddRoleToUsuarios (20250922171506)
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (64.2ms)[0m  [1m[35mALTER TABLE "usuarios" ADD "role" integer /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (4.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250922171506') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (14.8ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.6ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SistemaCorretagem'*/[0m
+Migrating to CreateClientes (20250923134551)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='SistemaCorretagem'*/[0m
+  [1m[35m (371.4ms)[0m  [1m[35mCREATE TABLE "clientes" ("id" bigserial primary key, "nome" character varying, "rg" character varying, "cpf" character varying, "sexo" character varying, "email" character varying, "telefone" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250923134551') RETURNING "version" /*application='SistemaCorretagem'*/[0m
+  [1m[36mTRANSACTION (2.1ms)[0m  [1m[35mCOMMIT /*application='SistemaCorretagem'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(5798607270190358610) /*application='SistemaCorretagem'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Started GET "/" for 127.0.0.1 at 2025-09-23 11:21:43 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 422ms (Views: 86.5ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/icon.png" for 127.0.0.1 at 2025-09-23 11:21:44 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/icon.png"):
+  
+Started POST "/login" for ::1 at 2025-09-23 11:25:02 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 197ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:5:in '<class:Usuario>'
+app/models/usuario.rb:1:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/" for 127.0.0.1 at 2025-09-23 11:30:11 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.3ms | GC: 0.0ms)
+Completed 200 OK in 36ms (Views: 10.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-23 11:30:16 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 36ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:7:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/" for 127.0.0.1 at 2025-09-23 11:34:03 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 35ms (Views: 10.9ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-23 11:34:09 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 33ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started POST "/login" for ::1 at 2025-09-23 11:34:46 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 89ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started POST "/login" for ::1 at 2025-09-23 11:36:37 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 96ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started POST "/login" for ::1 at 2025-09-23 11:36:44 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/" for 127.0.0.1 at 2025-09-23 11:38:10 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.5ms | GC: 0.0ms)
+Completed 200 OK in 38ms (Views: 10.3ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-23 11:38:51 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 24ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started POST "/login" for ::1 at 2025-09-23 11:44:30 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 88ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/" for 127.0.0.1 at 2025-09-23 11:53:18 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.2ms | GC: 0.0ms)
+Completed 200 OK in 39ms (Views: 13.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-23 11:53:46 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/login" for ::1 at 2025-09-23 11:54:00 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/login"):
+  
+Started GET "/favicon.ico" for ::1 at 2025-09-23 11:54:01 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started POST "/login" for ::1 at 2025-09-23 12:00:00 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 93ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/" for 127.0.0.1 at 2025-09-23 12:19:50 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (3.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 2.0ms | GC: 0.0ms)
+Completed 200 OK in 35ms (Views: 12.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-23 12:19:54 -0300
+Processing by UsuariosController#index as HTML
+Completed 500 Internal Server Error in 25ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.2ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/usuarios_controller.rb:6:in 'UsuariosController#index'
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-23 12:19:56 -0300
+Processing by UsuariosController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/usuarios_controller.rb:6:in 'UsuariosController#index'
+Started GET "/favicon.ico" for 127.0.0.1 at 2025-09-23 12:19:56 -0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/" for 127.0.0.1 at 2025-09-23 12:23:09 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 0.9ms | GC: 0.0ms)
+Completed 200 OK in 35ms (Views: 11.0ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.3ms)
+
+
+Started POST "/login" for ::1 at 2025-09-23 12:23:15 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+Completed 500 Internal Server Error in 34ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-23 12:23:29 -0300
+Processing by UsuariosController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/usuarios_controller.rb:6:in 'UsuariosController#index'
+Started GET "/usuarios" for 127.0.0.1 at 2025-09-23 12:23:31 -0300
+Processing by UsuariosController#index as HTML
+Completed 500 Internal Server Error in 98ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ArgumentError (wrong number of arguments (given 0, expected 1..2)):
+  
+app/models/usuario.rb:6:in '<class:Usuario>'
+app/models/usuario.rb:3:in '<main>'
+app/controllers/usuarios_controller.rb:6:in 'UsuariosController#index'
+Started GET "/" for 127.0.0.1 at 2025-09-23 12:34:02 -0300
+  [1m[36mActiveRecord::SchemaMigration Load (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SistemaCorretagem'*/[0m
+Processing by Rails::WelcomeController#index as HTML
+  Rendering D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered D:/Programas/Ruby34-x64/lib/ruby/gems/3.4.0/gems/railties-8.0.2.1/lib/rails/templates/rails/welcome/index.html.erb (Duration: 1.6ms | GC: 0.0ms)
+Completed 200 OK in 42ms (Views: 13.9ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/login" for ::1 at 2025-09-23 12:34:07 -0300
+Processing by SessoesController#create as */*
+  Parameters: {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}, "sesso" => {"usuario" => {"login" => "gelberr", "senha" => "gelber123"}}}
+  [1m[36mUsuario Load (2.1ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" WHERE "usuarios"."login" = 'gelberr' LIMIT 1 /*action='create',application='SistemaCorretagem',controller='sessoes'*/[0m
+  ↳ app/controllers/sessoes_controller.rb:3:in 'SessoesController#create'
+Completed 200 OK in 887ms (Views: 0.2ms | ActiveRecord: 28.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-23 12:34:08 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 5ms (Views: 0.1ms | ActiveRecord: 0.8ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/dashboard_stats" for ::1 at 2025-09-23 12:34:09 -0300
+Processing by DashboardController#index as */*
+  [1m[36mUsuario Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = TRUE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:6:in 'DashboardController#index'
+  [1m[36mUsuario Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "usuarios" WHERE "usuarios"."ativo" = FALSE /*action='index',application='SistemaCorretagem',controller='dashboard'*/[0m
+  ↳ app/controllers/dashboard_controller.rb:7:in 'DashboardController#index'
+Completed 200 OK in 6ms (Views: 0.2ms | ActiveRecord: 0.9ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-23 12:34:18 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.5ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:7:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 4.5ms | ActiveRecord: 0.5ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/usuarios" for ::1 at 2025-09-23 12:34:18 -0300
+Processing by UsuariosController#index as */*
+  [1m[36mUsuario Load (0.9ms)[0m  [1m[34mSELECT "usuarios".* FROM "usuarios" /*action='index',application='SistemaCorretagem',controller='usuarios'*/[0m
+  ↳ app/controllers/usuarios_controller.rb:7:in 'UsuariosController#index'
+Completed 200 OK in 5ms (Views: 3.5ms | ActiveRecord: 0.9ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/clientes" for ::1 at 2025-09-23 12:34:36 -0300
+Processing by ClientesController#index as */*
+  [1m[36mCliente Load (1.4ms)[0m  [1m[34mSELECT "clientes".* FROM "clientes" /*action='index',application='SistemaCorretagem',controller='clientes'*/[0m
+  ↳ app/controllers/clientes_controller.rb:4:in 'ClientesController#index'
+Completed 200 OK in 9ms (Views: 3.5ms | ActiveRecord: 1.4ms (1 query, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/clientes" for ::1 at 2025-09-23 12:34:37 -0300
+Processing by ClientesController#index as */*
+  [1m[36mCliente Load (0.4ms)[0m  [1m[34mSELECT "clientes".* FROM "clientes" /*action='index',application='SistemaCorretagem',controller='clientes'*/[0m
+  ↳ app/controllers/clientes_controller.rb:4:in 'ClientesController#index'
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.3ms (1 query, 0 cached) | GC: 0.0ms)
+
+

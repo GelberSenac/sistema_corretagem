@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import "./GerenciamentoUsuarios.css";
+import "./Usuarios.css";
+import { FaEdit, FaUserSlash } from "react-icons/fa";
 
-function GerenciamentoUsuarios() {
+function Usuarios({ userRole }) {
   const [usuarios, setUsuarios] = useState([]);
   const [carregando, setCarregando] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
   const [novoUsuario, setNovoUsuario] = useState({
     nome: "",
     email: "",
@@ -11,11 +13,26 @@ function GerenciamentoUsuarios() {
     password: "",
     cpf: "",
     ativo: true,
+    role: "corretor",
+    // Adiciona o estado aninhado para o endereço
+    endereco_attributes: {
+      logradouro: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      estado: "",
+      cep: "",
+    },
   });
-  // Novo estado para rastrear o usuário que está sendo editado
   const [usuarioSendoEditado, setUsuarioSendoEditado] = useState(null);
 
   useEffect(() => {
+    // Adiciona um atraso de 300ms para exibir a mensagem
+    const timer = setTimeout(() => {
+      setShowLoading(true);
+    }, 300);
+
     fetch("http://localhost:3000/usuarios")
       .then((response) => {
         if (!response.ok) {
@@ -26,25 +43,44 @@ function GerenciamentoUsuarios() {
       .then((data) => {
         setUsuarios(data);
         setCarregando(false);
+        clearTimeout(timer);
       })
       .catch((error) => {
         console.error("Erro ao buscar usuários:", error);
         setCarregando(false);
+        clearTimeout(timer);
       });
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
+  // Lógica para lidar com campos aninhados
   const handleFormChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setNovoUsuario((prevUsuario) => ({
-      ...prevUsuario,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    // Se o campo for de endereço, atualiza o estado aninhado
+    if (name.startsWith("endereco_attributes.")) {
+      const field = name.split(".")[1];
+      setNovoUsuario((prevUsuario) => ({
+        ...prevUsuario,
+        endereco_attributes: {
+          ...prevUsuario.endereco_attributes,
+          [field]: value,
+        },
+      }));
+    } else {
+      // Caso contrário, atualiza o estado de nível superior
+      setNovoUsuario((prevUsuario) => ({
+        ...prevUsuario,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Lógica para saber se é uma criação (POST) ou atualização (PATCH)
     const method = usuarioSendoEditado ? "PATCH" : "POST";
     const url = usuarioSendoEditado
       ? `http://localhost:3000/usuarios/${usuarioSendoEditado.id}`
@@ -56,7 +92,8 @@ function GerenciamentoUsuarios() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(novoUsuario),
+        // Envia o estado completo de forma aninhada para o backend
+        body: JSON.stringify({ usuario: novoUsuario }),
       });
 
       if (!response.ok) {
@@ -65,21 +102,19 @@ function GerenciamentoUsuarios() {
 
       const usuarioAtualizado = await response.json();
 
-      // Atualiza a lista de usuários no estado local
       if (usuarioSendoEditado) {
         setUsuarios(
           usuarios.map((u) =>
             u.id === usuarioSendoEditado.id ? usuarioAtualizado : u,
           ),
         );
-        setUsuarioSendoEditado(null); // Sai do modo de edição
+        setUsuarioSendoEditado(null);
         alert("Usuário atualizado com sucesso!");
       } else {
         setUsuarios((prevUsuarios) => [...prevUsuarios, usuarioAtualizado]);
         alert("Usuário adicionado com sucesso!");
       }
 
-      // Limpa os campos do formulário
       setNovoUsuario({
         nome: "",
         email: "",
@@ -87,6 +122,16 @@ function GerenciamentoUsuarios() {
         password: "",
         cpf: "",
         ativo: true,
+        role: "corretor",
+        endereco_attributes: {
+          logradouro: "",
+          numero: "",
+          complemento: "",
+          bairro: "",
+          cidade: "",
+          estado: "",
+          cep: "",
+        },
       });
     } catch (error) {
       console.error("Erro ao salvar usuário:", error);
@@ -94,10 +139,13 @@ function GerenciamentoUsuarios() {
     }
   };
 
-  // Funções de edição e exclusão
   const handleEdit = (usuario) => {
     setUsuarioSendoEditado(usuario);
-    setNovoUsuario(usuario); // Preenche o formulário com os dados do usuário
+    // Preenche o formulário com os dados do usuário e do endereço
+    setNovoUsuario({
+      ...usuario,
+      endereco_attributes: { ...usuario.endereco },
+    });
   };
 
   const handleDelete = async (id) => {
@@ -108,7 +156,6 @@ function GerenciamentoUsuarios() {
         });
 
         if (response.ok) {
-          // Atualiza o estado local para marcar o usuário como inativo
           setUsuarios(
             usuarios.map((u) => (u.id === id ? { ...u, ativo: false } : u)),
           );
@@ -123,15 +170,18 @@ function GerenciamentoUsuarios() {
     }
   };
 
+  if (carregando && showLoading) {
+    return <h1 className="loading-message">Carregando dados...</h1>;
+  }
+
   if (carregando) {
-    return <h1>Carregando...</h1>;
+    return null;
   }
 
   return (
     <>
       <h1>Gerenciamento de Usuários</h1>
       <div className="formulario-container">
-        {/* Muda o título do formulário com base no estado */}
         <h2>
           {usuarioSendoEditado ? "Editar Usuário" : "Adicionar Novo Usuário"}
         </h2>
@@ -191,12 +241,95 @@ function GerenciamentoUsuarios() {
                 required
               />
             </label>
+            {userRole === "admin" && (
+              <label>
+                Papel:
+                <select
+                  name="role"
+                  value={novoUsuario.role}
+                  onChange={handleFormChange}
+                >
+                  <option value="corretor">Corretor</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </label>
+            )}
+          </div>
+          <div className="form-group-row">
             <label>
               Ativo:
               <input
                 type="checkbox"
                 name="ativo"
                 checked={novoUsuario.ativo}
+                onChange={handleFormChange}
+              />
+            </label>
+          </div>
+
+          {/* Adicionando os campos de endereço */}
+          <h3>Endereço</h3>
+          <div className="form-group-address">
+            <label>
+              Logradouro:
+              <input
+                type="text"
+                name="endereco_attributes.logradouro"
+                value={novoUsuario.endereco_attributes.logradouro}
+                onChange={handleFormChange}
+              />
+            </label>
+            <label>
+              Número:
+              <input
+                type="text"
+                name="endereco_attributes.numero"
+                value={novoUsuario.endereco_attributes.numero}
+                onChange={handleFormChange}
+              />
+            </label>
+            <label>
+              Complemento:
+              <input
+                type="text"
+                name="endereco_attributes.complemento"
+                value={novoUsuario.endereco_attributes.complemento}
+                onChange={handleFormChange}
+              />
+            </label>
+            <label>
+              Bairro:
+              <input
+                type="text"
+                name="endereco_attributes.bairro"
+                value={novoUsuario.endereco_attributes.bairro}
+                onChange={handleFormChange}
+              />
+            </label>
+            <label>
+              Cidade:
+              <input
+                type="text"
+                name="endereco_attributes.cidade"
+                value={novoUsuario.endereco_attributes.cidade}
+                onChange={handleFormChange}
+              />
+            </label>
+            <label>
+              Estado:
+              <input
+                type="text"
+                name="endereco_attributes.estado"
+                value={novoUsuario.endereco_attributes.estado}
+                onChange={handleFormChange}
+              />
+            </label>
+            <label>
+              CEP:
+              <input
+                type="text"
+                name="endereco_attributes.cep"
+                value={novoUsuario.endereco_attributes.cep}
                 onChange={handleFormChange}
               />
             </label>
@@ -221,11 +354,14 @@ function GerenciamentoUsuarios() {
           >
             <strong>{usuario.nome}</strong> - {usuario.email}
             <p>Status: {usuario.ativo ? "Ativo" : "Inativo"}</p>
+            <p>Papel: {usuario.role}</p>
             <div className="user-actions">
-              <button onClick={() => handleEdit(usuario)}>Editar</button>
-              {usuario.ativo && ( // O botão de excluir só aparece se o usuário estiver ativo
+              <button onClick={() => handleEdit(usuario)}>
+                <FaEdit />
+              </button>
+              {usuario.ativo && (
                 <button onClick={() => handleDelete(usuario.id)}>
-                  Inativar
+                  <FaUserSlash />
                 </button>
               )}
             </div>
@@ -236,4 +372,4 @@ function GerenciamentoUsuarios() {
   );
 }
 
-export default GerenciamentoUsuarios;
+export default Usuarios;

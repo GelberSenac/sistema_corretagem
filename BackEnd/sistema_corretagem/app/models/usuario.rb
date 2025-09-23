@@ -1,7 +1,15 @@
+# app/models/usuario.rb
+
 class Usuario < ApplicationRecord
   has_secure_password
-  has_many :enderecos, dependent: :destroy
-  has_many :posts
+
+  enum :role, {corretor:0,admin:1}
+
+
+  has_one :endereco, as: :enderecoable, dependent: :destroy
+  accepts_nested_attributes_for :endereco
+
+  has_many :posts, dependent: :destroy
 
   validates :nome, presence: true, length: { maximum: 100 }
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }

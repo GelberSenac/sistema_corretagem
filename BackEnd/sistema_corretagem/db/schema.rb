@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_17_172215) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_23_134551) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "clientes", force: :cascade do |t|
+    t.string "nome"
+    t.string "rg"
+    t.string "cpf"
+    t.string "sexo"
+    t.string "email"
+    t.string "telefone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "enderecos", force: :cascade do |t|
     t.string "logradouro"
@@ -46,6 +57,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_17_172215) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
+    t.integer "role"
   end
 
   add_foreign_key "enderecos", "usuarios"
