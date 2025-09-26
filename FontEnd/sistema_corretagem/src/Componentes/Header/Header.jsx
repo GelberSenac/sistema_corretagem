@@ -1,15 +1,15 @@
 import React from "react";
 import "./Header.css";
 
-function Header({ onLogout }) {
+import { useAuth } from "../../Contextos/AuthContexto"; // Verifique o caminho
+
+function Header() {
+  const { logout } = useAuth();
   return (
     <header>
-      <h1>Meu Sistema de Gerenciamento</h1>
-      <nav className="header-nav">
-        <a href="#" onClick={onLogout}>
-          Sair
-        </a>
-      </nav>
+      <a href="#" onClick={logout}>
+        Sair
+      </a>
     </header>
   );
 }

@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  titulo_busca: MyString
+  tipo_negocio: MyString
+  condicao_imovel: MyString
+  bairro_preferencia: MyString
+  valor_maximo_imovel: 9.99
+  valor_entrada_disponivel: 9.99
+  renda_minima_exigida: 9.99
+  quartos_minimo: 1
+  suites_minimo: 1
+  banheiros_minimo: 1
+  vagas_minimo: 1
+  metragem_minima: 1
+  exige_varanda: false
+  cliente: one
+
+two:
+  titulo_busca: MyString
+  tipo_negocio: MyString
+  condicao_imovel: MyString
+  bairro_preferencia: MyString
+  valor_maximo_imovel: 9.99
+  valor_entrada_disponivel: 9.99
+  renda_minima_exigida: 9.99
+  quartos_minimo: 1
+  suites_minimo: 1
+  banheiros_minimo: 1
+  vagas_minimo: 1
+  metragem_minima: 1
+  exige_varanda: false
+  cliente: two

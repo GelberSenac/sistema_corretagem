@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome: MyString
+  data_nascimento: 2025-09-25
+  cpf: MyString
+  rg: MyString
+  profissao: MyString
+  renda: 9.99
+  email: MyString
+  celular: MyString
+  cliente: one
+
+two:
+  nome: MyString
+  data_nascimento: 2025-09-25
+  cpf: MyString
+  rg: MyString
+  profissao: MyString
+  renda: 9.99
+  email: MyString
+  celular: MyString
+  cliente: two

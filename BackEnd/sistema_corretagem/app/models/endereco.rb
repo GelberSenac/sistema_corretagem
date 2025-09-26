@@ -1,9 +1,10 @@
 class Endereco < ApplicationRecord
-  belongs_to :usuario
+  # A associação correta para receber uma conexão polimórfica
+  belongs_to :enderecoable, polymorphic: true
 
   validates :logradouro, presence: true, length: { maximum: 150 }
   validates :numero, presence: true, length: { maximum: 10 }
-  validates :complemento, presence: false, length: { maximum: 50 }
+  validates :complemento, length: { maximum: 50 }, allow_blank: true # Melhorado
   validates :bairro, presence: true, length: { maximum: 100 }
   validates :cidade, presence: true, length: { maximum: 100 }
   validates :estado, presence: true, length: { is: 2 }

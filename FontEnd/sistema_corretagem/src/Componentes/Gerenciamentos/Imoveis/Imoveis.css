@@ -1,0 +1,79 @@
+/* --- ESTILOS GERAIS DA PÁGINA --- */
+.formulario-container {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.form-section-title {
+  font-size: 18px;
+  color: #007bff;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* --- NOVO SISTEMA DE GRID DO FORMULÁRIO --- */
+.form-grid {
+  display: grid;
+  /* Cria 4 colunas de tamanho igual */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px; /* Espaço entre as colunas e linhas */
+}
+
+/* Classes de utilidade para controlar o tamanho das colunas */
+.grid-col-span-1 { grid-column: span 1; }
+.grid-col-span-2 { grid-column: span 2; }
+.grid-col-span-3 { grid-column: span 3; }
+.grid-col-span-4 { grid-column: span 4; }
+
+/* Deixa o formulário responsivo em telas menores */
+@media (max-width: 768px) {
+  .form-grid {
+    /* Em telas menores, usa apenas 2 colunas */
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* Força todos os itens a ocuparem a largura total em telas muito pequenas */
+  .grid-col-span-1, .grid-col-span-2, .grid-col-span-3 {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 500px) {
+  .form-grid {
+    /* Em telas de celular, usa apenas 1 coluna */
+    grid-template-columns: 1fr;
+  }
+  .grid-col-span-1, .grid-col-span-2, .grid-col-span-3, .grid-col-span-4 {
+    grid-column: span 1;
+  }
+}
+
+
+.comodidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.comodidades-grid label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+}
+
+/* --- ESTILOS DA LISTA DE IMÓVEIS (sem mudanças, mas mantidos) --- */
+.lista-grid {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.imovel-card {
+  /* ... (estilos do card continuam os mesmos) ... */
+}
+/* ... etc ... */

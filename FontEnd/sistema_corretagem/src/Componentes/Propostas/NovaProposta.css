@@ -1,0 +1,22 @@
+/* src/Componentes/Propostas/NovaProposta.css */
+
+.proposta-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  border: 1px solid #eee;
+}
+
+.proposta-section h2, .proposta-section h3 {
+  margin-top: 0;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.imovel-card.selecionado {
+  border: 2px solid #007bff;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  transform: scale(1.02);
+}

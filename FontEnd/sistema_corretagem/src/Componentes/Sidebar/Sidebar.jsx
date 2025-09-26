@@ -2,16 +2,14 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Contextos/AuthContexto";
 import "./Sidebar.css";
-import Usuarios from "../Gerenciamentos/Usuarios/Usuarios";
-import Clientes from "../Gerenciamentos/Clientes/Clientes";
-import Dashboard from "../Dashboard/Dashboard";
 
-function Sidebar({ userRole }) {
-  const canSeeGerenciamentoUsuarios =
-    userRole === "admin" || userRole === "corretor";
-  const canSeeGerenciamentoClientes =
-    userRole === "admin" || userRole === "corretor";
+function Sidebar() {
+  const { user } = useAuth();
+
+  const isAdmin = user?.role === "admin";
+  const isCorretor = user?.role === "corretor";
 
   return (
     <aside className="sidebar">
@@ -20,17 +18,27 @@ function Sidebar({ userRole }) {
           <li>
             <Link to="/">Dashboard</Link>
           </li>
-          {canSeeGerenciamentoUsuarios && (
+
+          {/* Apenas o Admin pode ver */}
+          {isAdmin && (
             <li>
-              {/* Mude o nome do componente */}
               <Link to="/usuarios">Gerenciar Usuários</Link>
             </li>
           )}
-          {canSeeGerenciamentoClientes && (
-            <li>
-              {/* Mude o nome do componente */}
-              <Link to="/clientes">Gerenciar Clientes</Link>
-            </li>
+
+          {/* Links visíveis para Admin E Corretor */}
+          {(isAdmin || isCorretor) && (
+            <>
+              <li>
+                <Link to="/clientes">Gerenciar Clientes</Link>
+              </li>
+              <li>
+                <Link to="/imoveis">Gerenciar Imóveis</Link>
+              </li>
+              <li>
+                <Link to="/propostas/nova">Nova Proposta</Link>
+              </li>
+            </>
           )}
         </ul>
       </nav>

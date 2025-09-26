@@ -1,40 +1,43 @@
-// src/componentes/Login/Login.jsx
-
 import React, { useState } from "react";
+import { useAuth } from "../../Contextos/AuthContexto"; // Importa o hook do nosso contexto
+import { loginUser } from "../../Servicos/Api";
 import "./Login.css";
 
-function Login({ onLoginSuccess }) {
-  const [login, setLogin] = useState("");
+// A prop { onLoginSuccess } foi removida daqui
+function Login() {
+  // Pega a função 'login' diretamente do contexto.
+  const { login } = useAuth();
+
+  // Estados do formulário
+  const [loginField, setLoginField] = useState(""); // Renomeado para não conflitar com a função 'login'
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  // Estados para a experiência do usuário (UX)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // O body precisa estar formatado corretamente com o objeto 'usuario'
-        body: JSON.stringify({
-          usuario: {
-            login: login,
-            senha: password,
-          },
-        }),
-      });
+      // Chama a função da nossa API central
+      const response = await loginUser(loginField, password);
 
-      if (response.ok) {
-        const data = await response.json();
-        onLoginSuccess(data.role);
-      } else {
-        alert("Login ou senha inválidos. Tente novamente.");
-      }
-    } catch (error) {
-      console.error("Erro de rede:", error);
-      alert("Não foi possível conectar ao servidor. Verifique o console.");
+      // Extrai o usuário e o token da resposta
+      const { user, token } = response.data;
+
+      // Chama a função de login do CONTEXTO, que vai salvar o token e o usuário globalmente
+      login(user, token);
+
+      // O App.jsx vai detectar a mudança no estado de autenticação e redirecionar automaticamente
+    } catch (err) {
+      setError("Login ou senha inválidos. Tente novamente.");
+      console.error("Erro de login:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,11 +49,11 @@ function Login({ onLoginSuccess }) {
           Login:
           <input
             type="text"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
+            value={loginField}
+            onChange={(e) => setLoginField(e.target.value)}
             required
             placeholder="Digite seu login"
-            // Remova o atributo 'name' para evitar o erro de parâmetros duplicados
+            disabled={loading}
           />
         </label>
         <label>
@@ -62,7 +65,7 @@ function Login({ onLoginSuccess }) {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="Digite sua senha"
-              // Remova o atributo 'name'
+              disabled={loading}
             />
             <button
               type="button"
@@ -73,7 +76,16 @@ function Login({ onLoginSuccess }) {
             </button>
           </div>
         </label>
-        <button type="submit">Entrar</button>
+
+        {error && (
+          <p className="error-message" style={{ color: "red" }}>
+            {error}
+          </p>
+        )}
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </button>
       </form>
     </div>
   );

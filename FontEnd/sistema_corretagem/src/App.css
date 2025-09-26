@@ -1,18 +1,9 @@
+/* #root agora é um container simples que ocupa todo o espaço */
 #root {
-  /* Mantém as margens e paddings, mas com Flexbox */
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  display: flex; /* Habilita o Flexbox no elemento principal */
-  flex-direction: column;
-  justify-content: center; /* Centraliza o conteúdo horizontalmente */
-  align-items: center; /* Centraliza o conteúdo verticalmente */
-  min-height: 100vh; /* Garante que o contêiner tenha a altura total da tela */
-  width: 100%; /*Garante que o contêiner ocupe a largura total   */
+  width: 100%;
+  height: 100%;
+  /* REMOVIDO: max-width, margin, padding, text-align e as propriedades flex */
 }
-
-/* O restante do seu arquivo App.css pode ficar como está */
 
 .card {
   padding: 2em;
@@ -22,49 +13,63 @@
   color: #888;
 }
 
+/* O container geral da aplicação */
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  background-color: #f0f2f5; /* Um cinza de fundo para a aplicação toda */
 }
 
 header {
+  /* ... (seu estilo de header continua o mesmo, está ótimo) ... */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 25px;
-  background-color: #f8f9fa;
+  background-color: #ffffff; /* Fundo branco para o header */
   border-bottom: 1px solid #e7e7e7;
-  width: 100%;
-  box-sizing: border-box; /* Adiciona padding sem aumentar a largura total */  
-}
-
-.main-content {
-  display: flex;
-  flex-grow: 1; /* Faz o conteúdo principal ocupar o espaço restante */
   width: 100%;
   box-sizing: border-box;  
 }
 
-/* Estilo para a barra lateral */
+.main-content {
+  display: flex;
+  flex-grow: 1; 
+  width: 100%;
+  box-sizing: border-box;  
+  /* IMPORTANTE: Adicionado para evitar que o conteúdo vaze */
+  overflow: hidden;   
+}
+
 .sidebar {
+  /* ... (seu estilo de sidebar continua o mesmo, está ótimo) ... */
   width: 180px;
-  background-color: #999;
+  background-color: #ffffff; /* Fundo branco para a sidebar */
   padding: 20px;
   border-right: 1px solid #e7e7e7;
 }
 
-/* Estilo para o conteúdo (rota) */
+/* --- ESTA É A MUDANÇA PRINCIPAL --- */
 .content {
-  flex-grow: 1;
+  flex-grow: 1; /* Permite que o conteúdo cresça verticalmente */
+  overflow-y: auto; /* A MÁGICA ACONTECE AQUI */
+  width: 100%; /* Ocupa o espaço horizontal disponível */
+  
+  /* ADICIONADO: Define a largura máxima e centraliza o conteúdo */
+  max-width: 1280px; 
+  margin: 0 auto;
+  
   padding: 20px;
-/* Adicione a cor de fundo aqui */
-  background-color: #777; /* Exemplo: um cinza bem claro */
-  /* background-color: #f0f8ff; /* Exemplo: um azul claro */  
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+  
+  /* Cor de fundo e texto para a área de conteúdo */
+  background-color: transparent; /* Deixa o fundo do app-container aparecer */
+  color: #333;
 }
 
-/* Ajustes no footer */
 footer {
+  /* ... (seu estilo de footer continua o mesmo, está ótimo) ... */
   padding: 10px;
   background-color: #f8f9fa;
   border-top: 1px solid #e7e7e7;
@@ -75,12 +80,12 @@ footer {
   box-sizing: border-box;  
 }
 
-/* Estilo para a mensagem de carregamento */
 .loading-message {
+  /* ... (seu estilo de loading continua o mesmo, está ótimo) ... */
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 200px; /* Define uma altura mínima para evitar o "salto" */
+  min-height: 200px; 
   font-size: 24px;
   color: #555;
   margin-top: 50px;

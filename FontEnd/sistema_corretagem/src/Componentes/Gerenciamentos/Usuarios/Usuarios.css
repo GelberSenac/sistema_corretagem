@@ -127,3 +127,11 @@ h1 {
   gap: 15px;
   margin-top: 15px;
 }
+
+/* Exemplo para o seu arquivo .css */
+.card-link {
+  text-decoration: none;
+  color: inherit; /* Herda a cor do texto do pai */
+  display: block; /* Faz o link ocupar o espaço do card */
+  flex-grow: 1; /* Permite que o link cresça e ocupe espaço */
+}

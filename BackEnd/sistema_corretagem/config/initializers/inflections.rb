@@ -14,3 +14,12 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+# config/initializers/inflections.rb
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.plural 'proposta', 'propostas'
+  inflect.singular 'propostas', 'proposta'
+
+  # Adicione estas duas novas linhas para 'imovel'
+  inflect.plural 'imovel', 'imoveis'
+  inflect.singular 'imoveis', 'imovel'  
+end

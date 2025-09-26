@@ -1,7 +1,39 @@
-puts "Criando usuários..."
-Usuario.create!(nome: "Admin", email: "admin@email.com", login: "admin01", senha: "password", cpf: "123.456.789-00", ativo: true)
-puts "Usuários criados!"
+# db/seeds.rb
 
-#puts "Criando endereço..."
-#Endereco.create!(logradouro: "Rua Exemplo", numero: "123", complemento: "Apto 45", bairro: "Centro", cidade: "Cidade Exemplo", estado: "EX", cep: "12345-678")
-#puts "Endereço criados!"
+puts "Limpando o banco de dados..."
+# Esta linha apaga TODOS os registros da tabela Usuarios antes de continuar.
+Usuario.destroy_all
+# Você pode adicionar .destroy_all para outros modelos se quiser uma limpeza completa.
+# Cliente.destroy_all
+# Imovel.destroy_all
+# Corretora.destroy_all
+# ...etc
+
+puts "Criando o usuário Administrador Master..."
+
+Usuario.create!(
+  nome: "Admin Master",
+  email: "admin@sistema.com",
+  login: "admin",
+  password: "password123",
+  password_confirmation: "password123",
+  cpf: "000.000.000-00",
+  ativo: true,
+  role: :admin,
+  # Criando o endereço aninhado diretamente com o usuário
+  endereco_attributes: {
+    logradouro: "Rua Principal do Sistema",
+    numero: "123",
+    complemento: "Sala 101",
+    bairro: "Centro",
+    cidade: "Sua Cidade",
+    estado: "PE",
+    cep: "50000-000"
+  }
+)
+
+puts "Usuário Administrador e seu endereço foram criados com sucesso!"
+puts "----------------------------------------"
+puts "Login: admin"
+puts "Senha: password123"
+puts "----------------------------------------"
