@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+// src/componentes/Gerenciamentos/Imoveis/ImovelForm.jsx
 
+import React, { useState, useEffect } from "react";
+import { getCaracteristicas } from "../../../Servicos/Api"; // Função que precisa estar no seu Api.js
+import { useMask } from "@react-input/mask";
+
+// Estado inicial completo e alinhado com o backend
 const initialState = {
   nome_empreendimento: "",
   tipo: "apartamento",
   finalidade: "venda",
   condicao: "usado",
+  posicao_solar: "",
   descricao: "",
   quartos: 0,
   suites: 0,
@@ -15,8 +21,8 @@ const initialState = {
   valor: "",
   valor_condominio: "",
   valor_iptu: "",
-  comodidades: [],
   status: "disponivel",
+  caracteristica_ids: [],
   endereco_attributes: {
     logradouro: "",
     numero: "",
@@ -28,22 +34,66 @@ const initialState = {
   },
 };
 
+const ufs = [
+  "AC",
+  "AL",
+  "AP",
+  "AM",
+  "BA",
+  "CE",
+  "DF",
+  "ES",
+  "GO",
+  "MA",
+  "MT",
+  "MS",
+  "MG",
+  "PA",
+  "PB",
+  "PR",
+  "PE",
+  "PI",
+  "RJ",
+  "RN",
+  "RS",
+  "RO",
+  "RR",
+  "SC",
+  "SP",
+  "SE",
+  "TO",
+];
+
 function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
   const [formData, setFormData] = useState(initialState);
   const [selectedFiles, setSelectedFiles] = useState(null);
+  const [allCaracteristicas, setAllCaracteristicas] = useState([]);
+
+  const cepRef = useMask({ mask: "_____-___", replacement: { _: /\d/ } });
+
+  useEffect(() => {
+    const fetchCaracteristicas = async () => {
+      try {
+        const response = await getCaracteristicas();
+        setAllCaracteristicas(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar características:", error);
+      }
+    };
+    fetchCaracteristicas();
+  }, []);
 
   useEffect(() => {
     if (imovelSendoEditado) {
-      // Garante que todos os campos, especialmente os aninhados, sejam preenchidos
-      const initialData = {
+      setFormData({
         ...initialState,
         ...imovelSendoEditado,
-        comodidades: imovelSendoEditado.comodidades || [],
+        caracteristica_ids:
+          imovelSendoEditado.caracteristicas?.map((c) => c.id) || [],
         endereco_attributes: imovelSendoEditado.endereco
           ? { ...imovelSendoEditado.endereco }
           : initialState.endereco_attributes,
-      };
-      setFormData(initialData);
+      });
       setSelectedFiles(null);
     } else {
       setFormData(initialState);
@@ -51,21 +101,7 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
   }, [imovelSendoEditado]);
 
   const handleFormChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setFormData((prev) => {
-        const comodidadesAtuais = prev.comodidades || [];
-        if (checked) {
-          return { ...prev, comodidades: [...comodidadesAtuais, name] };
-        } else {
-          return {
-            ...prev,
-            comodidades: comodidadesAtuais.filter((c) => c !== name),
-          };
-        }
-      });
-      return;
-    }
+    const { name, value } = e.target;
     const keys = name.split(".");
     if (keys.length > 1) {
       setFormData((prev) => ({
@@ -77,6 +113,22 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
     }
   };
 
+  const handleCaracteristicaChange = (e) => {
+    const { value, checked } = e.target;
+    const id = parseInt(value, 10);
+    setFormData((prev) => {
+      const idsAtuais = prev.caracteristica_ids || [];
+      if (checked) {
+        return { ...prev, caracteristica_ids: [...idsAtuais, id] };
+      } else {
+        return {
+          ...prev,
+          caracteristica_ids: idsAtuais.filter((i) => i !== id),
+        };
+      }
+    });
+  };
+
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
   };
@@ -84,28 +136,30 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const dataToSend = new FormData();
-    // Lógica para construir o FormData (já estava correta)
     Object.keys(formData).forEach((key) => {
-      if (["endereco", "photos_urls", "corretor", "comodidades"].includes(key))
+      if (
+        ["endereco", "caracteristicas", "photos_urls", "corretor"].includes(key)
+      )
         return;
-      if (typeof formData[key] === "object" && formData[key] !== null) {
-        Object.keys(formData[key]).forEach((subKey) => {
+      if (key === "caracteristica_ids") {
+        (formData.caracteristica_ids || []).forEach((id) =>
+          dataToSend.append("imovel[caracteristica_ids][]", id),
+        );
+      } else if (key === "endereco_attributes") {
+        Object.keys(formData[key]).forEach((subKey) =>
           dataToSend.append(
             `imovel[${key}][${subKey}]`,
             formData[key][subKey] || "",
-          );
-        });
+          ),
+        );
       } else {
         dataToSend.append(`imovel[${key}]`, formData[key] || "");
       }
     });
-    (formData.comodidades || []).forEach((comodidade) => {
-      dataToSend.append("imovel[comodidades][]", comodidade);
-    });
     if (selectedFiles) {
-      Array.from(selectedFiles).forEach((file) => {
-        dataToSend.append("imovel[photos][]", file);
-      });
+      Array.from(selectedFiles).forEach((file) =>
+        dataToSend.append("imovel[photos][]", file),
+      );
     }
     onFormSubmit(dataToSend, imovelSendoEditado?.id);
   };
@@ -116,7 +170,7 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
       <form onSubmit={handleSubmit}>
         <h3 className="form-section-title">Informações Principais</h3>
         <div className="form-grid">
-          <label className="grid-col-span-4">
+          <label className="grid-col-span-3">
             Nome do Empreendimento:
             <input
               type="text"
@@ -126,7 +180,7 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               required
             />
           </label>
-          <label className="grid-col-span-2">
+          <label>
             Tipo:
             <select
               name="tipo"
@@ -141,7 +195,7 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               <option value="kitnet">Kitnet</option>
             </select>
           </label>
-          <label className="grid-col-span-1">
+          <label>
             Finalidade:
             <select
               name="finalidade"
@@ -152,7 +206,7 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               <option value="aluguel">Aluguel</option>
             </select>
           </label>
-          <label className="grid-col-span-1">
+          <label>
             Condição:
             <select
               name="condicao"
@@ -165,11 +219,20 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
             </select>
           </label>
         </div>
+        <label>
+          Descrição:
+          <textarea
+            name="descricao"
+            value={formData.descricao}
+            onChange={handleFormChange}
+            rows="4"
+          ></textarea>
+        </label>
 
         <h3 className="form-section-title">Endereço</h3>
         <div className="form-grid">
-          <label className="grid-col-span-3">
-            Logradouro:{" "}
+          <label className="grid-col-span-2">
+            Logradouro:
             <input
               type="text"
               name="endereco_attributes.logradouro"
@@ -177,8 +240,8 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               onChange={handleFormChange}
             />
           </label>
-          <label className="grid-col-span-1">
-            Número:{" "}
+          <label>
+            Número:
             <input
               type="text"
               name="endereco_attributes.numero"
@@ -186,26 +249,8 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               onChange={handleFormChange}
             />
           </label>
-          <label className="grid-col-span-2">
-            Bairro:{" "}
-            <input
-              type="text"
-              name="endereco_attributes.bairro"
-              value={formData.endereco_attributes.bairro}
-              onChange={handleFormChange}
-            />
-          </label>
-          <label className="grid-col-span-2">
-            Cidade:{" "}
-            <input
-              type="text"
-              name="endereco_attributes.cidade"
-              value={formData.endereco_attributes.cidade}
-              onChange={handleFormChange}
-            />
-          </label>
-          <label className="grid-col-span-2">
-            Complemento:{" "}
+          <label>
+            Complemento:
             <input
               type="text"
               name="endereco_attributes.complemento"
@@ -213,19 +258,43 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               onChange={handleFormChange}
             />
           </label>
-          <label className="grid-col-span-1">
-            Estado:{" "}
+          <label>
+            Bairro:
             <input
               type="text"
+              name="endereco_attributes.bairro"
+              value={formData.endereco_attributes.bairro}
+              onChange={handleFormChange}
+            />
+          </label>
+          <label>
+            Cidade:
+            <input
+              type="text"
+              name="endereco_attributes.cidade"
+              value={formData.endereco_attributes.cidade}
+              onChange={handleFormChange}
+            />
+          </label>
+          <label>
+            Estado:
+            <select
               name="endereco_attributes.estado"
               value={formData.endereco_attributes.estado}
               onChange={handleFormChange}
-              maxLength="2"
-            />
+            >
+              <option value="">UF</option>
+              {ufs.map((uf) => (
+                <option key={uf} value={uf}>
+                  {uf}
+                </option>
+              ))}
+            </select>
           </label>
-          <label className="grid-col-span-1">
-            CEP:{" "}
+          <label>
+            CEP:
             <input
+              ref={cepRef}
               type="text"
               name="endereco_attributes.cep"
               value={formData.endereco_attributes.cep}
@@ -234,68 +303,89 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
           </label>
         </div>
 
-        <h3 className="form-section-title">Características</h3>
+        <h3 className="form-section-title">Características do Imóvel</h3>
         <div className="form-grid">
-          <label className="grid-col-span-1">
-            Quartos:{" "}
+          <label>
+            Quartos:
             <input
               type="number"
               name="quartos"
               value={formData.quartos}
               onChange={handleFormChange}
+              min="0"
             />
           </label>
-          <label className="grid-col-span-1">
-            Suítes:{" "}
+          <label>
+            Suítes:
             <input
               type="number"
               name="suites"
               value={formData.suites}
               onChange={handleFormChange}
+              min="0"
             />
           </label>
-          <label className="grid-col-span-1">
-            Banheiros:{" "}
+          <label>
+            Banheiros:
             <input
               type="number"
               name="banheiros"
               value={formData.banheiros}
               onChange={handleFormChange}
+              min="0"
             />
           </label>
-          <label className="grid-col-span-1">
-            Vagas:{" "}
+          <label>
+            Vagas:
             <input
               type="number"
               name="vagas_garagem"
               value={formData.vagas_garagem}
               onChange={handleFormChange}
+              min="0"
             />
           </label>
-          <label className="grid-col-span-2">
-            Metragem (m²):{" "}
+          <label>
+            Metragem (m²):
             <input
               type="number"
               name="metragem"
               value={formData.metragem}
               onChange={handleFormChange}
+              min="0"
             />
           </label>
-          <label className="grid-col-span-2">
-            Ano de Construção:{" "}
+          <label>
+            Ano de Construção:
             <input
               type="number"
               name="ano_construcao"
               value={formData.ano_construcao}
               onChange={handleFormChange}
+              placeholder="Ex: 2020"
             />
+          </label>
+          <label>
+            {" "}
+            Posição Solar:
+            <select
+              name="posicao_solar"
+              value={formData.posicao_solar}
+              onChange={handleFormChange}
+            >
+              <option value="">Selecione...</option>
+              <option value="norte">Norte</option>
+              <option value="sul">Sul</option>
+              <option value="leste">Leste (Nascente)</option>
+              <option value="oeste">Oeste (Poente)</option>
+            </select>
           </label>
         </div>
 
         <h3 className="form-section-title">Valores</h3>
         <div className="form-grid">
-          <label className="grid-col-span-1">
-            Valor (R$):{" "}
+          <label>
+            Valor (R$):
             <input
               type="number"
               name="valor"
@@ -305,8 +395,8 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               step="0.01"
             />
           </label>
-          <label className="grid-col-span-1">
-            Condomínio (R$):{" "}
+          <label>
+            Condomínio (R$):
             <input
               type="number"
               name="valor_condominio"
@@ -315,8 +405,8 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
               step="0.01"
             />
           </label>
-          <label className="grid-col-span-2">
-            IPTU (R$):{" "}
+          <label>
+            IPTU (R$):
             <input
               type="number"
               name="valor_iptu"
@@ -327,74 +417,51 @@ function ImovelForm({ imovelSendoEditado, onFormSubmit, onCancelEdit }) {
           </label>
         </div>
 
-        <h3 className="form-section-title">Comodidades</h3>
+        <h3 className="form-section-title">Características / Comodidades</h3>
         <div className="comodidades-grid">
-          <label>
-            <input
-              type="checkbox"
-              name="Piscina"
-              checked={formData.comodidades.includes("Piscina")}
-              onChange={handleFormChange}
-            />{" "}
-            Piscina
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="Churrasqueira"
-              checked={formData.comodidades.includes("Churrasqueira")}
-              onChange={handleFormChange}
-            />{" "}
-            Churrasqueira
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="Academia"
-              checked={formData.comodidades.includes("Academia")}
-              onChange={handleFormChange}
-            />{" "}
-            Academia
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="Playground"
-              checked={formData.comodidades.includes("Playground")}
-              onChange={handleFormChange}
-            />{" "}
-            Playground
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="Portaria 24h"
-              checked={formData.comodidades.includes("Portaria 24h")}
-              onChange={handleFormChange}
-            />{" "}
-            Portaria 24h
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="Salão de Festas"
-              checked={formData.comodidades.includes("Salão de Festas")}
-              onChange={handleFormChange}
-            />{" "}
-            Salão de Festas
-          </label>
+          {allCaracteristicas.length > 0 ? (
+            allCaracteristicas.map((caracteristica) => (
+              <label key={caracteristica.id}>
+                <input
+                  type="checkbox"
+                  value={caracteristica.id}
+                  checked={formData.caracteristica_ids.includes(
+                    caracteristica.id,
+                  )}
+                  onChange={handleCaracteristicaChange}
+                />{" "}
+                {caracteristica.nome}
+              </label>
+            ))
+          ) : (
+            <p>Carregando características...</p>
+          )}
         </div>
 
-        <label style={{ marginTop: "20px" }}>
-          Fotos do Imóvel:{" "}
-          <input type="file" multiple onChange={handleFileChange} />
+        <label className="input-fotos">
+          Fotos do Imóvel:
+          <input
+            type="file"
+            multiple
+            onChange={handleFileChange}
+            accept="image/*"
+          />
         </label>
-        <button type="submit">Salvar Imóvel</button>
-        {imovelSendoEditado && (
-          <button type="button" onClick={onCancelEdit}>
-            Cancelar
+
+        <div className="form-actions">
+          <button type="submit">
+            {imovelSendoEditado ? "Salvar Alterações" : "Salvar Imóvel"}
           </button>
-        )}
+          {imovelSendoEditado && (
+            <button
+              type="button"
+              onClick={onCancelEdit}
+              className="cancel-button"
+            >
+              Cancelar
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

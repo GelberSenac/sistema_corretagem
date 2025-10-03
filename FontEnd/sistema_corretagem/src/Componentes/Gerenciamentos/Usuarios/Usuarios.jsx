@@ -2,23 +2,26 @@
 
 import React, { useState } from "react";
 import { useCRUD } from "../../../Ganchos/useCRUD";
-import { useAuth } from "../../../Contextos/AuthContexto"; // Precisamos saber o papel do usuário logado
+import { useAuth } from "../../../Contextos/AuthContexto";
 import UsuarioForm from "./UsuarioForm";
 import UsuarioList from "./UsuarioList";
 import { Toaster, toast } from "react-hot-toast";
 import "./Usuarios.css";
 
 function Usuarios() {
+  // 1. Pegamos 'pagyInfo' e 'setPage' do nosso hook para a paginação
   const {
     data: usuarios,
     loading,
     error,
+    pagyInfo,
+    setPage,
     handleCreate,
     handleUpdate,
     handleDelete,
   } = useCRUD("usuarios");
 
-  const { user } = useAuth(); // Pega o usuário logado do nosso contexto
+  const { user } = useAuth();
   const [usuarioSendoEditado, setUsuarioSendoEditado] = useState(null);
 
   const handleFormSubmit = async (formData, id) => {
@@ -49,16 +52,15 @@ function Usuarios() {
     }
   };
 
-  if (loading) return <h1>Carregando usuários...</h1>;
+  if (loading && !usuarios.length) return <h1>Carregando usuários...</h1>;
   if (error)
     return <h1>Ocorreu um erro ao buscar os dados. Verifique o console.</h1>;
 
   return (
-    <>
+    <div className="page-container">
       <Toaster position="top-right" />
       <h1>Gerenciamento de Usuários</h1>
 
-      {/* Apenas um admin pode criar/editar usuários */}
       {user?.role === "admin" && (
         <UsuarioForm
           usuarioSendoEditado={usuarioSendoEditado}
@@ -67,15 +69,19 @@ function Usuarios() {
         />
       )}
 
-      <hr />
+      <hr className="section-divider" />
 
+      {/* 2. Passamos os novos dados e funções de paginação para o componente da lista */}
       <UsuarioList
         usuarios={usuarios}
-        currentUser={user} // Passa o usuário atual para a lista
+        currentUser={user}
         onEdit={(usuario) => setUsuarioSendoEditado(usuario)}
         onDelete={handleDeleteClick}
+        pagyInfo={pagyInfo}
+        onPageChange={setPage}
+        loading={loading}
       />
-    </>
+    </div>
   );
 }
 

@@ -1,20 +1,27 @@
 class Cliente < ApplicationRecord
+  include CpfValidatable # Adicione esta linha
+
+  # --- Enums ---
+  enum :estado_civil, { solteiro: 0, casado: 1, divorciado: 2, viuvo: 3, uniao_estavel: 4 }
+
+
+  # --- Callback ---
+  before_validation :normalize_telefone # Adicionar perto dos outros callbacks
+
   # --- Associações ---
   belongs_to :corretor, class_name: 'Usuario', foreign_key: 'usuario_id'
   has_one :endereco, as: :enderecoable, dependent: :destroy
   has_many :perfis_busca, dependent: :destroy
   has_one :conjuge, dependent: :destroy
   has_many :propostas, dependent: :destroy
-
-  # Para formulários aninhados
+  
   accepts_nested_attributes_for :endereco
-  accepts_nested_attributes_for :conjuge
+  accepts_nested_attributes_for :conjuge, reject_if: :all_blank
 
   # --- Validações ---
   validates :nome, presence: true
   validates :telefone, presence: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :cpf, presence: true, uniqueness: true
   validates :data_nascimento, presence: true
   validates :estado_civil, presence: true
   validates :profissao, presence: true
@@ -24,4 +31,11 @@ class Cliente < ApplicationRecord
   def renda_familiar_total
     self.renda + (self.conjuge&.renda || 0)
   end
+
+  private
+
+  def normalize_telefone
+    self.telefone = telefone.gsub(/\D/, '') if telefone.present?
+  end
+
 end

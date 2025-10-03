@@ -1,7 +1,16 @@
 # app/controllers/application_controller.rb
 class ApplicationController < ActionController::API
-  # Este método será chamado antes de qualquer ação que precise de autenticação
+  # --- INCLUSÃO DOS MÓDULOS ---
+  # Inclui os métodos de backend do Pagy para paginação.
+  include Pagy::Backend
+  # Inclui os métodos de autorização do Pundit (policy_scope, authorize).
+  include Pundit::Authorization
+
+  # --- CALLBACKS ---
+  # Este método será chamado antes de qualquer ação que precise de autenticação.
   before_action :authorized
+
+  # --- LÓGICA DE AUTENTICAÇÃO (JWT) ---
 
   # Codifica os dados do usuário (payload) em um token JWT
   def encode_token(payload)
@@ -30,7 +39,7 @@ class ApplicationController < ActionController::API
   def current_user
     if decoded_token
       user_id = decoded_token[0]['user_id']
-      @user = Usuario.find_by(id: user_id)
+      @user ||= Usuario.find_by(id: user_id) # Usamos ||= para evitar buscas repetidas no mesmo request
     end
   end
 

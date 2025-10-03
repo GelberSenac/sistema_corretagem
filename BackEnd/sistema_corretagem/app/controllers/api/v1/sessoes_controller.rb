@@ -6,7 +6,7 @@ class Api::V1::SessoesController < ApplicationController
   def create
     user = Usuario.find_by(login: params[:usuario][:login])
 
-    if user && user.authenticate(params[:usuario][:senha])
+    if user && user.ativo? && user.authenticate(params[:usuario][:senha])
       # Gera o token com o ID do usuário
       token = encode_token({ user_id: user.id })
       # Retorna o token e os dados do usuário

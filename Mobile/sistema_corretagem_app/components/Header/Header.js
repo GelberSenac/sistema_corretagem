@@ -1,17 +1,30 @@
 // Arquivo: Header.js
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { useAuth } from "../../context/AuthContext";
 
 // O componente recebe 'userName' via props
 export default function Header({ userName }) {
+  const { signOut } = useAuth();
+
+  const handleLogout = () => {
+    signOut();
+  };
+
   return (
     <View style={styles.header}>
-      <Image
-        source={{
-          uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
-        }}
-        style={styles.foto}
-      />
-      <Text style={styles.texto}>Olá {userName}!</Text>
+      <View style={styles.userInfo}>
+        <Image
+          source={{
+            uri: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg",
+          }}
+          style={styles.foto}
+        />
+        <Text style={styles.texto}>Olá {userName}!</Text>
+      </View>
+      
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Text style={styles.logoutText}>Sair</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -24,6 +37,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ddd",
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between", // Distribui espaço entre userInfo e logoutButton
+  },
+  userInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1, // Ocupa espaço disponível
   },
   foto: {
     width: 50,
@@ -35,5 +54,18 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginLeft: 15,
+  },
+  logoutButton: {
+    backgroundColor: "#ff4444",
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 6,
+    elevation: 2,
+    boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.2)",
+  },
+  logoutText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });

@@ -1,23 +1,42 @@
-.sidebar ul {
-  list-style-type: none;
+/* src/componentes/Sidebar/Sidebar.css */
+
+.sidebar {
+  width: 240px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  height: 100%;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar nav ul {
+  list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.sidebar li {
+.sidebar nav li {
   margin-bottom: 10px;
 }
 
-.sidebar a {
+/* Estilo padrão para todos os links da sidebar */
+.sidebar-link {
   display: block;
-  padding: 10px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #343a40;
   text-decoration: none;
-  color: #333;
-  background-color: #e9ecef;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-.sidebar a:hover {
-  background-color: #ced4da;
+/* Efeito ao passar o mouse por cima */
+.sidebar-link:hover {
+  background-color: #e9ecef;
+}
+
+/* ESTILO DO LINK ATIVO - AQUI A MÁGICA ACONTECE */
+.sidebar-link.active {
+  background-color: #007bff;
+  color: #ffffff;
+  font-weight: bold;
 }

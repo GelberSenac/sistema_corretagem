@@ -5,24 +5,33 @@ class Api::V1::ClientesController < ApplicationController
 
   # GET /api/v1/clientes
   def index
-    # Lógica de autorização: admin vê todos, corretor vê apenas os seus.
-    if current_user.admin?
-      @clientes = Cliente.all
-    else
-      @clientes = current_user.clientes
-    end
+    # Pundit usa a 'Scope' da nossa policy para filtrar a coleção automaticamente.
+    # Esta linha substitui todo o 'if/else' de autorização que existia antes.
+    @clientes = policy_scope(Cliente)
+
+    # A lógica de paginação e includes que já fizemos continua igual.
+    @pagy, @clientes = pagy(@clientes.includes(:endereco, :conjuge))
+    pagy_headers_merge(@pagy)
+    
     render json: @clientes, each_serializer: ClienteSerializer
   end
 
   # GET /api/v1/clientes/:id
   def show
+    # Pundit verifica se o 'current_user' tem permissão para a ação 'show?'
+    # na policy, passando o @cliente como o 'record'.
+    # Se a policy retornar 'false', ele automaticamente gera um erro de não autorizado.
+    authorize @cliente
+    
     render json: @cliente, serializer: ClienteSerializer
   end
 
   # POST /api/v1/clientes
   def create
-    # O novo cliente é sempre associado ao corretor que está logado
     @cliente = current_user.clientes.build(cliente_params)
+    
+    # Verifica se o usuário tem permissão para criar clientes.
+    authorize @cliente
 
     if @cliente.save
       render json: @cliente, status: :created, serializer: ClienteSerializer
@@ -33,6 +42,8 @@ class Api::V1::ClientesController < ApplicationController
 
   # PATCH/PUT /api/v1/clientes/:id
   def update
+    authorize @cliente
+    
     if @cliente.update(cliente_params)
       render json: @cliente, serializer: ClienteSerializer
     else
@@ -42,6 +53,8 @@ class Api::V1::ClientesController < ApplicationController
 
   # DELETE /api/v1/clientes/:id
   def destroy
+    authorize @cliente
+    
     @cliente.destroy
     head :no_content
   end
@@ -49,26 +62,26 @@ class Api::V1::ClientesController < ApplicationController
   private
 
   def set_cliente
-    # Lógica de autorização melhorada: admin pode encontrar qualquer cliente.
-    if current_user.admin?
-      @cliente = Cliente.find(params[:id])
-    else
-      @cliente = current_user.clientes.find(params[:id])
-    end
+    # O método 'set_cliente' agora fica muito mais simples.
+    # Ele só precisa encontrar o cliente. A autorização de quem pode
+    # ou não acessá-lo é feita pelo 'authorize @cliente' em cada ação.
+    @cliente = Cliente.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Cliente não encontrado ou você não tem permissão." }, status: :not_found
+    render json: { error: "Cliente não encontrado." }, status: :not_found
   end
 
+  # O método de parâmetros fortes continua exatamente o mesmo.
   def cliente_params
-    # Lista de parâmetros completa, refletindo todas as migrations que fizemos.
     params.require(:cliente).permit(
       :nome, :rg, :cpf, :sexo, :email, :telefone, :data_nascimento,
       :estado_civil, :profissao, :renda, :nacionalidade,
       :data_casamento, :regime_bens,
+      
       conjuge_attributes: [
         :id, :nome, :data_nascimento, :cpf, :rg, :profissao, :renda, 
         :email, :celular, :nacionalidade, :data_casamento, :regime_bens
       ],
+      
       endereco_attributes: [
         :id, :logradouro, :numero, :complemento, :bairro, :cidade, 
         :estado, :cep

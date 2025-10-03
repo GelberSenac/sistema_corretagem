@@ -1,15 +1,14 @@
 // src/Servicos/Api.js
 import axios from "axios";
 
-// ATENÇÃO: Lembre-se que para React Native, você precisará trocar 'localhost' pelo IP da sua máquina.
 const apiClient = axios.create({
-  baseURL: "http://localhost:3000/api/v1", // Usando o namespace da API
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:3000/api/v1",
+  headers: { "Content-Type": "application/json" },
 });
 
-// Interceptor que adiciona o token JWT a todas as requisições autenticadas
+// --- Interceptores ---
+
+// 1. Interceptor de REQUISIÇÃO: Adiciona o token de autenticação em cada chamada.
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken");
   if (token) {
@@ -18,41 +17,56 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+// 2. Interceptor de RESPOSTA: Trata erros globais, como token expirado (erro 401).
+apiClient.interceptors.response.use(
+  (response) => response, // Se a resposta for sucesso, não faz nada.
+  (error) => {
+    // Se o erro for 401 (Não Autorizado), desloga o usuário automaticamente.
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("user");
+      // Redireciona para a página de login para uma nova autenticação.
+      window.location.href = "/login";
+    }
+    // Para qualquer outro erro, apenas o repassa para ser tratado no componente.
+    return Promise.reject(error);
+  },
+);
+
 // --- Funções da API ---
 
-// Sessões
+// Bloco de Sessões
 export const loginUser = (login, password) =>
   apiClient.post("/login", { usuario: { login, senha: password } });
-//------- fim do bloco SESSÕES -------
 
-// Dashboard
+// Bloco do Dashboard
 export const getDashboardStats = () => apiClient.get("/dashboard_stats");
-//------- fim do bloco DASHBOARD -------
 
-// Usuários
-export const getUsuarios = () => apiClient.get("/usuarios");
+// Bloco de Usuários
+export const getUsuarios = (params = {}) =>
+  apiClient.get("/usuarios", { params });
 export const getUsuarioById = (id) => apiClient.get(`/usuarios/${id}`);
 export const createUsuario = (usuarioData) =>
   apiClient.post("/usuarios", { usuario: usuarioData });
 export const updateUsuario = (id, usuarioData) =>
   apiClient.patch(`/usuarios/${id}`, { usuario: usuarioData });
-export const deleteUsuario = (id) => apiClient.delete(`/usuarios/${id}`); // Inativação
-//------- fim do bloco USUÁRIOS -------
+export const deleteUsuario = (id) => apiClient.delete(`/usuarios/${id}`); // Rota para 'deactivate'
 
-// Clientes
-export const getClientes = () => apiClient.get("/clientes");
+// Bloco de Clientes
+export const getClientes = (params = {}) =>
+  apiClient.get("/clientes", { params });
+export const getClienteById = (id) => apiClient.get(`/clientes/${id}`);
 export const createCliente = (clienteData) =>
   apiClient.post("/clientes", { cliente: clienteData });
 export const updateCliente = (id, clienteData) =>
   apiClient.patch(`/clientes/${id}`, { cliente: clienteData });
-export const deleteCliente = (id) => apiClient.delete(`/clientes/${id}`); // Exclusão
-export const getClienteById = (id) => apiClient.get(`/clientes/${id}`);
-//------- fim do bloco CLIENTES -------
+export const deleteCliente = (id) => apiClient.delete(`/clientes/${id}`);
 
-// IMÓVEIS - ADICIONE ESTE BLOCO
-export const getImoveis = () => apiClient.get("/imoveis");
+// Bloco de Imóveis
+export const getImoveis = (params = {}) =>
+  apiClient.get("/imoveis", { params });
+export const getImovelById = (id) => apiClient.get(`/imoveis/${id}`);
 export const createImovel = (formData) => {
-  // Para upload de fotos, precisamos enviar como FormData
   return apiClient.post("/imoveis", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
@@ -64,10 +78,7 @@ export const updateImovel = (id, formData) => {
 };
 export const deleteImovel = (id) => apiClient.delete(`/imoveis/${id}`);
 
-export const getImovelById = (id) => apiClient.get(`/imoveis/${id}`); // <-- ADICIONE ESTA
-//------- fim do bloco IMÓVEIS -------
-
-// PERFIS DE BUSCA - ADICIONE ESTE BLOCO
+// Bloco de Perfis de Busca (rotas aninhadas)
 export const getPerfisBusca = (clienteId) =>
   apiClient.get(`/clientes/${clienteId}/perfis_busca`);
 export const createPerfilBusca = (clienteId, perfilData) =>
@@ -80,15 +91,26 @@ export const updatePerfilBusca = (clienteId, perfilId, perfilData) =>
   });
 export const deletePerfilBusca = (clienteId, perfilId) =>
   apiClient.delete(`/clientes/${clienteId}/perfis_busca/${perfilId}`);
-//------- fim do bloco PERFIS DE BUSCA -------
 
-// PROPOSTAS - ADICIONE ESTE BLOCO
-// A busca "match" que recebe o ID de um perfil
+// Bloco de Propostas
+export const getPropostas = (params = {}) =>
+  apiClient.get("/propostas", { params });
+export const createProposta = (propostaData) =>
+  apiClient.post("/propostas", { proposta: propostaData });
+
+// Ações customizadas da proposta
+export const aceitarProposta = (propostaId) =>
+  apiClient.patch(`/propostas/${propostaId}/aceitar`);
+export const recusarProposta = (propostaId) =>
+  apiClient.patch(`/propostas/${propostaId}/recusar`);
+export const cancelarProposta = (propostaId) =>
+  apiClient.patch(`/propostas/${propostaId}/cancelar`);
+
+// Bloco de Busca de Imóveis (ação customizada)
 export const buscarImoveisCompativeis = (perfilBuscaId) =>
   apiClient.get(`/imoveis/buscar?perfil_busca_id=${perfilBuscaId}`);
 
-export const createProposta = (propostaData) =>
-  apiClient.post("/propostas", { proposta: propostaData });
-//------- fim do bloco PROPOSTAS -------
+// Bloco de Características
+export const getCaracteristicas = () => apiClient.get("/caracteristicas");
 
 export default apiClient;

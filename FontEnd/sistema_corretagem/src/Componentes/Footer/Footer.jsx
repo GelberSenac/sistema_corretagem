@@ -1,11 +1,18 @@
+// src/componentes/Footer/Footer.jsx
+
 import React from "react";
 import "./Footer.css";
 
 function Footer() {
+  // Pega o ano atual dinamicamente
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer>
-      <hr />
-      <p>&copy; 2025 Sistema de Gerenciamento. Todos os direitos reservados.</p>
+    <footer className="app-footer">
+      <p>
+        &copy; {currentYear} Sistema de Gerenciamento. Todos os direitos
+        reservados.
+      </p>
     </footer>
   );
 }

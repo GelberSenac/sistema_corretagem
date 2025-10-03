@@ -1,55 +1,53 @@
+// src/componentes/Dashboard/Dashboard.jsx
+
 import React, { useEffect, useState } from "react";
 import { getDashboardStats } from "../../Servicos/Api";
 import { useAuth } from "../../Contextos/AuthContexto";
-import "./Dashboard.css";
 import { Toaster, toast } from "react-hot-toast";
+import StatCard from "./StatCard"; // 1. Importamos o seu novo componente reutilizável
+import "./Dashboard.css";
 
-// --- Sub-componente para o Dashboard do Admin ---
+// --- Sub-componente para o Dashboard do Admin (agora mais limpo) ---
 const AdminDashboard = ({ data }) => (
   <div className="stats-cards">
-    <div className="card-item total">
-      <h3>Total de Usuários</h3>
-      <p>{data.total_usuarios}</p>
-    </div>
-    <div className="card-item">
-      <h3>Corretores</h3>
-      <p>{data.total_corretores}</p>
-    </div>
-    <div className="card-item">
-      <h3>Administradores</h3>
-      <p>{data.total_admins}</p>
-    </div>
-    {/* --- NOVO CARD ADICIONADO --- */}
-    <div className="card-item active">
-      <h3>Imóveis na Base</h3>
-      <p>{data.total_imoveis_cadastrados}</p>
-    </div>
+    {/* 2. Usamos o StatCard para cada item, passando 'title' e 'value' como props */}
+    <StatCard
+      title="Total de Usuários"
+      value={data.total_usuarios}
+      type="total"
+    />
+    <StatCard title="Corretores" value={data.total_corretores} />
+    <StatCard title="Administradores" value={data.total_admins} />
+    <StatCard
+      title="Imóveis na Base"
+      value={data.total_imoveis_cadastrados}
+      type="active"
+    />
   </div>
 );
 
-// --- Sub-componente para o Dashboard do Corretor ---
+// --- Sub-componente para o Dashboard do Corretor (também mais limpo) ---
 const CorretorDashboard = ({ data }) => (
   <div className="stats-cards">
-    <div className="card-item total">
-      <h3>Meus Clientes</h3>
-      <p>{data.total_clientes}</p>
-    </div>
-    {/* --- NOVO CARD ADICIONADO --- */}
-    <div className="card-item active">
-      <h3>Meus Imóveis</h3>
-      <p>{data.total_imoveis_agenciados}</p>
-    </div>
-    {/* Mapeia dinamicamente os status das propostas */}
+    <StatCard title="Meus Clientes" value={data.total_clientes} type="total" />
+    <StatCard
+      title="Meus Imóveis"
+      value={data.total_imoveis_agenciados}
+      type="active"
+    />
+
+    {/* A lógica do map continua a mesma, mas agora renderiza o StatCard */}
     {Object.entries(data.propostas_por_status).map(([status, count]) => (
-      <div className="card-item" key={status}>
-        <h3>Propostas em "{status.replace("_", " ")}"</h3>
-        <p>{count}</p>
-      </div>
+      <StatCard
+        key={status}
+        title={`Propostas em "${status.replace("_", " ")}"`}
+        value={count}
+      />
     ))}
   </div>
 );
 
-// --- Componente Principal do Dashboard ---
+// --- Componente Principal do Dashboard (lógica de busca inalterada) ---
 function Dashboard() {
   const { user } = useAuth();
   const [dashboardData, setDashboardData] = useState(null);
@@ -85,6 +83,8 @@ function Dashboard() {
       <h2>
         Dashboard de {user?.role === "admin" ? "Administrador" : "Corretor"}
       </h2>
+
+      {/* A lógica de renderização condicional permanece a mesma */}
       {dashboardData.tipo_dashboard === "admin" && (
         <AdminDashboard data={dashboardData} />
       )}

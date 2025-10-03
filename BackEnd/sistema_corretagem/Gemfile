@@ -30,6 +30,12 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 gem 'jwt'
 
+gem 'cpf_cnpj'
+
+gem 'pagy'
+
+gem 'pundit'
+
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false

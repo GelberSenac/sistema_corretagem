@@ -1,31 +1,42 @@
 # app/controllers/api/v1/usuarios_controller.rb
 class Api::V1::UsuariosController < ApplicationController
-  # Ação 'create' é pulada para permitir a criação do primeiro admin sem login.
+  # 'create' é a única ação que pode ser acessada por um usuário não logado.
   skip_before_action :authorized, only: [:create]
-  # Todas as outras ações exigem autorização de admin.
-  before_action :authenticate_admin!, except: [:create]
-  before_action :set_usuario, only: [:show, :update, :destroy]
+  
+  # REMOVEMOS o 'before_action :authenticate_admin!', pois o Pundit cuidará disso.
+  before_action :set_usuario, only: [:show, :update, :deactivate]
 
   # GET /api/v1/usuarios
   def index
-    @usuarios = Usuario.all
+    # Pundit usa a 'Scope' da UsuarioPolicy para garantir que apenas admins acessem a lista.
+    @usuarios = policy_scope(Usuario)
+    
+    # A lógica de paginação que já tínhamos, agora aplicada ao escopo do Pundit.
+    @pagy, @usuarios = pagy(@usuarios.order(nome: :asc))
+    pagy_headers_merge(@pagy)
+    
     render json: @usuarios, each_serializer: UsuarioSerializer
   end
 
   # GET /api/v1/usuarios/:id
   def show
+    # Pundit verifica a regra 'show?' na policy.
+    # Permite que um admin veja qualquer um, ou que um usuário veja a si mesmo.
+    authorize @usuario
     render json: @usuario, serializer: UsuarioSerializer
   end
 
   # POST /api/v1/usuarios
   def create
     @usuario = Usuario.new(usuario_params)
+    
+    # Pundit verifica a regra 'create?'. Permite acesso público ou de admin.
+    authorize @usuario
 
-    # Lógica segura para o primeiro usuário e definição de 'role'.
-    # Apenas um admin logado pode definir o 'role' de um novo usuário.
-    # Se ninguém estiver logado, assume-se que é o primeiro usuário (admin).
+    # A lógica de negócio para definir o 'role' continua aqui, pois é uma regra de
+    # COMO o usuário é criado, não se ele PODE ser criado.
     if current_user&.admin?
-      @usuario.role = usuario_params[:role] || :corretor
+      @usuario.role = params.dig(:usuario, :role) || :corretor
     else
       @usuario.role = Usuario.count == 0 ? :admin : :corretor
     end
@@ -39,6 +50,9 @@ class Api::V1::UsuariosController < ApplicationController
 
   # PATCH/PUT /api/v1/usuarios/:id
   def update
+    # Pundit verifica a regra 'update?' na policy.
+    authorize @usuario
+    
     if @usuario.update(usuario_params)
       render json: @usuario, serializer: UsuarioSerializer
     else
@@ -47,13 +61,11 @@ class Api::V1::UsuariosController < ApplicationController
   end
   
   # DELETE /api/v1/usuarios/:id (Inativação)
-  def destroy
-    # Um admin não pode inativar a si mesmo
-    if @usuario == current_user
-      render json: { error: 'Você não pode inativar sua própria conta.' }, status: :forbidden
-      return
-    end
-
+  def deactivate 
+    # Pundit verifica a regra 'deactivate?'.
+    # Garante que um admin não pode desativar a si mesmo.
+    authorize @usuario
+    
     if @usuario.update(ativo: false)
       head :no_content 
     else
@@ -64,22 +76,35 @@ class Api::V1::UsuariosController < ApplicationController
   private
 
   def set_usuario
+    # O método fica simples, apenas encontra o registro.
     @usuario = Usuario.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Usuário não encontrado." }, status: :not_found
   end
 
-  def authenticate_admin!
-    render json: { error: 'Acesso não autorizado. Apenas administradores.' }, status: :unauthorized unless current_user&.admin?
+  # O método 'authenticate_admin!' foi REMOVIDO, pois o Pundit o torna obsoleto.
+
+  # Os métodos de parâmetros fortes continuam exatamente os mesmos.
+  def usuario_params
+    if current_user&.admin?
+      admin_usuario_params
+    else
+      public_usuario_params
+    end
   end
 
-  def usuario_params
-    # Lista de parâmetros completa e segura
+  def public_usuario_params
     params.require(:usuario).permit(
-      :nome, :email, :login, :password, :cpf, :ativo, :role, 
-      endereco_attributes: [
-        :id, :logradouro, :numero, :complemento, :bairro, :cidade, :estado, :cep
-      ],
+      :nome, :email, :login, :password, :cpf,
+      endereco_attributes: [:logradouro, :numero, :complemento, :bairro, :cidade, :estado, :cep],
+      perfil_corretor_attributes: [:creci, :creci_estado]
+    )
+  end
+
+  def admin_usuario_params
+    params.require(:usuario).permit(
+      :nome, :email, :login, :password, :cpf, :ativo, :role,
+      endereco_attributes: [:id, :logradouro, :numero, :complemento, :bairro, :cidade, :estado, :cep],
       perfil_corretor_attributes: [:id, :creci, :creci_estado]
     )
   end

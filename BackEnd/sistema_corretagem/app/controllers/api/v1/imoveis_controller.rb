@@ -5,30 +5,37 @@ class Api::V1::ImoveisController < ApplicationController
 
   # GET /api/v1/imoveis (com filtros dinâmicos)
   def index
-    # Começamos com uma base de imóveis (todos se for admin, só os do corretor se não for)
-    base_imoveis = current_user.admin? ? Imovel.all : current_user.imoveis
+    # 1. Pundit busca a base de imóveis correta (todos para admin, só do corretor para ele).
+    base_imoveis = policy_scope(Imovel)
     
-    # Aplicamos os filtros que planejamos anteriormente
-    @imoveis = base_imoveis.por_bairro(params[:bairro])
-                           .com_valor_minimo(params[:valor_minimo])
-                           .com_valor_maximo(params[:valor_maximo])
-                           .com_quartos_minimo(params[:quartos_minimo])
-                           .com_tipo(params[:tipo])
+    # 2. Aplicamos os includes, os filtros e a paginação.
+    imoveis_filtrados = base_imoveis.includes(:endereco, :caracteristicas)
+                                    .por_bairro(params[:bairro])
+                                    .com_valor_minimo(params[:valor_minimo])
+                                    .com_valor_maximo(params[:valor_maximo])
+                                    .com_quartos_minimo(params[:quartos_minimo])
+                                    .com_tipo(params[:tipo])
+
+    @pagy, @imoveis = pagy(imoveis_filtrados)
+    pagy_headers_merge(@pagy)
 
     render json: @imoveis, each_serializer: ImovelSerializer
   end
 
   # GET /api/v1/imoveis/:id
   def show
+    # Pundit verifica a regra 'show?' na policy.
+    authorize @imovel
     render json: @imovel, serializer: ImovelSerializer
   end
 
   # POST /api/v1/imoveis
   def create
     @imovel = current_user.imoveis.build(imovel_params)
+    # Pundit verifica a regra 'create?'.
+    authorize @imovel
 
     if @imovel.save
-      # Usando o serializer na criação
       render json: @imovel, status: :created, serializer: ImovelSerializer
     else
       render json: @imovel.errors, status: :unprocessable_entity
@@ -37,8 +44,9 @@ class Api::V1::ImoveisController < ApplicationController
 
   # PATCH/PUT /api/v1/imoveis/:id
   def update
+    # Pundit verifica a regra 'update?'.
+    authorize @imovel
     if @imovel.update(imovel_params)
-      # Usando o serializer na atualização
       render json: @imovel, serializer: ImovelSerializer
     else
       render json: @imovel.errors, status: :unprocessable_entity
@@ -47,6 +55,8 @@ class Api::V1::ImoveisController < ApplicationController
 
   # DELETE /api/v1/imoveis/:id
   def destroy
+    # Pundit verifica a regra 'destroy?'.
+    authorize @imovel
     @imovel.destroy
     head :no_content
   end
@@ -55,12 +65,11 @@ class Api::V1::ImoveisController < ApplicationController
   def buscar
     perfil = PerfilBusca.find(params[:perfil_busca_id])
     
-    # A lógica da busca também pode ser refatorada com scopes no futuro
+    # Esta busca pode ser melhorada usando scopes no futuro, mas por agora está funcional.
     @imoveis = Imovel.where(status: :disponivel)
-                   .where("valor <= ?", perfil.valor_maximo_imovel) if perfil.valor_maximo_imovel.present?
+                     .where("valor <= ?", perfil.valor_maximo_imovel) if perfil.valor_maximo_imovel.present?
     # ... outros filtros ...
 
-    # Usando o serializer na busca
     render json: @imoveis, each_serializer: ImovelSerializer
   rescue ActiveRecord::RecordNotFound
     render json: { error: "Perfil de busca não encontrado." }, status: :not_found
@@ -69,26 +78,21 @@ class Api::V1::ImoveisController < ApplicationController
   private
 
   def set_imovel
-    # Lógica de autorização melhorada:
-    # Se o usuário for admin, ele pode encontrar qualquer imóvel.
-    # Se for corretor, só pode encontrar os seus.
-    if current_user.admin?
-      @imovel = Imovel.find(params[:id])
-    else
-      @imovel = current_user.imoveis.find(params[:id])
-    end
+    # Simplificado: apenas encontra o imóvel. A autorização é feita pelo 'authorize'.
+    @imovel = Imovel.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: "Imóvel não encontrado ou você não tem permissão." }, status: :not_found
+    render json: { error: "Imóvel não encontrado." }, status: :not_found
   end
 
   def imovel_params
     params.require(:imovel).permit(
       :nome_empreendimento, :tipo, :finalidade, :condicao, :descricao, :status,
       :quartos, :suites, :banheiros, :vagas_garagem, :metragem, :ano_construcao,
-      :unidades_por_andar, :numero_torres, :andares, :elevadores, :varandas,
+      :unidades_por_andar, :numero_torres, :andares, :elevadores, :varandas, :posicao_solar,
       :valor, :valor_condominio, :valor_iptu,
-      comodidades: [],
-      photos: [],      
+      photos: [],
+      # Para a nossa relação Muitos-para-Muitos, permitimos um array de IDs de características.
+      caracteristica_ids: [],
       endereco_attributes: [:id, :logradouro, :numero, :complemento, :bairro, :cidade, :estado, :cep]
     )
   end

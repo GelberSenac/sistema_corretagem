@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  titulo: MyString
+  descricao: MyText
+  data_inicio: 2025-10-02 11:35:51
+  data_fim: 2025-10-02 11:35:51
+  local: MyString
+  status: 1
+  usuario: one
+  cliente: one
+  imovel: one
+
+two:
+  titulo: MyString
+  descricao: MyText
+  data_inicio: 2025-10-02 11:35:51
+  data_fim: 2025-10-02 11:35:51
+  local: MyString
+  status: 1
+  usuario: two
+  cliente: two
+  imovel: two

@@ -5,19 +5,22 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./Contextos/AuthContexto";
 
 // Importação das páginas e componentes de layout
-import Dashboard from "./componentes/Dashboard/Dashboard";
-import Usuarios from "./componentes/Gerenciamentos/Usuarios/Usuarios";
-import UsuarioDetalhesPage from "./componentes/Gerenciamentos/Usuarios/UsuarioDetalhesPage";
-import Clientes from "./componentes/Gerenciamentos/Clientes/Clientes";
-import ClienteDetalhesPage from "./componentes/Gerenciamentos/Clientes/ClienteDetalhesPage";
-import PerfisBuscaPage from "./componentes/Gerenciamentos/PerfisBusca/PerfisBuscaPage";
-import Imoveis from "./componentes/Gerenciamentos/Imoveis/Imoveis"; // LINHA ADICIONADA
-import ImovelDetalhesPage from "./componentes/Gerenciamentos/Imoveis/ImovelDetalhesPage";
-import NovaProposta from "./componentes/Propostas/NovaProposta"; // Adicione também, se faltar
-import Login from "./componentes/Login/Login";
-import Sidebar from "./componentes/Sidebar/Sidebar";
-import Header from "./componentes/Header/Header";
-import Footer from "./componentes/Footer/Footer";
+import Dashboard from "./Componentes/Dashboard/Dashboard";
+import Usuarios from "./Componentes/Gerenciamentos/Usuarios/Usuarios";
+import UsuarioDetalhesPage from "./Componentes/Gerenciamentos/Usuarios/UsuarioDetalhesPage";
+import Clientes from "./Componentes/Gerenciamentos/Clientes/Clientes";
+import ClienteDetalhesPage from "./Componentes/Gerenciamentos/Clientes/ClienteDetalhesPage";
+import PerfisBuscaPage from "./Componentes/Gerenciamentos/PerfisBusca/PerfisBuscaPage";
+import Imoveis from "./Componentes/Gerenciamentos/Imoveis/Imoveis"; // LINHA ADICIONADA
+import ImovelDetalhesPage from "./Componentes/Gerenciamentos/Imoveis/ImovelDetalhesPage";
+import NovaProposta from "./Componentes/Propostas/NovaProposta"; // Adicione também, se faltar
+import Agenda from "./Componentes/Agenda/Agenda"; // Importa o novo componente
+import Financeiro from "./Componentes/Financeiro/Financeiro";
+import Relatorios from "./Componentes/Relatorios/Relatorios";
+import Login from "./Componentes/Login/Login";
+import Sidebar from "./Componentes/Sidebar/Sidebar";
+import Header from "./Componentes/Header/Header";
+import Footer from "./Componentes/Footer/Footer";
 import "./App.css";
 
 // --- Componentes Auxiliares ---
@@ -85,6 +88,9 @@ function App() {
                   <Route path="/imoveis" element={<Imoveis />} />
                   <Route path="/imoveis/:id" element={<ImovelDetalhesPage />} />
                   <Route path="/propostas/nova" element={<NovaProposta />} />
+                  <Route path="/agenda" element={<Agenda />} /> {/* Adiciona a nova rota */}
+                  <Route path="/financeiro" element={<Financeiro />} />
+                  <Route path="/relatorios" element={<Relatorios />} />
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </MainLayout>

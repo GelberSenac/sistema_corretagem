@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_02_143852) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,6 +40,30 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "agendamentos", force: :cascade do |t|
+    t.string "titulo"
+    t.text "descricao"
+    t.datetime "data_inicio"
+    t.datetime "data_fim"
+    t.string "local"
+    t.integer "status"
+    t.bigint "usuario_id", null: false
+    t.bigint "cliente_id", null: false
+    t.bigint "imovel_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cliente_id"], name: "index_agendamentos_on_cliente_id"
+    t.index ["imovel_id"], name: "index_agendamentos_on_imovel_id"
+    t.index ["usuario_id"], name: "index_agendamentos_on_usuario_id"
+  end
+
+  create_table "caracteristicas", force: :cascade do |t|
+    t.string "nome"
+    t.integer "tipo_caracteristica", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "clientes", force: :cascade do |t|
@@ -76,7 +100,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
     t.datetime "updated_at", null: false
     t.string "nacionalidade"
     t.date "data_casamento"
-    t.string "regime_bens"
+    t.integer "regime_bens", default: 0
     t.index ["cliente_id"], name: "index_conjuges_on_cliente_id"
   end
 
@@ -101,6 +125,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
     t.datetime "updated_at", null: false
     t.string "enderecoable_type", null: false
     t.bigint "enderecoable_id", null: false
+    t.boolean "frente_mar"
+    t.boolean "quadra_mar"
     t.index ["enderecoable_type", "enderecoable_id"], name: "index_enderecos_on_enderecoable"
   end
 
@@ -129,14 +155,38 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
     t.bigint "usuario_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "posicao_solar"
+    t.integer "andar"
     t.index ["usuario_id"], name: "index_imoveis_on_usuario_id"
+  end
+
+  create_table "imoveis_caracteristicas", force: :cascade do |t|
+    t.bigint "imovel_id", null: false
+    t.bigint "caracteristica_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["caracteristica_id"], name: "index_imoveis_caracteristicas_on_caracteristica_id"
+    t.index ["imovel_id"], name: "index_imoveis_caracteristicas_on_imovel_id"
+  end
+
+  create_table "lancamento_financeiros", force: :cascade do |t|
+    t.string "descricao"
+    t.decimal "valor"
+    t.integer "tipo"
+    t.date "data_lancamento"
+    t.bigint "usuario_id", null: false
+    t.bigint "proposta_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["proposta_id"], name: "index_lancamento_financeiros_on_proposta_id"
+    t.index ["usuario_id"], name: "index_lancamento_financeiros_on_usuario_id"
   end
 
   create_table "perfil_buscas", force: :cascade do |t|
     t.string "titulo_busca"
-    t.string "tipo_negocio"
-    t.string "condicao_imovel"
-    t.string "bairro_preferencia"
+    t.integer "finalidade", default: 0
+    t.integer "condicao", default: 2
+    t.text "bairro_preferencia"
     t.decimal "valor_maximo_imovel", precision: 12, scale: 2
     t.decimal "valor_entrada_disponivel", precision: 12, scale: 2
     t.decimal "renda_minima_exigida", precision: 10, scale: 2
@@ -164,13 +214,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
   create_table "propostas", force: :cascade do |t|
     t.decimal "valor_proposta", precision: 12, scale: 2
     t.jsonb "condicoes_pagamento"
-    t.string "status", default: "em_analise"
+    t.integer "status", default: 0
     t.bigint "usuario_id", null: false
     t.bigint "cliente_id", null: false
     t.bigint "imovel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "corretora_id"
+    t.date "data_proposta"
     t.index ["cliente_id"], name: "index_propostas_on_cliente_id"
     t.index ["corretora_id"], name: "index_propostas_on_corretora_id"
     t.index ["imovel_id"], name: "index_propostas_on_imovel_id"
@@ -200,9 +251,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_25_230419) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agendamentos", "clientes"
+  add_foreign_key "agendamentos", "imoveis"
+  add_foreign_key "agendamentos", "usuarios"
   add_foreign_key "clientes", "usuarios"
   add_foreign_key "conjuges", "clientes"
   add_foreign_key "imoveis", "usuarios"
+  add_foreign_key "imoveis_caracteristicas", "caracteristicas"
+  add_foreign_key "imoveis_caracteristicas", "imoveis"
+  add_foreign_key "lancamento_financeiros", "propostas"
+  add_foreign_key "lancamento_financeiros", "usuarios"
   add_foreign_key "perfil_buscas", "clientes"
   add_foreign_key "perfil_corretors", "usuarios"
   add_foreign_key "propostas", "clientes"

@@ -1,27 +1,48 @@
 /* src/componentes/Header/Header.css */
 
-header {
+/* Define o estilo principal do cabeçalho */
+.app-header {
+  height: 60px; /* Altura fixa para o cabeçalho */
+  padding: 0 30px; /* Espaçamento interno nas laterais */
+  background-color: #ffffff; /* Fundo branco */
+  border-bottom: 1px solid #dee2e6; /* Linha sutil na parte inferior */
+  
+  /* Flexbox para alinhar o conteúdo */
   display: flex;
-  justify-content: space-between; /* Alinha o título e o botão 'Sair' nas extremidades */
+  align-items: center; /* Centraliza os itens verticalmente */
+  justify-content: flex-end; /* Alinha o conteúdo à direita */
+}
+
+/* Container para os itens dentro do cabeçalho */
+.header-content {
+  display: flex;
   align-items: center;
-  padding: 15px 25px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e7e7e7;
+  gap: 20px; /* Define um espaço de 20px entre a saudação e o botão */
 }
 
-header h1 {
-  margin: 0; 
-  font-size: 22px;
-  color: #333;
+/* Estilo para a saudação "Olá, [Nome]" */
+.user-greeting {
+  color: #495057; /* Cor de texto mais suave */
+  font-weight: 500;
+  font-size: 0.95rem;
 }
 
-.header-nav a {
-  color: #007bff;
-  text-decoration: none;
+/* Estilo para o botão de logout, fazendo-o parecer um link */
+.logout-button {
+  background: none;
+  border: none;
+  padding: 0;
+  
+  color: #dc3545; /* Cor vermelha para indicar uma ação de "saída" */
+  font-size: 0.9rem;
   font-weight: bold;
-  transition: color 0.3s;
+  
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
 }
 
-.header-nav a:hover {
-  color: #0056b3;
+/* Efeito ao passar o mouse sobre o botão de logout */
+.logout-button:hover {
+  color: #a71d2a; /* Vermelho mais escuro */
+  text-decoration: underline;
 }
