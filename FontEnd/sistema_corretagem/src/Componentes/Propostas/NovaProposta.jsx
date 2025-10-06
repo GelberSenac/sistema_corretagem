@@ -2,12 +2,21 @@ import React, { useState, useEffect } from "react";
 import * as api from "../../Servicos/Api";
 import { Toaster, toast } from "react-hot-toast";
 import "./NovaProposta.css"; // Crie um arquivo CSS para estilizar
+import { useAuth } from "../../Contextos/AuthContexto";
 
 function NovaProposta() {
   // Estados para popular os selects
   const [clientes, setClientes] = useState([]);
   const [perfis, setPerfis] = useState([]);
   const [imoveisCompativeis, setImoveisCompativeis] = useState([]);
+  // Filtros rápidos (sem salvar)
+  const [filtrosRapidos, setFiltrosRapidos] = useState({
+    bairrosTexto: "",
+    valor_minimo: "",
+    valor_maximo: "",
+    quartos_minimo: "",
+    tipo: "",
+  });
 
   // Estados para as seleções do usuário
   const [clienteSelecionadoId, setClienteSelecionadoId] = useState("");
@@ -20,6 +29,24 @@ function NovaProposta() {
     condicoes_pagamento: "",
   });
   const [loading, setLoading] = useState(false);
+
+  // Dados detalhados do cliente selecionado e corretor logado
+  const [clienteDetalhes, setClienteDetalhes] = useState(null);
+  const { user: corretor } = useAuth();
+
+  // Controle: indicar se já houve uma busca para exibir contagem de resultados
+  const [buscaRealizada, setBuscaRealizada] = useState(false);
+
+  // Derivado: há filtros rápidos informados?
+  const hasFiltrosRapidos =
+    (filtrosRapidos.bairrosTexto && filtrosRapidos.bairrosTexto.trim() !== "") ||
+    filtrosRapidos.valor_minimo ||
+    filtrosRapidos.valor_maximo ||
+    filtrosRapidos.quartos_minimo ||
+    filtrosRapidos.tipo;
+
+  // Perfil atualmente selecionado (para resumo)
+  const perfilAtual = perfis.find((p) => String(p.id) === String(perfilSelecionadoId));
 
   // Busca os clientes do corretor quando a tela carrega
   useEffect(() => {
@@ -39,6 +66,7 @@ function NovaProposta() {
     if (!clienteSelecionadoId) {
       setPerfis([]);
       setPerfilSelecionadoId("");
+      setBuscaRealizada(false);
       return;
     }
     const fetchPerfis = async () => {
@@ -52,15 +80,79 @@ function NovaProposta() {
     fetchPerfis();
   }, [clienteSelecionadoId]);
 
+  // Busca detalhes do cliente (inclui cônjuge e renda familiar total) quando selecionado
+  useEffect(() => {
+    if (!clienteSelecionadoId) {
+      setClienteDetalhes(null);
+      return;
+    }
+    const fetchClienteDetalhes = async () => {
+      try {
+        const response = await api.getClienteById(clienteSelecionadoId);
+        setClienteDetalhes(response.data);
+      } catch (error) {
+        toast.error("Erro ao buscar detalhes do cliente.");
+      }
+    };
+    fetchClienteDetalhes();
+  }, [clienteSelecionadoId]);
+
   const handleBuscarImoveis = async () => {
-    if (!perfilSelecionadoId)
-      return toast.error("Selecione um perfil de busca.");
     setLoading(true);
+    setBuscaRealizada(false);
     setImovelSelecionado(null); // Limpa a seleção anterior
     try {
-      const response = await api.buscarImoveisCompativeis(perfilSelecionadoId);
-      setImoveisCompativeis(response.data);
-      toast.success(`${response.data.length} imóveis compatíveis encontrados!`);
+      if (perfilSelecionadoId) {
+        const response = await api.buscarImoveisCompativeis(perfilSelecionadoId);
+        setImoveisCompativeis(response.data);
+        setBuscaRealizada(true);
+        toast.success(`${response.data.length} imóveis compatíveis encontrados!`);
+      } else {
+        // Busca por filtros rápidos, sem salvar perfil
+        if (!clienteSelecionadoId) {
+          toast.error("Selecione um cliente para buscar imóveis.");
+          return;
+        }
+        // Monta parâmetros mínimos viáveis
+        const bairrosArr = (filtrosRapidos.bairrosTexto || "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
+        const paramsBase = {};
+        if (filtrosRapidos.valor_minimo)
+          paramsBase.valor_minimo = Number(filtrosRapidos.valor_minimo);
+        if (filtrosRapidos.valor_maximo)
+          paramsBase.valor_maximo = Number(filtrosRapidos.valor_maximo);
+        if (filtrosRapidos.quartos_minimo)
+          paramsBase.quartos_minimo = Number(filtrosRapidos.quartos_minimo);
+        if (filtrosRapidos.tipo) paramsBase.tipo = filtrosRapidos.tipo;
+
+        if (bairrosArr.length === 0 && Object.keys(paramsBase).length === 0) {
+          toast.error("Informe pelo menos um filtro rápido.");
+          return;
+        }
+
+        let results = [];
+        if (bairrosArr.length > 1) {
+          // Aceitar múltiplos bairros: faz consultas paralelas por bairro e mescla resultados
+          const promises = bairrosArr.map((bairro) =>
+            api.getImoveis({ ...paramsBase, bairro })
+          );
+          const responses = await Promise.all(promises);
+          results = responses.flatMap((r) => r.data);
+          const dedup = new Map();
+          results.forEach((im) => dedup.set(im.id, im));
+          results = Array.from(dedup.values());
+        } else {
+          const params = { ...paramsBase };
+          if (bairrosArr.length === 1) params.bairro = bairrosArr[0];
+          const response = await api.getImoveis(params);
+          results = response.data;
+        }
+        setImoveisCompativeis(results);
+        setBuscaRealizada(true);
+        toast.success(`${results.length} imóveis encontrados pelos filtros!`);
+      }
     } catch (error) {
       toast.error("Erro ao buscar imóveis.");
     } finally {
@@ -91,6 +183,19 @@ function NovaProposta() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Utilidades de formatação para exibição
+  const formatCPF = (cpf) => {
+    if (!cpf) return "Não informado";
+    const cpfLimpo = cpf.toString().replace(/\D/g, "");
+    if (cpfLimpo.length !== 11) return cpf;
+    return cpfLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  };
+  const formatCurrencyBR = (value) => {
+    const num = Number(value);
+    if (Number.isNaN(num)) return "Não informado";
+    return num.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   };
 
   return (
@@ -137,7 +242,194 @@ function NovaProposta() {
         >
           {loading ? "Buscando..." : "Buscar Imóveis Compatíveis"}
         </button>
+        {/* Resumo da Busca */}
+        {(perfilSelecionadoId || hasFiltrosRapidos) && (
+          <div className="proposta-subsection">
+            <h4>Resumo da Busca</h4>
+            {perfilSelecionadoId && perfilAtual ? (
+              <div className="info-card">
+                <p><strong>Perfil:</strong> {perfilAtual.titulo_busca}</p>
+                <p><strong>Bairro preferencial:</strong> {perfilAtual.bairro_preferencia || "-"}</p>
+                <p><strong>Tipo de negócio:</strong> {perfilAtual.tipo_negocio || "-"}</p>
+                <p><strong>Condição:</strong> {perfilAtual.condicao_imovel || "-"}</p>
+                <p><strong>Valor máximo:</strong> {perfilAtual.valor_maximo_imovel ? formatCurrencyBR(perfilAtual.valor_maximo_imovel) : "-"}</p>
+                <p><strong>Quartos mínimos:</strong> {perfilAtual.quartos_minimo ?? "-"}</p>
+              </div>
+            ) : (
+              <div className="info-card">
+                <p><strong>Filtros rápidos:</strong></p>
+                <p><strong>Bairros:</strong> {filtrosRapidos.bairrosTexto || "-"}</p>
+                <p><strong>Tipo:</strong> {filtrosRapidos.tipo || "-"}</p>
+                <p><strong>Faixa de valor:</strong> {filtrosRapidos.valor_minimo || filtrosRapidos.valor_maximo ? `${filtrosRapidos.valor_minimo ? formatCurrencyBR(filtrosRapidos.valor_minimo) : "-"} até ${filtrosRapidos.valor_maximo ? formatCurrencyBR(filtrosRapidos.valor_maximo) : "-"}` : "-"}</p>
+                <p><strong>Quartos mínimos:</strong> {filtrosRapidos.quartos_minimo || "-"}</p>
+              </div>
+            )}
+          </div>
+        )}
+        {/* Filtros rápidos (sem salvar) - exibidos quando não há perfil selecionado ou o cliente não possui perfis */}
+        {clienteSelecionadoId && (perfis.length === 0 || !perfilSelecionadoId) && (
+          <div className="quick-filters proposta-subsection">
+            <h4>Filtros Rápidos (sem salvar)</h4>
+            <div className="form-group-row">
+              <label>
+                Bairros (separe por vírgula):
+                <input
+                  type="text"
+                  placeholder="Centro, Jardim, Copacabana"
+                  value={filtrosRapidos.bairrosTexto}
+                  onChange={(e) =>
+                    setFiltrosRapidos({
+                      ...filtrosRapidos,
+                      bairrosTexto: e.target.value,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Tipo:
+                <select
+                  value={filtrosRapidos.tipo}
+                  onChange={(e) =>
+                    setFiltrosRapidos({
+                      ...filtrosRapidos,
+                      tipo: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">-- Qualquer --</option>
+                  <option value="apartamento">Apartamento</option>
+                  <option value="casa">Casa</option>
+                  <option value="flat">Flat</option>
+                  <option value="cobertura">Cobertura</option>
+                  <option value="kitnet">Kitnet</option>
+                  <option value="terreno">Terreno</option>
+                </select>
+              </label>
+            </div>
+            <div className="form-group-row">
+              <label>
+                Valor mínimo (R$):
+                <input
+                  type="number"
+                  value={filtrosRapidos.valor_minimo}
+                  onChange={(e) =>
+                    setFiltrosRapidos({
+                      ...filtrosRapidos,
+                      valor_minimo: e.target.value,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Valor máximo (R$):
+                <input
+                  type="number"
+                  value={filtrosRapidos.valor_maximo}
+                  onChange={(e) =>
+                    setFiltrosRapidos({
+                      ...filtrosRapidos,
+                      valor_maximo: e.target.value,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Quartos mínimos:
+                <input
+                  type="number"
+                  value={filtrosRapidos.quartos_minimo}
+                  onChange={(e) =>
+                    setFiltrosRapidos({
+                      ...filtrosRapidos,
+                      quartos_minimo: e.target.value,
+                    })
+                  }
+                />
+              </label>
+            </div>
+            <small>Busca para esta proposta, sem criar ou editar perfil.</small>
+            <div className="form-group-row">
+              <button
+                onClick={handleBuscarImoveis}
+                disabled={(!perfilSelecionadoId && !hasFiltrosRapidos) || loading}
+              >
+                {loading
+                  ? "Buscando..."
+                  : perfilSelecionadoId
+                  ? "Buscar Imóveis Compatíveis"
+                  : "Buscar Imóveis"}
+              </button>
+            </div>
+          </div>
+        )}
+
       </div>
+
+      {clienteDetalhes && (
+        <div className="proposta-section">
+          <h3>Resumo do Cliente</h3>
+          <div className="form-group-row">
+            <div className="info-card">
+              <h4>Cliente</h4>
+              <p>
+                <strong>Nome:</strong> {clienteDetalhes.nome}
+              </p>
+              <p>
+                <strong>CPF:</strong> {formatCPF(clienteDetalhes.cpf)}
+              </p>
+              <p>
+                <strong>Profissão:</strong> {clienteDetalhes.profissao || "Não informado"}
+              </p>
+              <p>
+                <strong>Renda:</strong> {formatCurrencyBR(clienteDetalhes.renda)}
+              </p>
+            </div>
+            {clienteDetalhes.conjuge && (
+              <div className="info-card">
+                <h4>Cônjuge</h4>
+                <p>
+                  <strong>Nome:</strong> {clienteDetalhes.conjuge.nome}
+                </p>
+                <p>
+                  <strong>CPF:</strong> {formatCPF(clienteDetalhes.conjuge.cpf)}
+                </p>
+                <p>
+                  <strong>Profissão:</strong> {clienteDetalhes.conjuge.profissao || "Não informado"}
+                </p>
+                <p>
+                  <strong>Renda:</strong> {formatCurrencyBR(clienteDetalhes.conjuge.renda)}
+                </p>
+              </div>
+            )}
+          </div>
+          <div className="form-group-row">
+            <div className="info-card">
+              <h4>Renda Familiar Total</h4>
+              <p>
+                {formatCurrencyBR(
+                  clienteDetalhes.renda_familiar_total ??
+                    (Number(clienteDetalhes.renda || 0) +
+                      Number(clienteDetalhes.conjuge?.renda || 0))
+                )}
+              </p>
+            </div>
+            {corretor && (
+              <div className="info-card">
+                <h4>Corretor Responsável</h4>
+                <p>
+                  <strong>Nome:</strong> {corretor.nome}
+                </p>
+                <p>
+                  <strong>CRECI:</strong> {corretor.perfil_corretor?.creci || "Não informado"}
+                </p>
+                <p>
+                  <strong>Estado:</strong> {corretor.perfil_corretor?.creci_estado || "Não informado"}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {imoveisCompativeis.length > 0 && (
         <div className="proposta-section">

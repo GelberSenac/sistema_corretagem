@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_02_143852) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,12 +77,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_143852) do
     t.datetime "updated_at", null: false
     t.bigint "usuario_id", null: false
     t.date "data_nascimento"
-    t.string "estado_civil"
     t.string "profissao"
     t.decimal "renda", precision: 10, scale: 2
     t.string "nacionalidade"
     t.date "data_casamento"
     t.string "regime_bens"
+    t.integer "estado_civil"
     t.index ["usuario_id"], name: "index_clientes_on_usuario_id"
   end
 
@@ -132,9 +132,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_02_143852) do
 
   create_table "imoveis", force: :cascade do |t|
     t.string "nome_empreendimento"
-    t.string "tipo"
-    t.string "finalidade"
-    t.string "condicao"
+    t.integer "tipo"
+    t.integer "finalidade", default: 0
+    t.integer "condicao", default: 2
     t.text "descricao"
     t.integer "quartos"
     t.integer "suites"

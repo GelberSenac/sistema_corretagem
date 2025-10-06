@@ -43,10 +43,17 @@ class Api::V1::ClientesController < ApplicationController
   # PATCH/PUT /api/v1/clientes/:id
   def update
     authorize @cliente
+
+    # Logs de depuração para entender os parâmetros recebidos e os permitidos
+    Rails.logger.info("[ClientesController#update] RAW params: #{params.to_unsafe_h.inspect}")
+    permitted_attrs = cliente_params
+    Rails.logger.info("[ClientesController#update] Permitted attrs: #{permitted_attrs.to_h.inspect}")
     
-    if @cliente.update(cliente_params)
+    if @cliente.update(permitted_attrs)
+      Rails.logger.info("[ClientesController#update] Update sucesso para cliente ##{@cliente.id}")
       render json: @cliente, serializer: ClienteSerializer
     else
+      Rails.logger.warn("[ClientesController#update] Falha no update: #{@cliente.errors.full_messages.inspect}")
       render json: @cliente.errors, status: :unprocessable_entity
     end
   end
@@ -79,12 +86,14 @@ class Api::V1::ClientesController < ApplicationController
       
       conjuge_attributes: [
         :id, :nome, :data_nascimento, :cpf, :rg, :profissao, :renda, 
-        :email, :celular, :nacionalidade, :data_casamento, :regime_bens
+        :email, :celular, :nacionalidade, :data_casamento, :regime_bens,
+        :_destroy
       ],
       
       endereco_attributes: [
         :id, :logradouro, :numero, :complemento, :bairro, :cidade, 
-        :estado, :cep
+        :estado, :cep,
+        :_destroy
       ]
     )
   end

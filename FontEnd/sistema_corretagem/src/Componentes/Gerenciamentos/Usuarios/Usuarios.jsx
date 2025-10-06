@@ -35,7 +35,20 @@ function Usuarios() {
       }
       setUsuarioSendoEditado(null);
     } catch (err) {
-      toast.error("Ocorreu um erro ao salvar o usuário.");
+      // Tratamento detalhado de erros
+      const status = err?.response?.status;
+      const apiData = err?.response?.data;
+      if (status === 422 && apiData) {
+        // Exibe mensagens específicas de validação vindas da API
+        const detalhes = typeof apiData === "string" ? apiData : JSON.stringify(apiData);
+        toast.error(`Erro de validação: ${detalhes}`);
+      } else if (err?.response) {
+        toast.error(`Erro ${status}: ${err.response?.data?.error || "Falha ao processar requisição"}`);
+      } else if (err?.request) {
+        toast.error("Falha de conexão com o servidor. Tente novamente.");
+      } else {
+        toast.error("Erro inesperado ao salvar o usuário.");
+      }
       console.error(err);
     }
   };

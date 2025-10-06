@@ -1,3 +1,4 @@
+require 'jwt'
 # app/controllers/application_controller.rb
 class ApplicationController < ActionController::API
   # --- INCLUSÃO DOS MÓDULOS ---
@@ -9,13 +10,31 @@ class ApplicationController < ActionController::API
   # --- CALLBACKS ---
   # Este método será chamado antes de qualquer ação que precise de autenticação.
   before_action :authorized
+  # Define as opções padrão de URL (host/protocolo/porta) para geração de URLs (ex.: url_for em serializers)
+  before_action :set_default_url_options
 
   # --- LÓGICA DE AUTENTICAÇÃO (JWT) ---
 
-  # Codifica os dados do usuário (payload) em um token JWT
+  # Recupera o segredo do JWT de ENV ou credentials, com fallback controlado
+  def jwt_secret
+    env_secret = ENV["JWT_SECRET"].presence
+    creds_secret = Rails.application.credentials.dig(:jwt, :secret)
+    if Rails.env.production?
+      env_secret || creds_secret || raise("JWT_SECRET não configurado em produção")
+    else
+      env_secret || creds_secret || "my_s3cr3t"
+    end
+  end
+
+  # Define o TTL do JWT (em segundos), com padrão por ambiente
+  def jwt_ttl_seconds
+    (ENV["JWT_TTL_SECONDS"] || (Rails.env.production? ? 900 : 7200)).to_i
+  end
+
+  # Codifica os dados do usuário (payload) em um token JWT com expiração
   def encode_token(payload)
-    # O segredo deve ser armazenado em variáveis de ambiente no futuro
-    JWT.encode(payload, 'my_s3cr3t') 
+    payload = payload.merge({ exp: (Time.now.to_i + jwt_ttl_seconds) })
+    JWT.encode(payload, jwt_secret, 'HS256')
   end
 
   # Pega o token do cabeçalho da requisição (ex: 'Bearer <token>')
@@ -28,7 +47,9 @@ class ApplicationController < ActionController::API
     if auth_header
       token = auth_header.split(' ')[1] # Pega apenas o token
       begin
-        JWT.decode(token, 'my_s3cr3t', true, algorithm: 'HS256')
+        JWT.decode(token, jwt_secret, true, algorithm: 'HS256')
+      rescue JWT::ExpiredSignature
+        nil
       rescue JWT::DecodeError
         nil
       end
@@ -51,5 +72,15 @@ class ApplicationController < ActionController::API
   # Bloqueia a ação se o usuário não estiver logado
   def authorized
     render json: { message: 'Por favor, realize o login' }, status: :unauthorized unless logged_in?
+  end
+
+  # Define as opções padrão de URL com base na requisição atual.
+  # Isso evita erros ao chamar url_for em serializers (ex.: ImovelSerializer.photos_urls)
+  def set_default_url_options
+    Rails.application.routes.default_url_options = {
+      host: request.host,
+      protocol: request.protocol.delete('://'),
+      port: request.port
+    }
   end
 end

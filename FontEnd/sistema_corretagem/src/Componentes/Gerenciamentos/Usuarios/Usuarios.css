@@ -55,6 +55,19 @@
   .grid-col-span-1, .grid-col-span-2, .grid-col-span-3, .grid-col-span-4 { grid-column: span 1; }
 }
 
+/* === ESTILOS DE ERRO === */
+.input-error {
+  border: 1px solid var(--cor-perigo) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+.field-error {
+  color: var(--cor-perigo);
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
 
 /* === ESTILOS DA LISTA DE USUÁRIOS (USUARIOLIST) --- Refatorado com Grid --- */
 .lista-grid {

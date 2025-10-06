@@ -23,8 +23,36 @@ function Clientes() {
 
   const [clienteSendoEditado, setClienteSendoEditado] = useState(null);
 
+  // Formata erros vindos do Rails (ActiveModel) para um texto amigável, distinguindo códigos HTTP
+  const formatApiErrors = (err) => {
+    try {
+      const status = err?.response?.status;
+      const data = err?.response?.data;
+
+      if (status === 403) return "Você não tem permissão para realizar esta ação.";
+      if (status === 500) return "Erro interno no servidor ao salvar o cliente. Tente novamente mais tarde.";
+
+      if (!data) return "Ocorreu um erro ao salvar o cliente.";
+      if (typeof data === "string") return data;
+      if (typeof data === "object") {
+        const mensagens = Object.entries(data).map(([campo, msgs]) => {
+          const textoMsgs = Array.isArray(msgs) ? msgs.join(", ") : String(msgs);
+          const campoLabel = campo
+            .replace(/_/g, " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase());
+          return `${campoLabel}: ${textoMsgs}`;
+        });
+        return `Verifique os dados: ${mensagens.join("; ")}`;
+      }
+      return "Erro inesperado ao salvar o cliente.";
+    } catch (_) {
+      return "Ocorreu um erro ao salvar o cliente.";
+    }
+  };
+
   const handleFormSubmit = async (formData, id) => {
     try {
+      console.log("[Clientes] Submissão do formulário", { id, payload: formData });
       if (id) {
         await handleUpdate(id, formData);
         toast.success("Cliente atualizado com sucesso!");
@@ -34,8 +62,10 @@ function Clientes() {
       }
       setClienteSendoEditado(null); // Limpa o formulário após o sucesso
     } catch (err) {
-      toast.error("Ocorreu um erro ao salvar o cliente.");
-      console.error(err);
+      const mensagem = formatApiErrors(err);
+      const status = err?.response?.status;
+      toast.error(mensagem);
+      console.error("[Clientes] Erro ao salvar cliente", { status, err });
     }
   };
 
@@ -45,8 +75,14 @@ function Clientes() {
         await handleDelete(id);
         toast.success("Cliente excluído com sucesso!");
       } catch (err) {
-        toast.error("Ocorreu um erro ao excluir o cliente.");
-        console.error(err);
+        const status = err?.response?.status;
+        const mensagem = status === 403
+          ? "Você não tem permissão para excluir este cliente."
+          : status === 500
+            ? "Erro interno no servidor ao excluir cliente."
+            : "Ocorreu um erro ao excluir o cliente.";
+        toast.error(mensagem);
+        console.error("[Clientes] Erro ao excluir cliente", { status, err });
       }
     }
   };

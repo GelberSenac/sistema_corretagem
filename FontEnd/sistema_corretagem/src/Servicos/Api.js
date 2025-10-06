@@ -1,8 +1,10 @@
 // src/Servicos/Api.js
 import axios from "axios";
 
+const apiBaseURL = import.meta.env.VITE_API_URL || "http://localhost:3001/api/v1";
+
 const apiClient = axios.create({
-  baseURL: "http://localhost:3000/api/v1",
+  baseURL: apiBaseURL,
   headers: { "Content-Type": "application/json" },
 });
 
@@ -14,13 +16,45 @@ apiClient.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // Logs estratégicos no ambiente de desenvolvimento
+  if (import.meta?.env?.DEV) {
+    try {
+      const { method, url, params, data } = config;
+      console.log("[API] Request", {
+        method: (method || "").toUpperCase(),
+        url: `${apiBaseURL}${url}`,
+        params,
+        data,
+      });
+    } catch (_) {}
+  }
   return config;
 });
 
 // 2. Interceptor de RESPOSTA: Trata erros globais, como token expirado (erro 401).
 apiClient.interceptors.response.use(
-  (response) => response, // Se a resposta for sucesso, não faz nada.
+  (response) => {
+    if (import.meta?.env?.DEV) {
+      try {
+        console.log("[API] Response", {
+          url: response.config?.url,
+          status: response.status,
+          data: response.data,
+        });
+      } catch (_) {}
+    }
+    return response;
+  },
   (error) => {
+    if (import.meta?.env?.DEV) {
+      try {
+        console.error("[API] Error", {
+          url: error.config?.url,
+          status: error.response?.status,
+          data: error.response?.data,
+        });
+      } catch (_) {}
+    }
     // Se o erro for 401 (Não Autorizado), desloga o usuário automaticamente.
     if (error.response && error.response.status === 401) {
       localStorage.removeItem("authToken");
@@ -37,7 +71,7 @@ apiClient.interceptors.response.use(
 
 // Bloco de Sessões
 export const loginUser = (login, password) =>
-  apiClient.post("/login", { usuario: { login, senha: password } });
+  apiClient.post("/login", { usuario: { login, senha: password, password } });
 
 // Bloco do Dashboard
 export const getDashboardStats = () => apiClient.get("/dashboard_stats");
