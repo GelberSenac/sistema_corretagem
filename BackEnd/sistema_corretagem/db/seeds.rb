@@ -17,7 +17,7 @@ Usuario.create!(
   login: "admin",
   password: "password123",
   password_confirmation: "password123",
-  cpf: "000.000.000-00",
+  cpf: "529.982.247-25",
   ativo: true,
   role: :admin,
   # Criando o endereço aninhado diretamente com o usuário

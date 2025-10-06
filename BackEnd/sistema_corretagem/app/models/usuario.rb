@@ -4,8 +4,9 @@ class Usuario < ApplicationRecord
   has_secure_password
   enum :role, { corretor: 0, admin: 1, gerente: 2 }
 
-  # --- Callback ---
+  # --- Callbacks ---
   before_validation :normalize_cpf
+  before_validation :ensure_ativo_boolean
 
   # --- Associações ---
   has_many :clientes, foreign_key: 'usuario_id', dependent: :restrict_with_error
@@ -28,4 +29,19 @@ class Usuario < ApplicationRecord
   validates :login, presence: true, uniqueness: true, length: { minimum: 4, maximum: 20 }
   validates :ativo, inclusion: { in: [true, false] }
   
+  private
+
+  def ensure_ativo_boolean
+    if ativo.nil?
+      self.ativo = true
+    elsif ativo.is_a?(String)
+      down = ativo.strip.downcase
+      self.ativo = case down
+                   when 'true', 't', '1', 's', 'sim' then true
+                   when 'false', 'f', '0', 'n', 'nao', 'não' then false
+                   else
+                     ativo
+                   end
+    end
+  end
 end

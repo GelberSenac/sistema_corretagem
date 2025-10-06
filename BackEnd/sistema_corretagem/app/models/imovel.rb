@@ -4,7 +4,7 @@ class Imovel < ApplicationRecord
   has_one :endereco, as: :enderecoable, dependent: :destroy
 
   has_many :propostas, dependent: :restrict_with_error
-  has_many :imoveis_caracteristicas, dependent: :destroy
+  has_many :imoveis_caracteristicas, class_name: 'ImoveisCaracteristica', dependent: :destroy
   has_many :caracteristicas, through: :imoveis_caracteristicas
 
   has_many_attached :photos

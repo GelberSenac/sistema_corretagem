@@ -28,6 +28,7 @@ function UsuarioForm({ usuarioSendoEditado, onFormSubmit, onCancelEdit }) {
   const { user } = useAuth();
   const [formData, setFormData] = useState(initialState);
   const [isCorretor, setIsCorretor] = useState(true);
+  const [errors, setErrors] = useState({});
 
   const cpfInputRef = useMask({
     mask: "___.___.___-__",
@@ -51,9 +52,11 @@ function UsuarioForm({ usuarioSendoEditado, onFormSubmit, onCancelEdit }) {
           ? { ...usuarioSendoEditado.perfil_corretor }
           : initialState.perfil_corretor_attributes,
       });
+      setErrors({});
     } else {
       setFormData(initialState);
       setIsCorretor(true);
+      setErrors({});
     }
   }, [usuarioSendoEditado]);
 
@@ -61,6 +64,15 @@ function UsuarioForm({ usuarioSendoEditado, onFormSubmit, onCancelEdit }) {
     const { name, value, type, checked } = e.target;
     const keys = name.split(".");
     if (name === "role") setIsCorretor(value === "corretor");
+
+    // Limpa erro do campo obrigatório ao digitar
+    if (["login", "email", "password"].includes(name)) {
+      setErrors((prev) => {
+        const { [name]: _omit, ...rest } = prev;
+        return rest;
+      });
+    }
+
     if (keys.length > 1) {
       setFormData((prev) => ({
         ...prev,
@@ -74,8 +86,36 @@ function UsuarioForm({ usuarioSendoEditado, onFormSubmit, onCancelEdit }) {
     }
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    const isCreating = !usuarioSendoEditado;
+
+    if (!formData.login || !formData.login.trim()) {
+      newErrors.login = "Informe o login.";
+    }
+    if (!formData.email || !formData.email.trim()) {
+      newErrors.email = "Informe o e-mail.";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = "Informe um e-mail válido.";
+      }
+    }
+    if (isCreating) {
+      if (!formData.password || !formData.password.trim()) {
+        newErrors.password = "Informe a senha.";
+      } else if (formData.password.length < 6) {
+        newErrors.password = "A senha deve ter pelo menos 6 caracteres.";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
     const finalFormData = { ...formData };
     if (!isCorretor) {
       delete finalFormData.perfil_corretor_attributes;
@@ -96,9 +136,91 @@ function UsuarioForm({ usuarioSendoEditado, onFormSubmit, onCancelEdit }) {
       <h2>
         {usuarioSendoEditado ? "Editar Usuário" : "Adicionar Novo Usuário"}
       </h2>
-      <form onSubmit={handleSubmit}>
-        {/* ... (Seção de Dados do Usuário) ... */}
-        {/* O código para os campos de nome, email, etc., continua o mesmo */}
+      <form onSubmit={handleSubmit} noValidate>
+        <h3 className="form-section-title">Dados do Usuário</h3>
+        <div className="form-grid">
+          <label className="grid-col-span-2">
+            Nome:
+            <input
+              type="text"
+              name="nome"
+              value={formData.nome}
+              onChange={handleFormChange}
+            />
+          </label>
+
+          <label className="grid-col-span-2">
+            Email:
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleFormChange}
+              className={errors.email ? "input-error" : ""}
+            />
+            {errors.email && (
+              <span className="field-error">{errors.email}</span>
+            )}
+          </label>
+
+          <label className="grid-col-span-2">
+            Login:
+            <input
+              type="text"
+              name="login"
+              value={formData.login}
+              onChange={handleFormChange}
+              className={errors.login ? "input-error" : ""}
+            />
+            {errors.login && (
+              <span className="field-error">{errors.login}</span>
+            )}
+          </label>
+
+          <label className="grid-col-span-2">
+            Senha:
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleFormChange}
+              placeholder={usuarioSendoEditado ? "Deixe em branco para não alterar" : ""}
+              className={errors.password ? "input-error" : ""}
+            />
+            {errors.password && (
+              <span className="field-error">{errors.password}</span>
+            )}
+          </label>
+
+          <label className="grid-col-span-2">
+            CPF:
+            <input
+              ref={cpfInputRef}
+              type="text"
+              name="cpf"
+              value={formData.cpf}
+              onChange={handleFormChange}
+            />
+          </label>
+
+          <label className="grid-col-span-1">
+            Ativo:
+            <input
+              type="checkbox"
+              name="ativo"
+              checked={formData.ativo}
+              onChange={handleFormChange}
+            />
+          </label>
+
+          <label className="grid-col-span-1">
+            Papel (Role):
+            <select name="role" value={formData.role} onChange={handleFormChange}>
+              <option value="admin">admin</option>
+              <option value="corretor">corretor</option>
+            </select>
+          </label>
+        </div>
 
         {isCorretor && (
           <>

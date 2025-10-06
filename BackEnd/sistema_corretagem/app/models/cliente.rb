@@ -15,8 +15,8 @@ class Cliente < ApplicationRecord
   has_one :conjuge, dependent: :destroy
   has_many :propostas, dependent: :destroy
   
-  accepts_nested_attributes_for :endereco
-  accepts_nested_attributes_for :conjuge, reject_if: :all_blank
+  accepts_nested_attributes_for :endereco, allow_destroy: true
+  accepts_nested_attributes_for :conjuge, reject_if: :all_blank, allow_destroy: true
 
   # --- Validações ---
   validates :nome, presence: true

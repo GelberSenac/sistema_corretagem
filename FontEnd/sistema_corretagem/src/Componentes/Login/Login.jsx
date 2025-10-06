@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useAuth } from "../../Contextos/AuthContexto";
 import { loginUser } from "../../Servicos/Api";
 import "./Login.css";
@@ -19,6 +20,18 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    // Validação customizada em PT-BR para evitar mensagens nativas do navegador
+    if (!loginField || !loginField.trim()) {
+      setError("Informe o login.");
+      setLoading(false);
+      return;
+    }
+    if (!password || !password.trim()) {
+      setError("Informe a senha.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await loginUser(loginField, password);
@@ -50,7 +63,7 @@ function Login() {
   return (
     <div className="login-container">
       <h2>Acesso ao Sistema</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} noValidate>
         {/* --- MELHORIA 2: ACESSIBILIDADE com htmlFor --- */}
         {/* Adicionamos 'htmlFor' ao label e 'id' ao input para ligá-los. */}
         <label htmlFor="login-input">Login:</label>
@@ -59,35 +72,38 @@ function Login() {
           type="text"
           value={loginField}
           onChange={(e) => setLoginField(e.target.value)}
-          required
           placeholder="Digite seu login"
           disabled={loading}
         />
 
         <label htmlFor="password-input">Senha:</label>
-        <div className="password-input-container">
+        <div className="password-field-wrapper">
           <input
-            id="password-input" // 'id' correspondente
+            id="password-input"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
             placeholder="Digite sua senha"
             disabled={loading}
           />
-          <button
-            type="button"
+          <span
+            role="button"
+            tabIndex={0}
             onClick={() => setShowPassword(!showPassword)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                setShowPassword(!showPassword);
+              }
+            }}
             className="password-toggle"
-            aria-label={showPassword ? "Esconder senha" : "Mostrar senha"} // Bônus: 'aria-label' para acessibilidade
+            aria-label={showPassword ? "Esconder senha" : "Mostrar senha"}
           >
-            {showPassword ? "👁️" : "👁️‍🗨️"}
-          </button>
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </span>
         </div>
 
         {error && (
-          // A estilização inline foi mantida, mas idealmente estaria em Login.css
-          <p className="error-message" style={{ color: "red" }}>
+          <p className="error-message">
             {error}
           </p>
         )}

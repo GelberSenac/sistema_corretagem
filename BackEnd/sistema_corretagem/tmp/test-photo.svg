@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="120" viewBox="0 0 200 120">
+  <rect x="1" y="1" width="198" height="118" fill="#f5f7fa" stroke="#ccd3db"/>
+  <circle cx="60" cy="60" r="40" fill="#6cb2eb"/>
+  <rect x="100" y="35" width="80" height="50" fill="#51d88a" rx="6"/>
+  <text x="100" y="100" font-size="12" fill="#4a5568">Imagem de teste (SVG)</text>
+</svg>

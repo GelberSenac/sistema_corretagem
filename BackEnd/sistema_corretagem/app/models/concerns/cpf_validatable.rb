@@ -3,8 +3,8 @@ module CpfValidatable
   extend ActiveSupport::Concern
 
   included do
-    # A validação de formato é aplicada usando o validador customizado
-    validates :cpf, cpf: true, allow_blank: true
+    # Valida CPF somente quando presente e alterado
+    validates :cpf, cpf: true, allow_blank: true, if: -> { cpf.present? && will_save_change_to_cpf? }
 
     # Callback para limpar o CPF antes de validar
     before_validation :normalize_cpf

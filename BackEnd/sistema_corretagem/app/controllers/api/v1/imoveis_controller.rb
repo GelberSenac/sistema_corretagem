@@ -31,13 +31,25 @@ class Api::V1::ImoveisController < ApplicationController
 
   # POST /api/v1/imoveis
   def create
-    @imovel = current_user.imoveis.build(imovel_params)
+    # Logs de diagnóstico para Caça-Bugs: cabeçalhos e corpo bruto
+    Rails.logger.info("[ImoveisController#create] Content-Type=#{request.headers['Content-Type']} Accept=#{request.headers['Accept']}")
+    Rails.logger.info("[ImoveisController#create] Raw body=#{request.raw_post}")
+
+    begin
+      attrs = imovel_params
+    rescue ActionController::ParameterMissing => e
+      Rails.logger.error("[ImoveisController#create] ParameterMissing: #{e.param} | params=#{params.to_unsafe_h}")
+      return render json: { error: "Parâmetro obrigatório ausente ou inválido", param: e.param, params: params.to_unsafe_h }, status: :bad_request
+    end
+
+    @imovel = current_user.imoveis.build(attrs)
     # Pundit verifica a regra 'create?'.
     authorize @imovel
 
     if @imovel.save
       render json: @imovel, status: :created, serializer: ImovelSerializer
     else
+      Rails.logger.warn("[ImoveisController#create] Validation errors: #{@imovel.errors.full_messages}")
       render json: @imovel.errors, status: :unprocessable_entity
     end
   end

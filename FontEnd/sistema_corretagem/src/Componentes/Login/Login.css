@@ -40,10 +40,16 @@
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 16px;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, background-color 0.3s;
+  background-color: #fff; /* Fundo branco para melhor legibilidade */
+  color: #212529; /* Texto escuro para legibilidade em fundo branco */
+  caret-color: #212529; /* Cursor visível */
+}
 
-  background-color: #999; /* Exemplo de um cinza claro */
-  transition: background-color 0.3s;
+/* Placeholder com cor neutra e visível */
+.login-container input::placeholder {
+  color: #6c757d;
+  opacity: 1;
 }
 
 .login-container input:focus {
@@ -67,45 +73,52 @@
   background-color: #0056b3;
 }
 
-/* Container para o campo de senha e o botão de exibição */
-.password-input-container {
-  /* Use Flexbox para alinhar os itens horizontalmente */
-  display: flex;
-  align-items: center; /* Alinha os itens verticalmente no centro */
+/* Wrapper do campo de senha com botão interno */
+.password-field-wrapper {
+  position: relative;
   width: 100%;
-  margin-bottom: 20px; /* Adiciona o espaçamento abaixo do container */
+  margin-bottom: 20px;
 }
 
-/* O input dentro do container */
-.password-input-container input {
-  /* Faz o input ocupar todo o espaço disponível */
-  flex-grow: 1; 
-  /* Adiciona um pequeno espaço entre o input e o botão */
-  margin-right: 10px; 
-  /* Remove a margem de baixo para evitar espaçamento duplo */
-  margin-bottom: 0;
-
-  padding: 14px 12px; /* Ajusta o padding para acomodar o botão */
-
-  /* Use um flex-shrink de 0 para que o botão nunca diminua */
-  flex-shrink: 0;
-
+/* Evita sobreposição do botão com o texto */
+.password-field-wrapper input[type="password"],
+.password-field-wrapper input[type="text"] {
+  padding-right: 44px; /* espaço para o botão ao lado direito */
 }
 
-/* Estilo para o botão de exibir/ocultar senha */
+/* Botão de exibir/ocultar senha posicionado dentro do input (visual de ícone) */
 .password-toggle {
-
-  /* Defina um tamanho fixo para o botão */
-  width: 40px;
-  height: 40px;
-  display: flex;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  /* Remove todas as regras de posicionamento */
-  background: none;
+  width: 24px;
+  height: 24px;
   border: none;
+  background: transparent;
+  color: #6c757d; /* cinza neutro */
   cursor: pointer;
-  color: #007bff;
+  padding: 0;
+}
+
+/* Tamanho do ícone dentro do botão */
+.password-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+  color: #343a40; /* escurece no hover/focus */
+  outline: none;
+}
+
+/* Mensagem de erro padronizada */
+.error-message {
+  margin: -8px 0 12px 0;
+  color: #dc3545;
   font-size: 14px;
 }
