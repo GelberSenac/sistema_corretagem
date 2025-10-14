@@ -1,0 +1,52 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome_empreendimento: Edificio Alpha
+  tipo: apartamento
+  finalidade: venda
+  condicao: usado
+  descricao: Apartamento amplo
+  quartos: 3
+  suites: 1
+  banheiros: 2
+  vagas_garagem: 1
+  metragem: 80
+  ano_construcao: 2010
+  unidades_por_andar: 4
+  numero_torres: 2
+  andares: 20
+  elevadores: 2
+  varandas: 1
+  valor: 450000.00
+  valor_condominio: 600.00
+  valor_iptu: 1200.00
+  comodidades:
+    - piscina
+    - academia
+  status: disponivel
+  corretor: one
+
+two:
+  nome_empreendimento: Condominio Beta
+  tipo: casa
+  finalidade: aluguel
+  condicao: lancamento
+  descricao: Casa nova
+  quartos: 2
+  suites: 0
+  banheiros: 1
+  vagas_garagem: 1
+  metragem: 60
+  ano_construcao: 2025
+  unidades_por_andar: 1
+  numero_torres: 1
+  andares: 1
+  elevadores: 0
+  varandas: 0
+  valor: 2500.00
+  valor_condominio: 0.00
+  valor_iptu: 0.00
+  comodidades:
+    - portaria
+  status: disponivel
+  corretor: two

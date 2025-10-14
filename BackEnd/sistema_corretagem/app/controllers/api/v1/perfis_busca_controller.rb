@@ -57,10 +57,11 @@ class Api::V1::PerfisBuscaController < ApplicationController
 
   def perfil_busca_params
     params.require(:perfil_busca).permit(
-      :titulo_busca, :tipo_negocio, :condicao_imovel, :bairro_preferencia,
+      :titulo_busca, :finalidade, :condicao,
       :valor_maximo_imovel, :valor_entrada_disponivel, :renda_minima_exigida,
       :quartos_minimo, :suites_minimo, :banheiros_minimo, :vagas_minimo,
-      :metragem_minima, :exige_varanda
+      :metragem_minima, :exige_varanda,
+      bairro_preferencia: []
     )
   end
 end

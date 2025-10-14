@@ -1,142 +1,83 @@
-// Arquivo: _layout.tsx
-import React, { useState } from "react";
-import {
-  Alert,
-  FlatList,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-// Todos os nossos componentes customizados importados
-import BotaoCustomizado from "../../components/BotaoCustomizado/BotaoCustomizado";
-import CartaoPerfil from "../../components/CartaoPerfil/CartaoPerfil";
 import Header from "../../components/Header/Header";
-import { useAuth } from "../../context/AuthContext"; // 1. IMPORTE O useAuth
+import { ThemedView } from "../../components/themed-view";
+import { ThemedText } from "../../components/themed-text";
+import { useAuth } from "../../context/AuthContext";
+import { apiGet } from "../../services/api";
 
-// Dados de perfis para a lista
-const DADOS = [
-  {
-    id: "1",
-    nome: "Ana Clara",
-    profissao: "Engenheira de Software",
-    urlFoto: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg",
-  },
-  {
-    id: "2",
-    nome: "Carlos Souza",
-    profissao: "Designer UX/UI",
-    urlFoto: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg",
-  },
-  {
-    id: "3",
-    nome: "Mariana Costa",
-    profissao: "Gerente de Projetos",
-    urlFoto:
-      "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg",
-  },
-];
+interface DashboardStats {
+  clientes_count: number;
+  imoveis_count: number;
+  usuarios_count: number;
+  propostas_pendentes: number;
+  agendamentos_hoje: number;
+}
 
-export default function App() {
-  // --- Estados para a funcionalidade de mudar o nome ---
-  const { user } = useAuth(); // 2. PEGUE O USUÁRIO DO CONTEXTO
+export default function HomePage() {
+  const { user } = useAuth();
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [userName, setUserName] = useState(user?.name || "Gelber");
-  const [inputValue, setInputValue] = useState("");
-
-  // --- Função do botão para confirmar o nome ---
-  const handleConfirmName = () => {
-    if (inputValue.trim() !== "") {
-      setUserName(inputValue);
-      Alert.alert("Sucesso!", `O nome foi alterado para ${inputValue}.`);
-      setInputValue("");
-    } else {
-      Alert.alert("Atenção", "Por favor, digite um nome antes de confirmar.");
+  const loadDashboard = async () => {
+    try {
+      setLoading(true);
+      const data = await apiGet<DashboardStats>("/api/v1/dashboard_stats");
+      setStats(data);
+    } catch (e: any) {
+      // fallback: mantém tela simples se endpoint não existir
+      setStats(null);
+    } finally {
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    // Aguarda autenticação: só carrega stats quando já temos user !== undefined
+    if (user !== undefined) {
+      if (user) {
+        loadDashboard();
+      } else {
+        // Usuário não autenticado: mantém placeholders e evita chamada 401
+        setStats(null);
+      }
+    }
+  }, [user]);
   return (
-    <SafeAreaView style={styles.container}>
-      <Header userName={userName} />
+    <ThemedView style={styles.container}>
+      <SafeAreaView>
+        <Header userName={user?.nome || ""} userRole={user?.role} />
+        <ThemedText type="title" style={styles.title}>Dashboard</ThemedText>
 
-      <FlatList
-        data={DADOS}
-        // renderItem agora usa o CartaoPerfil
-        renderItem={({ item }) => (
-          <CartaoPerfil
-            nome={item.nome}
-            profissao={item.profissao}
-            urlFoto={item.urlFoto}
-          />
+        {loading && (
+          <View style={styles.centerRow}><ActivityIndicator /></View>
         )}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContainer}
-        // ListHeaderComponent está de volta, com o TextInput e o Botão
-        ListHeaderComponent={
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Alterar nome do usuário:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite o novo nome"
-              value={inputValue}
-              onChangeText={setInputValue}
-            />
-            <BotaoCustomizado
-              titulo="Confirmar Nome"
-              onPress={handleConfirmName}
-            />
-          </View>
-        }
-      />
 
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>© 2025 - App Incrível</Text>
-      </View>
-    </SafeAreaView>
+        {!loading && stats && (
+          <View style={styles.grid}>
+            <View style={styles.card}><ThemedText type="subtitle">Clientes</ThemedText><ThemedText type="title">{stats.clientes_count}</ThemedText></View>
+            <View style={styles.card}><ThemedText type="subtitle">Imóveis</ThemedText><ThemedText type="title">{stats.imoveis_count}</ThemedText></View>
+            <View style={styles.card}><ThemedText type="subtitle">Usuários</ThemedText><ThemedText type="title">{stats.usuarios_count}</ThemedText></View>
+            <View style={styles.card}><ThemedText type="subtitle">Propostas pendentes</ThemedText><ThemedText type="title">{stats.propostas_pendentes}</ThemedText></View>
+            <View style={styles.card}><ThemedText type="subtitle">Agendamentos hoje</ThemedText><ThemedText type="title">{stats.agendamentos_hoje}</ThemedText></View>
+          </View>
+        )}
+
+        {!loading && !stats && (
+          <View style={styles.centerRow}>
+            <ThemedText>Bem-vindo! Use as abas abaixo para navegar. Em breve, indicadores do sistema aqui.</ThemedText>
+          </View>
+        )}
+      </SafeAreaView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
-  },
-  listContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
-  // Estilos para o container do input e botão
-  inputContainer: {
-    marginBottom: 20,
-    padding: 15,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    elevation: 2,
-  },
-  inputLabel: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: "#333",
-    fontWeight: "500",
-  },
-  input: {
-    backgroundColor: "#f9f9f9",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderRadius: 8,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  footer: {
-    height: 50,
-    backgroundColor: "#333",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  footerText: {
-    color: "#fff",
-  },
+  container: { flex: 1 },
+  title: { margin: 16, fontWeight: "700" },
+  centerRow: { padding: 16, alignItems: "center" },
+  grid: { flexDirection: "row", flexWrap: "wrap", gap: 12, paddingHorizontal: 16 },
+  card: { padding: 12, borderRadius: 8, borderWidth: 1, borderColor: "#ddd", minWidth: 140 },
 });

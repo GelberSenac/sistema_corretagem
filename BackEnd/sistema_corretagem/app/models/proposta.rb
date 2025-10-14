@@ -5,18 +5,20 @@ class Proposta < ApplicationRecord
   belongs_to :cliente
   belongs_to :imovel
   belongs_to :corretora, optional: true
+  # Associação opcional ao perfil de busca (para referência do snapshot)
+  belongs_to :perfil_busca, optional: true
 
   # --- Enum ---
   # Seu enum já estava correto para usar inteiros.
   enum :status, {
-    em_analise: 0,
-    contraproposta: 1,
-    aceita: 2,
-    recusada: 3,
-    documentacao: 4,
-    concluida: 5,
-    cancelada: 6
-  }
+     em_analise: 0,
+     contraproposta: 1,
+     aceita: 2,
+     recusada: 3,
+     documentacao: 4,
+     concluida: 5,
+     cancelada: 6
+   }
 
   # --- FASE 2: Validações Essenciais ---
 
@@ -47,6 +49,7 @@ class Proposta < ApplicationRecord
   # Este callback será executado sempre que a proposta for salva,
   # mas apenas se o campo 'status' tiver sido alterado.
   after_save :sincronizar_status_imovel, if: :saved_change_to_status?
+  after_destroy :liberar_imovel_se_necessario
 
   # --- Adicione este scope para facilitar a busca por propostas ativas ---
   scope :ativas, -> { where(status: [:em_analise, :contraproposta, :documentacao]) }
@@ -73,4 +76,14 @@ class Proposta < ApplicationRecord
       imovel.update(status: :vendido) # Assumindo que a finalidade era venda
     end
   end  
+
+  # Ao excluir uma proposta, se o imóvel estiver reservado e não houver mais propostas ativas,
+  # liberamos o imóvel para disponível.
+  def liberar_imovel_se_necessario
+    return unless imovel.present?
+
+    if imovel.reservado? && imovel.propostas.ativas.none?
+      imovel.update(status: :disponivel)
+    end
+  end
 end

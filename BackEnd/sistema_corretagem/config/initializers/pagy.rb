@@ -1,12 +1,17 @@
-# config/initializers/pagy.rb
+# frozen_string_literal: true
 
-# Carrega a extensão 'headers', que é o que precisamos para a API.
-# O 'backend' é carregado automaticamente quando você usa 'include Pagy::Backend' no controller,
-# então não precisamos mais chamá-lo aqui.
 require 'pagy/extras/headers'
+require 'pagy/extras/overflow'
 
-# Define um número padrão de itens por página para todo o sistema.
-Pagy::DEFAULT[:items] = 15
+# Compatibilidade com Pagy v9+: usa :limit como número de itens por página.
+# Mantemos também :items como alias para compatibilidade com testes existentes.
+# Fonte: ENV['PAGY_ITEMS'] e cap de 30 por segurança/performance.
+DEFAULT_PAGE_SIZE = ENV.fetch('PAGY_ITEMS', 20).to_i
+MAX_PAGE_SIZE = 30
+
+Pagy::DEFAULT[:limit] = [[DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE].min, 1].max
+Pagy::DEFAULT[:items] = Pagy::DEFAULT[:limit]
+Pagy::DEFAULT[:overflow] = :empty_page
 
 # Boa prática de segurança para evitar modificações acidentais.
 Pagy::DEFAULT[:freeze] = true

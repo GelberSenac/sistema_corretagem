@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./Imoveis.css"; // Vamos usar o mesmo CSS de 'Imoveis.jsx'
+import { formatCurrencyBR } from "../../Shared/CurrencyInput";
 
 function ImovelList({
   imoveis,
@@ -38,16 +39,13 @@ function ImovelList({
 
   // Função para formatar valores monetários
   const formatarValor = (valor) => {
-    if (!valor) return "N/A";
-    return new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(valor);
+    if (valor === null || valor === undefined) return "N/A";
+    return formatCurrencyBR(valor);
   };
 
   return (
     <div className="lista-container">
-      <h2>Lista de Imóveis ({pagyInfo?.totalCount || 0} encontrados)</h2>
+      <h2>Lista de Imóveis ({pagyInfo?.totalCount ?? imoveis.length} encontrados)</h2>
 
       <PaginationControls />
 
@@ -64,14 +62,15 @@ function ImovelList({
             }`}
           >
             {/* Adicionando a primeira foto do imóvel como imagem de capa do card */}
-            {imovel.photos_urls && imovel.photos_urls.length > 0 && (
-              <img
-                src={imovel.photos_urls[0]}
-                alt={imovel.nome_empreendimento}
-                className="card-imagem-capa"
-              />
-            )}
-
+            {/* Substituído por carrossel de fotos do imóvel */}
+            <CardCarousel
+              images={
+                (imovel.photos_thumb_urls && imovel.photos_thumb_urls.length > 0
+                  ? imovel.photos_thumb_urls
+                  : imovel.photos_urls) || []
+              }
+              alt={imovel.nome_empreendimento}
+            />
             <Link to={`/imoveis/${imovel.id}`} className="card-link">
               <strong>{imovel.nome_empreendimento}</strong>
               <p className="card-bairro">
@@ -107,3 +106,41 @@ function ImovelList({
 }
 
 export default ImovelList;
+
+// Pequeno carrossel para exibir múltiplas fotos no card
+function CardCarousel({ images = [], autoPlay = true, interval = 3000, alt = "" }) {
+  const [index, setIndex] = React.useState(0);
+  const validImages = Array.isArray(images) ? images.filter(Boolean) : [];
+
+  React.useEffect(() => {
+    if (!autoPlay || validImages.length <= 1) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % validImages.length), interval);
+    return () => clearInterval(id);
+  }, [autoPlay, interval, validImages.length]);
+
+  if (validImages.length === 0) return null;
+
+  const prev = () => setIndex((i) => (i - 1 + validImages.length) % validImages.length);
+  const next = () => setIndex((i) => (i + 1) % validImages.length);
+
+  return (
+    <div className="card-carousel">
+      <img src={validImages[index]} alt={alt} className="card-carousel-image" />
+      {validImages.length > 1 && (
+        <>
+          <button className="carousel-arrow left" onClick={prev} aria-label="Anterior">‹</button>
+          <button className="carousel-arrow right" onClick={next} aria-label="Próxima">›</button>
+          <div className="carousel-dots">
+            {validImages.map((_, i) => (
+              <span
+                key={i}
+                className={`carousel-dot ${index === i ? "active" : ""}`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}

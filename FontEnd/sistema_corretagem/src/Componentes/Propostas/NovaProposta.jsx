@@ -3,6 +3,7 @@ import * as api from "../../Servicos/Api";
 import { Toaster, toast } from "react-hot-toast";
 import "./NovaProposta.css"; // Crie um arquivo CSS para estilizar
 import { useAuth } from "../../Contextos/AuthContexto";
+import { formatCurrencyBR } from "../Shared/CurrencyInput";
 
 function NovaProposta() {
   // Estados para popular os selects
@@ -33,9 +34,42 @@ function NovaProposta() {
   // Dados detalhados do cliente selecionado e corretor logado
   const [clienteDetalhes, setClienteDetalhes] = useState(null);
   const { user: corretor } = useAuth();
+  // Novo: detalhes completos do corretor (inclui perfil_corretor)
+  const [corretorDetalhes, setCorretorDetalhes] = useState(null);
 
   // Controle: indicar se já houve uma busca para exibir contagem de resultados
   const [buscaRealizada, setBuscaRealizada] = useState(false);
+
+  // Novo: metadados de paginação retornados pelo backend (Pagy)
+  const [pagyInfoBusca, setPagyInfoBusca] = useState(null);
+  const parsePagyHeaders = (headers) => {
+    if (!headers || !headers["total-count"]) return null;
+    return {
+      currentPage: parseInt(headers["current-page"], 10),
+      items: parseInt(headers["items"], 10),
+      totalPages: parseInt(headers["total-pages"], 10),
+      totalCount: parseInt(headers["total-count"], 10),
+    };
+  };
+
+  // Helper: normaliza bairros do perfil para texto separado por vírgula
+  const getPerfilBairrosTexto = (perfil) => {
+    if (!perfil) return "-";
+    const lista = Array.isArray(perfil.bairros)
+      ? perfil.bairros
+      : Array.isArray(perfil.bairro_preferencia)
+      ? perfil.bairro_preferencia
+      : typeof perfil.bairro_preferencia === "string"
+      ? perfil.bairro_preferencia
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    if (lista.length > 0) return lista.join(", ");
+    return typeof perfil.bairro_preferencia === "string" && perfil.bairro_preferencia.trim() !== ""
+      ? perfil.bairro_preferencia
+      : "-";
+  };
 
   // Derivado: há filtros rápidos informados?
   const hasFiltrosRapidos =
@@ -50,15 +84,17 @@ function NovaProposta() {
 
   // Busca os clientes do corretor quando a tela carrega
   useEffect(() => {
-    const fetchClientes = async () => {
+    const controller = new AbortController();
+    (async () => {
       try {
-        const response = await api.getClientes();
+        const response = await api.getClientes({}, { signal: controller.signal });
         setClientes(response.data);
       } catch (error) {
+        if (error?.name === "CanceledError" || error?.code === "ERR_CANCELED") return;
         toast.error("Erro ao buscar clientes.");
       }
-    };
-    fetchClientes();
+    })();
+    return () => controller.abort();
   }, []);
 
   // Busca os perfis sempre que um cliente for selecionado
@@ -67,17 +103,21 @@ function NovaProposta() {
       setPerfis([]);
       setPerfilSelecionadoId("");
       setBuscaRealizada(false);
+      setPagyInfoBusca(null); // reset da paginação da busca
+      setImoveisCompativeis([]);
       return;
     }
-    const fetchPerfis = async () => {
+    const controller = new AbortController();
+    (async () => {
       try {
-        const response = await api.getPerfisBusca(clienteSelecionadoId);
+        const response = await api.getPerfisBusca(clienteSelecionadoId, { signal: controller.signal });
         setPerfis(response.data);
       } catch (error) {
+        if (error?.name === "CanceledError" || error?.code === "ERR_CANCELED") return;
         toast.error("Erro ao buscar perfis do cliente.");
       }
-    };
-    fetchPerfis();
+    })();
+    return () => controller.abort();
   }, [clienteSelecionadoId]);
 
   // Busca detalhes do cliente (inclui cônjuge e renda familiar total) quando selecionado
@@ -86,16 +126,38 @@ function NovaProposta() {
       setClienteDetalhes(null);
       return;
     }
-    const fetchClienteDetalhes = async () => {
+    const controller = new AbortController();
+    (async () => {
       try {
-        const response = await api.getClienteById(clienteSelecionadoId);
+        const response = await api.getClienteById(clienteSelecionadoId, { signal: controller.signal });
         setClienteDetalhes(response.data);
       } catch (error) {
+        if (error?.name === "CanceledError" || error?.code === "ERR_CANCELED") return;
         toast.error("Erro ao buscar detalhes do cliente.");
       }
-    };
-    fetchClienteDetalhes();
+    })();
+    return () => controller.abort();
   }, [clienteSelecionadoId]);
+
+  // Buscar detalhes completos do corretor para garantir CRECI/Estado
+  useEffect(() => {
+    if (!corretor?.id) return;
+    // Se já veio com perfil_corretor no contexto, usar diretamente
+    if (corretor.perfil_corretor) {
+      setCorretorDetalhes(corretor);
+      return;
+    }
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const response = await api.getUsuarioById(corretor.id, { signal: controller.signal });
+        setCorretorDetalhes(response.data);
+      } catch (error) {
+        if (error?.name === "CanceledError" || error?.code === "ERR_CANCELED") return;
+      }
+    })();
+    return () => controller.abort();
+  }, [corretor]);
 
   const handleBuscarImoveis = async () => {
     setLoading(true);
@@ -103,10 +165,12 @@ function NovaProposta() {
     setImovelSelecionado(null); // Limpa a seleção anterior
     try {
       if (perfilSelecionadoId) {
-        const response = await api.buscarImoveisCompativeis(perfilSelecionadoId);
+        const response = await api.buscarImoveisCompativeis(perfilSelecionadoId, { page: 1 });
         setImoveisCompativeis(response.data);
+        const info = parsePagyHeaders(response.headers);
+        setPagyInfoBusca(info);
         setBuscaRealizada(true);
-        toast.success(`${response.data.length} imóveis compatíveis encontrados!`);
+        toast.success(`${info?.totalCount ?? response.data.length} imóveis compatíveis encontrados!`);
       } else {
         // Busca por filtros rápidos, sem salvar perfil
         if (!clienteSelecionadoId) {
@@ -150,11 +214,27 @@ function NovaProposta() {
           results = response.data;
         }
         setImoveisCompativeis(results);
+        setPagyInfoBusca(null); // sem paginação quando via filtros rápidos
         setBuscaRealizada(true);
         toast.success(`${results.length} imóveis encontrados pelos filtros!`);
       }
     } catch (error) {
       toast.error("Erro ao buscar imóveis.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Novo: controle de paginação da busca por perfil selecionado
+  const handlePageChangeBusca = async (newPage) => {
+    if (!perfilSelecionadoId) return;
+    setLoading(true);
+    try {
+      const response = await api.buscarImoveisCompativeis(perfilSelecionadoId, { page: newPage });
+      setImoveisCompativeis(response.data);
+      setPagyInfoBusca(parsePagyHeaders(response.headers));
+    } catch (error) {
+      toast.error("Erro ao paginar imóveis.");
     } finally {
       setLoading(false);
     }
@@ -168,6 +248,7 @@ function NovaProposta() {
       ...formData,
       cliente_id: clienteSelecionadoId,
       imovel_id: imovelSelecionado.id,
+      ...(perfilSelecionadoId ? { perfil_busca_id: perfilSelecionadoId } : {}),
     };
 
     setLoading(true);
@@ -249,7 +330,7 @@ function NovaProposta() {
             {perfilSelecionadoId && perfilAtual ? (
               <div className="info-card">
                 <p><strong>Perfil:</strong> {perfilAtual.titulo_busca}</p>
-                <p><strong>Bairro preferencial:</strong> {perfilAtual.bairro_preferencia || "-"}</p>
+                <p><strong>Bairros:</strong> {getPerfilBairrosTexto(perfilAtual)}</p>
                 <p><strong>Tipo de negócio:</strong> {perfilAtual.tipo_negocio || "-"}</p>
                 <p><strong>Condição:</strong> {perfilAtual.condicao_imovel || "-"}</p>
                 <p><strong>Valor máximo:</strong> {perfilAtual.valor_maximo_imovel ? formatCurrencyBR(perfilAtual.valor_maximo_imovel) : "-"}</p>
@@ -420,10 +501,10 @@ function NovaProposta() {
                   <strong>Nome:</strong> {corretor.nome}
                 </p>
                 <p>
-                  <strong>CRECI:</strong> {corretor.perfil_corretor?.creci || "Não informado"}
+                  <strong>CRECI:</strong> {(corretorDetalhes?.perfil_corretor?.creci ?? corretor.perfil_corretor?.creci) || "Não informado"}
                 </p>
                 <p>
-                  <strong>Estado:</strong> {corretor.perfil_corretor?.creci_estado || "Não informado"}
+                  <strong>Estado:</strong> {(corretorDetalhes?.perfil_corretor?.creci_estado ?? corretor.perfil_corretor?.creci_estado) || "Não informado"}
                 </p>
               </div>
             )}
@@ -434,6 +515,27 @@ function NovaProposta() {
       {imoveisCompativeis.length > 0 && (
         <div className="proposta-section">
           <h3>2. Selecione um Imóvel da Lista</h3>
+
+          {pagyInfoBusca && pagyInfoBusca.totalPages > 1 && (
+            <div className="pagination-controls" style={{ marginBottom: 8 }}>
+              <button
+                onClick={() => handlePageChangeBusca(pagyInfoBusca.currentPage - 1)}
+                disabled={pagyInfoBusca.currentPage === 1 || loading}
+              >
+                &larr; Anterior
+              </button>
+              <span style={{ margin: "0 8px" }}>
+                Página {pagyInfoBusca.currentPage} de {pagyInfoBusca.totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChangeBusca(pagyInfoBusca.currentPage + 1)}
+                disabled={pagyInfoBusca.currentPage === pagyInfoBusca.totalPages || loading}
+              >
+                Próxima &rarr;
+              </button>
+            </div>
+          )}
+
           <ul className="lista-grid">
             {imoveisCompativeis.map((imovel) => (
               <li
@@ -445,7 +547,7 @@ function NovaProposta() {
               >
                 {/* Reutilize a lógica de card da ImovelList aqui */}
                 <strong>{imovel.nome_empreendimento}</strong>
-                <p>Valor: R$ {Number(imovel.valor).toLocaleString("pt-BR")}</p>
+                <p>Valor: {formatCurrencyBR(imovel.valor)}</p>
               </li>
             ))}
           </ul>

@@ -3,6 +3,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./Contextos/AuthContexto";
+import LogsPage from "./Componentes/Debug/Logs";
 
 // Importação das páginas e componentes de layout
 import Dashboard from "./Componentes/Dashboard/Dashboard";
@@ -14,6 +15,8 @@ import PerfisBuscaPage from "./Componentes/Gerenciamentos/PerfisBusca/PerfisBusc
 import Imoveis from "./Componentes/Gerenciamentos/Imoveis/Imoveis"; // LINHA ADICIONADA
 import ImovelDetalhesPage from "./Componentes/Gerenciamentos/Imoveis/ImovelDetalhesPage";
 import NovaProposta from "./Componentes/Propostas/NovaProposta"; // Adicione também, se faltar
+import PropostasList from "./Componentes/Propostas/PropostasList";
+import PropostaDetalhesPage from "./Componentes/Propostas/PropostaDetalhesPage";
 import Agenda from "./Componentes/Agenda/Agenda"; // Importa o novo componente
 import Financeiro from "./Componentes/Financeiro/Financeiro";
 import Relatorios from "./Componentes/Relatorios/Relatorios";
@@ -87,10 +90,13 @@ function App() {
                   />
                   <Route path="/imoveis" element={<Imoveis />} />
                   <Route path="/imoveis/:id" element={<ImovelDetalhesPage />} />
+                  <Route path="/propostas" element={<PropostasList />} />
                   <Route path="/propostas/nova" element={<NovaProposta />} />
+                  <Route path="/propostas/:id" element={<PropostaDetalhesPage />} />
                   <Route path="/agenda" element={<Agenda />} /> {/* Adiciona a nova rota */}
                   <Route path="/financeiro" element={<Financeiro />} />
                   <Route path="/relatorios" element={<Relatorios />} />
++                 <Route path="/debug/logs" element={<LogsPage />} />
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
               </MainLayout>

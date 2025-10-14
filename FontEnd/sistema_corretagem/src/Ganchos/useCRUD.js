@@ -6,9 +6,10 @@ import * as api from "../Servicos/Api";
 const parsePagyHeaders = (headers) => {
   // Se não houver headers ou o header principal não existir, retorna nulo
   if (!headers || !headers["total-count"]) return null;
+  const itemsHeader = headers["page-items"] ?? headers["per-page"] ?? headers["items"];
   return {
     currentPage: parseInt(headers["current-page"], 10),
-    items: parseInt(headers["items"], 10),
+    items: itemsHeader != null ? parseInt(itemsHeader, 10) : undefined,
     totalPages: parseInt(headers["total-pages"], 10),
     totalCount: parseInt(headers["total-count"], 10),
   };
@@ -20,6 +21,8 @@ export const useCRUD = (resourceName, parentId = null) => {
   const [data, setData] = useState([]); // Armazena os dados da página atual
   const [loading, setLoading] = useState(true); // Controla o estado de carregamento
   const [error, setError] = useState(null); // Armazena qualquer erro da API
+  // Novo: summary para respostas que entregam agregados (ex.: saldo no Financeiro)
+  const [summary, setSummary] = useState(null);
 
   // Novos estados para gerir paginação e filtros
   const [pagyInfo, setPagyInfo] = useState(null); // Armazena os metadados da paginação
@@ -51,6 +54,18 @@ export const useCRUD = (resourceName, parentId = null) => {
       update: api.updatePerfilBusca,
       remove: api.deletePerfilBusca,
     },
+    agendamentos: {
+      getAll: api.getAgendamentos,
+      create: api.createAgendamento,
+      update: api.updateAgendamento,
+      remove: api.deleteAgendamento,
+    },
+    lancamento_financeiros: {
+      getAll: api.getLancamentoFinanceiros,
+      create: api.createLancamentoFinanceiro,
+      update: api.updateLancamentoFinanceiro,
+      remove: api.deleteLancamentoFinanceiro,
+    },
   };
 
   // Seleciona as funções corretas com base no 'resourceName'
@@ -64,13 +79,29 @@ export const useCRUD = (resourceName, parentId = null) => {
       try {
         setLoading(true);
         setError(null);
+        setSummary(null);
 
         // A função 'getAll' agora sempre envia os 'queryParams' para a API
         const response = isNested
           ? await getAll(parentId, queryParams)
           : await getAll(queryParams);
 
-        setData(response.data);
+        // Suporta 2 formatos: Array puro (ex.: agendamentos) OU Objeto { items, saldo }
+        const payload = response.data;
+        let items = [];
+        let extra = null;
+        if (Array.isArray(payload)) {
+          items = payload;
+        } else if (payload && typeof payload === "object") {
+          items = payload.items ?? [];
+          // Captura agregados, como saldo para Financeiro
+          if (payload.saldo) {
+            extra = { saldo: payload.saldo };
+          }
+        }
+
+        setData(items);
+        setSummary(extra);
         setPagyInfo(parsePagyHeaders(response.headers)); // Salva os dados de paginação dos headers
       } catch (e) {
         setError(e);
@@ -86,10 +117,11 @@ export const useCRUD = (resourceName, parentId = null) => {
   }, [fetchData]); // A dependência 'fetchData' já inclui 'queryParams' e 'parentId'
 
   // --- FUNÇÕES DE AÇÃO (CRUD) ---
-
   const handleCreate = async (newData) => {
-    isNested ? await create(parentId, newData) : await create(newData);
+    const response = isNested ? await create(parentId, newData) : await create(newData);
     fetchData(); // Re-busca os dados para atualizar a lista e a paginação
+    // Retorna o recurso criado para permitir redirecionamentos imediatos
+    return response?.data ?? response;
   };
 
   const handleUpdate = async (id, updatedData) => {
@@ -107,7 +139,6 @@ export const useCRUD = (resourceName, parentId = null) => {
   };
 
   // --- FUNÇÕES DE CONTROLE (Expostas para o componente) ---
-
   // Função para mudar a página atual
   const setPage = (pageNumber) => {
     setQueryParams((prevParams) => ({ ...prevParams, page: pageNumber }));
@@ -119,18 +150,16 @@ export const useCRUD = (resourceName, parentId = null) => {
     setQueryParams((prevParams) => ({ ...filters, page: 1 }));
   };
 
-  // --- VALORES RETORNADOS PELO HOOK ---
   return {
     data,
     loading,
     error,
     pagyInfo,
-    queryParams,
     setPage,
     setFilters,
+    summary, // Novo: agregados (ex.: saldo)
     handleCreate,
     handleUpdate,
     handleDelete,
-    refetch: fetchData, // Expõe a função de busca para atualizações manuais se necessário
   };
 };

@@ -11,7 +11,7 @@ class Cliente < ApplicationRecord
   # --- Associações ---
   belongs_to :corretor, class_name: 'Usuario', foreign_key: 'usuario_id'
   has_one :endereco, as: :enderecoable, dependent: :destroy
-  has_many :perfis_busca, dependent: :destroy
+  has_many :perfis_busca, class_name: 'PerfilBusca', dependent: :destroy
   has_one :conjuge, dependent: :destroy
   has_many :propostas, dependent: :destroy
   

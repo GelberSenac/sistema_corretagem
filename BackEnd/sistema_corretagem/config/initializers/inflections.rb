@@ -19,7 +19,14 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.plural 'proposta', 'propostas'
   inflect.singular 'propostas', 'proposta'
 
-  # Adicione estas duas novas linhas para 'imovel'
   inflect.plural 'imovel', 'imoveis'
-  inflect.singular 'imoveis', 'imovel'  
+  inflect.singular 'imoveis', 'imovel'
+
+  # Corrige pluralização para evitar 'posicaos' e usar 'posicoes'
+  inflect.plural 'posicao', 'posicoes'
+  inflect.singular 'posicoes', 'posicao'
+
+  # Corrige singularização do join model para manter 'imoveis_caracteristica' (em vez de 'imovel_caracteristica')
+  # Isso alinha a associação has_many :imoveis_caracteristicas com a classe ImoveisCaracteristica
+  inflect.irregular 'imoveis_caracteristica', 'imoveis_caracteristicas'
 end

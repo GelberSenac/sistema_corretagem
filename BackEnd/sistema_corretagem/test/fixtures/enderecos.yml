@@ -1,19 +1,21 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  logradouro: MyString
-  numero: MyString
-  complemento: MyString
-  bairro: MyString
-  cidade: MyString
-  estado: MyString
-  cep: MyString
+  logradouro: Rua Exemplo
+  numero: '123'
+  complemento: Apto 1
+  bairro: Centro
+  cidade: Recife
+  estado: PE
+  cep: '50000000'
+  enderecoable: one (Usuario)
 
 two:
-  logradouro: MyString
-  numero: MyString
-  complemento: MyString
-  bairro: MyString
-  cidade: MyString
-  estado: MyString
-  cep: MyString
+  logradouro: Avenida Exemplo
+  numero: '1000'
+  complemento: Sala 2
+  bairro: Centro
+  cidade: São Paulo
+  estado: SP
+  cep: '01001000'
+  enderecoable: two (Usuario)

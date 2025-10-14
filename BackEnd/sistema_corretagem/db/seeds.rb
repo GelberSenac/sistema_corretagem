@@ -1,26 +1,26 @@
 # db/seeds.rb
 
-puts "Limpando o banco de dados..."
-# Esta linha apaga TODOS os registros da tabela Usuarios antes de continuar.
-Usuario.destroy_all
-# Você pode adicionar .destroy_all para outros modelos se quiser uma limpeza completa.
-# Cliente.destroy_all
-# Imovel.destroy_all
-# Corretora.destroy_all
-# ...etc
+# Seeds idempotentes: NÃO apagamos dados em massa.
+# Em vez disso, garantimos a existência/atualização do Admin Master.
+puts "Preparando seeds idempotentes..."
 
-puts "Criando o usuário Administrador Master..."
+admin_email = ENV.fetch('ADMIN_EMAIL', 'admin@sistema.com')
+admin_login = ENV.fetch('ADMIN_LOGIN', 'admin')
+admin_password = ENV.fetch('ADMIN_PASSWORD', 'password123')
 
-Usuario.create!(
+# Busca robusta por usuário existente (por login OU email) para evitar duplicidade.
+admin_usuario = Usuario.find_by(login: admin_login) || Usuario.find_by(email: admin_email) || Usuario.new
+
+# Atribuições sempre atualizadas (mantêm dados coerentes ao longo do tempo)
+admin_usuario.assign_attributes(
   nome: "Admin Master",
-  email: "admin@sistema.com",
-  login: "admin",
-  password: "password123",
-  password_confirmation: "password123",
+  email: admin_email,
+  login: admin_login,
+  password: admin_password,
+  password_confirmation: admin_password,
   cpf: "529.982.247-25",
   ativo: true,
   role: :admin,
-  # Criando o endereço aninhado diretamente com o usuário
   endereco_attributes: {
     logradouro: "Rua Principal do Sistema",
     numero: "123",
@@ -32,8 +32,13 @@ Usuario.create!(
   }
 )
 
-puts "Usuário Administrador e seu endereço foram criados com sucesso!"
+admin_usuario.save!
+
+puts "Usuário Administrador garantido/atualizado com sucesso!"
 puts "----------------------------------------"
-puts "Login: admin"
-puts "Senha: password123"
+puts "Login: #{admin_login}"
+puts "Senha: (definida via variável de ambiente)"
 puts "----------------------------------------"
+
+# Catálogo de características permanece fora dos seeds conforme orientação.
+# Nenhuma característica padrão será criada pelo seeds.

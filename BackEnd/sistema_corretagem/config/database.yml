@@ -58,7 +58,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: sistema_corretagem
+  database: sistema_corretagem_test
   host: localhost
   username: postgres
   password: 123456

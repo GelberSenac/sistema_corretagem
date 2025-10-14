@@ -5,15 +5,15 @@ class PerfilBusca < ApplicationRecord
 
   # --- FASE 3: Enums para Consistência com o Imóvel ---
   # Esta linha "ensina" o Rails a tratar a coluna de texto como um Array
-  serialize :bairro_preferencia, Array
+  serialize :bairro_preferencia, coder: YAML
 
   # Usamos os mesmos nomes e valores do enum do modelo 'Imovel' para facilitar a comparação.
   # Note que o nome do campo na sua tabela é 'tipo_negocio', mas no enum o chamamos
   # de 'finalidade' para manter a consistência com o modelo Imovel. O Rails mapeia isso sem problemas.
-  enum :finalidade, { venda: 0, aluguel: 1 }, _prefix: :finalidade
+  enum :finalidade, { venda: 0, aluguel: 1 }, prefix: :finalidade
   
-  # A mesma lógica se aplica aqui para a condição do imóvel.
-  enum :condicao, { lancamento: 0, em_obras: 1, usado: 2 }, _prefix: :condicao
+   # A mesma lógica se aplica aqui para a condição do imóvel.
+   enum :condicao, { lancamento: 0, em_obras: 1, usado: 2 }, prefix: :condicao
 
   # --- Validações Completas ---
   validates :titulo_busca, presence: true

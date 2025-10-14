@@ -18,6 +18,10 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  // Novos mapeamentos para menus e indicador de papel
+  'person.2.fill': 'group',
+  'person.fill': 'person',
+  'shield.fill': 'shield',
 } as IconMapping;
 
 /**

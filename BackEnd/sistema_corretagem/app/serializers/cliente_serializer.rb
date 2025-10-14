@@ -8,8 +8,17 @@ class ClienteSerializer < ActiveModel::Serializer
   has_one :endereco
   has_one :conjuge
 
-  # Atributo customizado que chama o método do nosso modelo
+  # Serialização segura para valores monetários como string
+  def renda
+    v = object.renda
+    return nil if v.nil?
+    v.is_a?(BigDecimal) ? v.to_s('F') : v.to_s
+  end
+
+  # Atributo customizado que chama o método do nosso modelo, padronizado como string
   def renda_familiar_total
-    object.renda_familiar_total
+    v = object.renda_familiar_total
+    return nil if v.nil?
+    v.is_a?(BigDecimal) ? v.to_s('F') : v.to_s
   end
 end

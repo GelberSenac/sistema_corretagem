@@ -37,6 +37,9 @@ function UsuarioList({
     );
   };
 
+  // Perfis com privilégios elevados (admin_like): admin e gerente
+  const isAdminLike = currentUser?.role === "admin" || currentUser?.role === "gerente";
+
   return (
     <div>
       <h2>Lista de Usuários</h2>
@@ -54,25 +57,24 @@ function UsuarioList({
               <p>Papel: {usuario.role}</p>
             </Link>
 
-            {currentUser?.role === "admin" &&
-              currentUser?.id !== usuario.id && (
-                <div className="card-actions">
+            {isAdminLike && currentUser?.id !== usuario.id && (
+              <div className="card-actions">
+                <button
+                  onClick={() => onEdit(usuario)}
+                  title="Editar na lista"
+                >
+                  <FaEdit />
+                </button>
+                {usuario.ativo && (
                   <button
-                    onClick={() => onEdit(usuario)}
-                    title="Editar na lista"
+                    onClick={() => onDelete(usuario.id)}
+                    title="Inativar Usuário"
                   >
-                    <FaEdit />
+                    <FaUserSlash />
                   </button>
-                  {usuario.ativo && (
-                    <button
-                      onClick={() => onDelete(usuario.id)}
-                      title="Inativar Usuário"
-                    >
-                      <FaUserSlash />
-                    </button>
-                  )}
-                </div>
-              )}
+                )}
+              </div>
+            )}
           </li>
         ))}
       </ul>

@@ -1,6 +1,7 @@
 // src/componentes/Gerenciamentos/PerfisBusca/PerfilBuscaForm.jsx
 
 import React, { useState, useEffect } from "react";
+import CurrencyInput from "../../Shared/CurrencyInput";
 
 // Estado inicial espelhando a estrutura completa da sua tabela
 const initialState = {
@@ -16,48 +17,80 @@ const initialState = {
   exige_varanda: false,
 };
 
-function PerfilBuscaForm({ perfilSendoEditado, onFormSubmit, onCancelEdit }) {
+function PerfilBuscaForm({ perfilSendoEditado, onFormSubmit, onCancelEdit, embedded = false, onFormDataChange }) {
   const [formData, setFormData] = useState(initialState);
 
   useEffect(() => {
     if (perfilSendoEditado) {
       // Garante que o estado do formulário seja preenchido corretamente
-      setFormData({
+      const nextState = {
         ...initialState,
         ...perfilSendoEditado,
         // Se 'bairros' for uma string, converte para array para o input
         bairros: Array.isArray(perfilSendoEditado.bairros)
           ? perfilSendoEditado.bairros
-          : (perfilSendoEditado.bairro_preferencia || "")
+          : Array.isArray(perfilSendoEditado.bairro_preferencia)
+          ? perfilSendoEditado.bairro_preferencia
+          : typeof perfilSendoEditado.bairro_preferencia === "string"
+          ? perfilSendoEditado.bairro_preferencia
               .split(",")
-              .map((b) => b.trim()),
-      });
+              .map((b) => b.trim())
+              .filter(Boolean)
+          : [],
+      };
+      const normalizedNextState = {
+        ...nextState,
+        finalidade:
+          typeof nextState.finalidade === "string" && nextState.finalidade
+            ? nextState.finalidade
+            : initialState.finalidade,
+        condicao:
+          typeof nextState.condicao === "string"
+            ? nextState.condicao
+            : "",
+      };
+      setFormData(normalizedNextState);
+      if (embedded && typeof onFormDataChange === "function") {
+        onFormDataChange(normalizedNextState);
+      }
     } else {
       setFormData(initialState);
+      if (embedded && typeof onFormDataChange === "function") {
+        onFormDataChange(initialState);
+      }
     }
-  }, [perfilSendoEditado]);
+  }, [perfilSendoEditado, embedded]);
 
   const handleFormChange = (e) => {
     const { name, value, type, checked } = e.target;
 
+    let nextState;
     if (name === "bairros") {
       // Transforma a string de bairros separados por vírgula em um array
-      setFormData((prev) => ({
-        ...prev,
+      nextState = {
+        ...formData,
         [name]: value.split(",").map((b) => b.trim()),
-      }));
+      };
     } else {
-      setFormData((prev) => ({
-        ...prev,
+      nextState = {
+        ...formData,
         [name]: type === "checkbox" ? checked : value,
-      }));
+      };
+    }
+    setFormData(nextState);
+    if (embedded && typeof onFormDataChange === "function") {
+      onFormDataChange(nextState);
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (embedded) return; // No modo embutido, não submitamos aqui
     onFormSubmit(formData, perfilSendoEditado?.id);
   };
+
+  // Usa uma tag dinâmica para evitar <form> dentro de <form> em modo embutido
+  const FormTag = embedded ? "div" : "form";
 
   return (
     <div className="formulario-container" style={{ marginBottom: "30px" }}>
@@ -66,8 +99,8 @@ function PerfilBuscaForm({ perfilSendoEditado, onFormSubmit, onCancelEdit }) {
           ? "Editar Perfil de Busca"
           : "Adicionar Novo Perfil"}
       </h2>
-      <form
-        onSubmit={handleSubmit}
+      <FormTag
+        onSubmit={!embedded ? handleSubmit : undefined}
         className="form-grid"
         style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
       >
@@ -111,11 +144,17 @@ function PerfilBuscaForm({ perfilSendoEditado, onFormSubmit, onCancelEdit }) {
 
         <label>
           Valor Máximo (R$):
-          <input
-            type="number"
+          <CurrencyInput
+            id="valor_maximo_imovel"
             name="valor_maximo_imovel"
             value={formData.valor_maximo_imovel}
-            onChange={handleFormChange}
+            onChange={(num) => {
+              const nextState = { ...formData, valor_maximo_imovel: num };
+              setFormData(nextState);
+              if (embedded && typeof onFormDataChange === "function") {
+                onFormDataChange(nextState);
+              }
+            }}
           />
         </label>
 
@@ -169,21 +208,24 @@ function PerfilBuscaForm({ perfilSendoEditado, onFormSubmit, onCancelEdit }) {
           <label htmlFor="exige_varanda_checkbox"> Exige Varanda?</label>
         </div>
 
-        <div className="form-actions grid-col-span-3">
-          <button type="submit">
-            {perfilSendoEditado ? "Salvar Alterações" : "Salvar Perfil"}
-          </button>
-          {perfilSendoEditado && (
-            <button
-              type="button"
-              onClick={onCancelEdit}
-              className="cancel-button"
-            >
-              Cancelar
+        {/* Botões próprios só aparecem quando não está embutido */}
+        {!embedded && (
+          <div className="form-actions grid-col-span-3">
+            <button type="submit">
+              {perfilSendoEditado ? "Salvar Alterações" : "Salvar Perfil"}
             </button>
-          )}
-        </div>
-      </form>
+            {perfilSendoEditado && (
+              <button
+                type="button"
+                onClick={onCancelEdit}
+                className="cancel-button"
+              >
+                Cancelar
+              </button>
+            )}
+          </div>
+        )}
+      </FormTag>
     </div>
   );
 }

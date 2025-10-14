@@ -2,13 +2,16 @@
 import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 
-// O componente recebe 'userName' via props
-export default function Header({ userName }) {
+// O componente recebe 'userName' e 'userRole' via props
+export default function Header({ userName, userRole }) {
   const { signOut } = useAuth();
 
   const handleLogout = () => {
     signOut();
   };
+
+  // Define o rótulo do papel para a saudação
+  const roleLabel = userRole === "admin" ? "administrador" : userRole === "corretor" ? "corretor" : "usuário";
 
   return (
     <View style={styles.header}>
@@ -19,7 +22,7 @@ export default function Header({ userName }) {
           }}
           style={styles.foto}
         />
-        <Text style={styles.texto}>Olá {userName}!</Text>
+        <Text style={styles.texto}>Olá {roleLabel} {userName}</Text>
       </View>
       
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>

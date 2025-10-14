@@ -27,18 +27,20 @@ function UsuarioDetalhesPage() {
 
   // A sua lógica de 'useEffect' e 'handlePasswordReset' já está perfeita.
   useEffect(() => {
-    const fetchUsuario = async () => {
+    const controller = new AbortController();
+    (async () => {
       try {
-        const response = await getUsuarioById(id);
+        const response = await getUsuarioById(id, { signal: controller.signal });
         setUsuario(response.data);
       } catch (error) {
+        if (error?.name === "CanceledError" || error?.code === "ERR_CANCELED") return;
         console.error("Erro ao buscar dados do usuário:", error);
         toast.error("Não foi possível carregar os dados do usuário.");
       } finally {
         setLoading(false);
       }
-    };
-    fetchUsuario();
+    })();
+    return () => controller.abort();
   }, [id]);
 
   const handlePasswordReset = async () => {
@@ -127,9 +129,9 @@ function UsuarioDetalhesPage() {
 
       {/* --- MELHORIA DE SEGURANÇA E UI --- */}
       {/* Seção de ações só é visível para administradores */}
-      {currentUser?.role === "admin" && (
+      {((currentUser?.role === "admin") || (currentUser?.role === "gerente")) && (
         <div className="acoes-card">
-          <h3>Ações do Administrador</h3>
+          <h3>Ações administrativas</h3>
           <button onClick={() => setIsPasswordModalOpen(true)}>
             Alterar Senha
           </button>

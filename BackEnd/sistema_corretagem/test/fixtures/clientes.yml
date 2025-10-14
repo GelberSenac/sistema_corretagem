@@ -3,15 +3,31 @@
 one:
   nome: MyString
   rg: MyString
-  cpf: MyString
-  sexo: MyString
-  email: MyString
-  telefone: MyString
+  cpf: '00000000003'
+  sexo: M
+  email: cliente.um@example.com
+  telefone: '81999990000'
+  corretor: one
+  data_nascimento: 1990-01-01
+  estado_civil: casado
+  profissao: Engenheiro
+  renda: 10000.00
+  nacionalidade: Brasileiro
+  data_casamento: 2015-05-20
+  regime_bens: comunhao_parcial
 
 two:
   nome: MyString
   rg: MyString
-  cpf: MyString
-  sexo: MyString
-  email: MyString
-  telefone: MyString
+  cpf: '00000000004'
+  sexo: F
+  email: cliente.dois@example.com
+  telefone: '11988880000'
+  corretor: two
+  data_nascimento: 1992-02-02
+  estado_civil: solteiro
+  profissao: Designer
+  renda: 8000.00
+  nacionalidade: Brasileiro
+  data_casamento: 
+  regime_bens: separacao_total

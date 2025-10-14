@@ -1,6 +1,7 @@
 class Endereco < ApplicationRecord
   # --- Callback ---
   before_validation :normalize_cep
+  before_validation :normalize_estado
 
   # --- Associações ---
   belongs_to :enderecoable, polymorphic: true 
@@ -24,10 +25,18 @@ class Endereco < ApplicationRecord
   # Validação do CEP alterada
   validates :cep, presence: true, length: { is: 8 }, numericality: { only_integer: true } 
   
+  def estado=(value)
+    super(value.nil? ? nil : value.to_s.strip.upcase)
+  end
+
   private
 
   # --- Método Privado para Limpar o CEP ---
   def normalize_cep
     self.cep = cep.gsub(/\D/, '') if cep
+  end
+
+  def normalize_estado
+    self.estado = estado.to_s.strip.upcase if estado.present?
   end
 end

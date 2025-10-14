@@ -21,6 +21,16 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  # Definir processor de variantes de imagem (default: vips)
+  config.active_storage.variant_processor = ENV.fetch("IMAGE_VARIANT_PROCESSOR", "vips").to_sym
+
+  # Expiração de URLs do Active Storage (assinadas/temporárias)
+  if ENV["ACTIVE_STORAGE_URLS_EXPIRE_IN_MIN"].present?
+    config.active_storage.urls_expire_in = ENV["ACTIVE_STORAGE_URLS_EXPIRE_IN_MIN"].to_i.minutes
+  else
+    config.active_storage.urls_expire_in = 10.minutes
+  end
+
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true
 

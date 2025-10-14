@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nome: MyString
-  tipo_caracteristica: MyString
+  nome: Quarto
+  tipo_caracteristica: privativa
+  categoria: comodos
 
 two:
-  nome: MyString
-  tipo_caracteristica: MyString
+  nome: Piscina
+  tipo_caracteristica: comum
+  categoria: infraestrutura

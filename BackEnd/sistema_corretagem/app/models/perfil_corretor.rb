@@ -1,6 +1,9 @@
 class PerfilCorretor < ApplicationRecord
   belongs_to :usuario
   
+  # --- Callbacks ---
+  before_validation :normalize_creci_estado
+
   # Delega os métodos :nome e :email para a associação :usuario.
   delegate :nome, :email, to: :usuario, prefix: false
     
@@ -15,4 +18,14 @@ class PerfilCorretor < ApplicationRecord
   # --- Validações ---
   validates :creci, presence: true, uniqueness: true
   validates :creci_estado, presence: true 
+
+  def creci_estado=(value)
+    super(value.nil? ? nil : value.to_s.strip.upcase)
+  end
+
+  private
+
+  def normalize_creci_estado
+    self.creci_estado = creci_estado.to_s.strip.upcase if creci_estado.present?
+  end
 end

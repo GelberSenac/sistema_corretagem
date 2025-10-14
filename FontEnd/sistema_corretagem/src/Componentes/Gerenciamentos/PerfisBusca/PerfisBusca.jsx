@@ -5,6 +5,7 @@ import { useCRUD } from "../../../Ganchos/useCRUD";
 import { Toaster, toast } from "react-hot-toast";
 import PerfilBuscaForm from "./PerfilBuscaForm";
 import PerfilBuscaList from "./PerfilBuscaList";
+import ConfirmModal from "../../Shared/ConfirmModal";
 
 function PerfisBusca({ clienteId }) {
   // 1. Pegamos 'pagyInfo' e 'setPage' do nosso hook
@@ -20,6 +21,8 @@ function PerfisBusca({ clienteId }) {
   } = useCRUD("perfisBusca", clienteId);
 
   const [perfilSendoEditado, setPerfilSendoEditado] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const handleFormSubmit = async (formData, id) => {
     try {
@@ -37,17 +40,9 @@ function PerfisBusca({ clienteId }) {
     }
   };
 
-  const handleDeleteClick = async (id) => {
-    if (
-      window.confirm("Tem certeza que deseja excluir este perfil de busca?")
-    ) {
-      try {
-        await handleDelete(id);
-        toast.success("Perfil de busca excluído!");
-      } catch (err) {
-        toast.error("Ocorreu um erro ao excluir o perfil.");
-      }
-    }
+  const handleDeleteClick = (id) => {
+    setDeleteTargetId(id);
+    setIsDeleteModalOpen(true);
   };
 
   if (error) return <p>Erro ao carregar perfis.</p>;
@@ -55,6 +50,31 @@ function PerfisBusca({ clienteId }) {
   return (
     <div className="perfis-busca-container" style={{ marginTop: "20px" }}>
       <Toaster position="top-right" />
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        title="Excluir perfil de busca?"
+        message="Esta ação não pode ser desfeita. Deseja realmente excluir?"
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        onConfirm={async () => {
+          setIsDeleteModalOpen(false);
+          if (deleteTargetId) {
+            try {
+              await handleDelete(deleteTargetId);
+              toast.success("Perfil de busca excluído!");
+            } catch (err) {
+              toast.error("Ocorreu um erro ao excluir o perfil.");
+              console.error(err);
+            } finally {
+              setDeleteTargetId(null);
+            }
+          }
+        }}
+        onCancel={() => {
+          setIsDeleteModalOpen(false);
+          setDeleteTargetId(null);
+        }}
+      />
       <h3>Perfis de Busca do Cliente</h3>
       <PerfilBuscaForm
         perfilSendoEditado={perfilSendoEditado}

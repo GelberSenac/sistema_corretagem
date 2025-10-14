@@ -42,9 +42,30 @@
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Novo grid de 4 colunas */
+  grid-template-columns: repeat(4, 1fr); /* 4 colunas: CPF, Login, Senha, Papel na primeira linha */
   gap: 20px;
 }
+
+/* Padronização de tamanho dos campos de formulário (inputs/select/textarea) */
+.formulario-container input[type="text"],
+.formulario-container input[type="email"],
+.formulario-container input[type="password"],
+.formulario-container select,
+.formulario-container textarea {
+  width: 100%;
+  padding: 12px; /* altura consistente */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Classes de span para controle de largura nas grades */
+.grid-col-span-1 { grid-column: span 1; }
+.grid-col-span-2 { grid-column: span 2; }
+.grid-col-span-3 { grid-column: span 3; }
+.grid-col-span-4 { grid-column: span 4; }
 
 /* Media queries para responsividade do formulário */
 @media (max-width: 992px) {
@@ -205,4 +226,48 @@
 }
 .modal-actions .cancel-button:hover {
   background-color: #5a6268;
+}
+
+
+/* Wrapper do campo de senha com botão interno (padronizado com Login.css) */
+.password-field-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Evita sobreposição do botão com o texto */
+.password-field-wrapper input[type="password"],
+.password-field-wrapper input[type="text"] {
+  padding-right: 44px; /* espaço para o botão ao lado direito */
+}
+
+/* Botão de exibir/ocultar senha posicionado dentro do input (visual de ícone) */
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: #6c757d; /* cinza neutro */
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Tamanho do ícone dentro do botão */
+.password-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+  color: #343a40; /* escurece no hover/focus */
+  outline: none;
 }

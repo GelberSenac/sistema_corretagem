@@ -10,15 +10,13 @@ import "yet-another-react-lightbox/styles.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { formatCurrencyBR } from "../../Shared/CurrencyInput";
 import "./Imoveis.css"; // Reutilize e adicione estilos aqui
 
 // 2. Função auxiliar para formatar valores em Reais (BRL)
 const formatarMoeda = (valor) => {
   if (valor === null || valor === undefined) return "N/A";
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(valor);
+  return formatCurrencyBR(valor);
 };
 
 function ImovelDetalhesPage() {

@@ -7,6 +7,9 @@ Rails.application.routes.draw do
       
       # --- Rotas de Autenticação e Dashboard ---
       post '/login', to: 'sessoes#create'
+      post '/auth/refresh', to: 'sessoes#refresh'
+      post '/logout', to: 'sessoes#logout'
+      post '/logout_all', to: 'sessoes#logout_all'
       get '/dashboard_stats', to: 'dashboard#index'
 
       # --- Rotas Principais (CRUDs) ---
@@ -32,12 +35,15 @@ Rails.application.routes.draw do
       resources :agendamentos
       resources :lancamento_financeiros
 
+      # Endpoint de auditoria
+      resources :audit_trails, only: [:index]
+
       # --- Rotas de Relatórios ---
       get '/relatorios/propostas_por_status', to: 'relatorios#propostas_por_status'
 
 
       # Esta seção já estava perfeita.
-      resources :propostas, only: [:create, :show, :index] do
+      resources :propostas, only: [:create, :show, :index, :update, :destroy] do
         member do
           patch :aceitar
           patch :recusar

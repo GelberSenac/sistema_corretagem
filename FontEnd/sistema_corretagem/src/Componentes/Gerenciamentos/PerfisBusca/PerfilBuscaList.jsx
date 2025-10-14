@@ -1,5 +1,6 @@
 import React from "react";
 import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
+import { formatCurrencyBR } from "../../Shared/CurrencyInput";
 
 // 1. Recebemos as novas props: 'loading', 'pagyInfo', e 'onPageChange'
 function PerfilBuscaList({
@@ -45,7 +46,7 @@ function PerfilBuscaList({
 
   return (
     <div>
-      <h3>Perfis de Busca Salvos ({pagyInfo?.totalCount || perfis.length})</h3>
+      <h3>Perfis de Busca Salvos ({pagyInfo?.totalCount ?? perfis.length})</h3>
 
       <PaginationControls />
 
@@ -59,11 +60,10 @@ function PerfilBuscaList({
               {/* Reutilizando a classe para padding e estrutura */}
               <strong>{perfil.titulo_busca}</strong>
               <p>
-                Busca por: {perfil.finalidade || perfil.tipo_negocio} até R${" "}
-                {Number(perfil.valor_maximo_imovel).toLocaleString("pt-BR")}
+                Busca por: {perfil.finalidade || perfil.tipo_negocio} até {formatCurrencyBR(perfil.valor_maximo_imovel)}
               </p>
               <p style={{ marginTop: "10px" }}>
-                {perfil.quartos_minimo || 0}+ Quartos |{" "}
+                {perfil.quartos_minimo || 0}+ Quartos | {" "}
                 {perfil.suites_minimo || 0}+ Suítes | {perfil.vagas_minimo || 0}
                 + Vagas
               </p>

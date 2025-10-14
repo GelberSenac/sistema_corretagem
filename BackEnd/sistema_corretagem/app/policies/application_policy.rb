@@ -8,6 +8,12 @@ class ApplicationPolicy
     @record = record
   end
 
+  # Helper para papéis com poderes de administração.
+  # Considera tanto 'admin' quanto 'gerente' como perfis com privilégios ampliados.
+  def admin_like?
+    user&.admin? || user&.gerente?
+  end
+
   def index?
     false
   end
@@ -40,6 +46,11 @@ class ApplicationPolicy
     def initialize(user, scope)
       @user = user
       @scope = scope
+    end
+
+    # Helper disponível dentro das Scopes para verificar perfis admin_like
+    def admin_like?
+      user&.admin? || user&.gerente?
     end
 
     def resolve

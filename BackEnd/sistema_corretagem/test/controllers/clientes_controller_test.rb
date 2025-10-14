@@ -3,8 +3,8 @@ require "test_helper"
 class ClientesControllerTest < ActionDispatch::IntegrationTest
   setup do
     # Cria um usuário admin para autenticar
-    @admin = Usuario.create!(nome: "Admin", email: "admin@example.com", login: "admin_test", senha: "password123", cpf: "00000000000", ativo: true, role: :admin)
-    @cliente = Cliente.create!(nome: "Cliente Teste", email: "cliente@example.com", telefone: "81988887777", usuario: @admin)
+    @admin = Usuario.create!(nome: "Admin", email: "admin@example.com", login: "admin_test", password: "password123", ativo: true, role: :admin)
+    @cliente = Cliente.create!(nome: "Cliente Teste", email: "cliente_controller_test@example.com", telefone: "81988887777", corretor: @admin, data_nascimento: Date.new(1990,1,1), estado_civil: :solteiro, profissao: "Analista", renda: 5000)
 
     # Faz login na API para obter JWT
     post "/api/v1/login", params: { usuario: { login: @admin.login, password: "password123" } }, as: :json

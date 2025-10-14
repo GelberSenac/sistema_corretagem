@@ -5,12 +5,9 @@ class Api::V1::ClientesController < ApplicationController
 
   # GET /api/v1/clientes
   def index
-    # Pundit usa a 'Scope' da nossa policy para filtrar a coleção automaticamente.
-    # Esta linha substitui todo o 'if/else' de autorização que existia antes.
     @clientes = policy_scope(Cliente)
 
-    # A lógica de paginação e includes que já fizemos continua igual.
-    @pagy, @clientes = pagy(@clientes.includes(:endereco, :conjuge))
+    @pagy, @clientes = pagy(@clientes.includes(:endereco, :conjuge), limit: per_page_limit)
     pagy_headers_merge(@pagy)
     
     render json: @clientes, each_serializer: ClienteSerializer

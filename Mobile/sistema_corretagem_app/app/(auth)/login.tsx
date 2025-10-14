@@ -1,65 +1,90 @@
 import React, { useState } from "react";
-import { Alert, Button, StyleSheet, Text, TextInput, View } from "react-native";
-import { useAuth } from "../../context/AuthContext"; // Importa nosso hook de autenticação
+import { TextInput, Button, Alert, ActivityIndicator } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "@/hooks/use-color-scheme";
+import { useThemeColor } from "@/hooks/use-theme-color";
+import { ThemedView } from "@/components/themed-view";
+import { ThemedText } from "@/components/themed-text";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { signIn } = useAuth();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    // Lógica de validação simples
-    if (email === "teste@teste.com" && password === "123") {
-      signIn(); // Chama a função de login do nosso contexto
-    } else {
-      Alert.alert("Erro", "Email ou senha inválidos.");
+  const theme = useColorScheme() ?? "light";
+  const textColor = useThemeColor({}, "text");
+  const borderColor = theme === "light" ? "#ccc" : "#3A3F44";
+  const inputBg = theme === "light" ? "#ffffff" : "#1E2126";
+  const placeholder = theme === "light" ? "#6b7280" : "#9BA1A6";
+
+  const handleSubmit = async () => {
+    if (!login || !password) {
+      Alert.alert("Erro", "Informe login e senha.");
+      return;
+    }
+    setLoading(true);
+    try {
+      await signIn(login, password);
+    } catch (e: any) {
+      Alert.alert("Falha ao entrar", e?.message || "Verifique suas credenciais");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bem-vindo!</Text>
+    <ThemedView style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
+
+      <ThemedText type="title" style={{ marginBottom: 16 }}>Entrar</ThemedText>
+
       <TextInput
-        style={styles.input}
-        placeholder="Email (use: teste@teste.com)"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
+        placeholder="Login"
+        value={login}
+        onChangeText={setLogin}
         autoCapitalize="none"
+        placeholderTextColor={placeholder}
+        style={{
+          width: "100%",
+          borderWidth: 1,
+          borderColor,
+          padding: 8,
+          marginBottom: 12,
+          backgroundColor: inputBg,
+          color: textColor,
+          borderRadius: 8,
+        }}
       />
+
       <TextInput
-        style={styles.input}
-        placeholder="Senha (use: 123)"
+        placeholder="Senha"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        placeholderTextColor={placeholder}
+        style={{
+          width: "100%",
+          borderWidth: 1,
+          borderColor,
+          padding: 8,
+          marginBottom: 12,
+          backgroundColor: inputBg,
+          color: textColor,
+          borderRadius: 8,
+        }}
       />
-      <Button title="Entrar" onPress={handleLogin} />
-    </View>
+
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button title="Entrar" onPress={handleSubmit} />
+      )}
+
+      <ThemedText style={{ marginTop: 16, fontSize: 12 }}>
+        Autenticação via JWT. Credenciais reais do sistema são necessárias.
+      </ThemedText>
+    </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#f0f0f0",
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-  input: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderRadius: 8,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: "#ddd",
-    marginBottom: 15,
-  },
-});

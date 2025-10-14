@@ -1,17 +1,19 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  nome: MyString
-  email: MyString
-  login: MyString
-  senha: MyString
-  cpf: MyString
-  ativo: false
+  nome: Usuario Um
+  email: usuario.um@example.com
+  login: usuario_um
+  password_digest: <%= BCrypt::Password.create('secret123').to_s %>
+  cpf: '00000000001'
+  ativo: true
+  role: 0
 
 two:
-  nome: MyString
-  email: MyString
-  login: MyString
-  senha: MyString
-  cpf: MyString
-  ativo: false
+  nome: Usuario Dois
+  email: usuario.dois@example.com
+  login: usuario_dois
+  password_digest: <%= BCrypt::Password.create('secret123').to_s %>
+  cpf: '00000000002'
+  ativo: true
+  role: 0

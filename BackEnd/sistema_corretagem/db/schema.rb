@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_12_121000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,11 +59,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
     t.index ["usuario_id"], name: "index_agendamentos_on_usuario_id"
   end
 
+  create_table "audit_trails", force: :cascade do |t|
+    t.bigint "usuario_id"
+    t.string "action", null: false
+    t.string "severity", default: "info", null: false
+    t.string "entity_type"
+    t.bigint "entity_id"
+    t.string "correlation_id"
+    t.string "ip"
+    t.string "user_agent"
+    t.jsonb "old_value"
+    t.jsonb "new_value"
+    t.jsonb "details"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action"], name: "index_audit_trails_on_action"
+    t.index ["correlation_id"], name: "index_audit_trails_on_correlation_id"
+    t.index ["created_at"], name: "index_audit_trails_on_created_at"
+    t.index ["entity_type", "entity_id"], name: "index_audit_trails_on_entity_type_and_entity_id"
+    t.index ["severity"], name: "index_audit_trails_on_severity"
+    t.index ["usuario_id"], name: "index_audit_trails_on_usuario_id"
+  end
+
   create_table "caracteristicas", force: :cascade do |t|
     t.string "nome"
     t.integer "tipo_caracteristica", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "categoria"
+    t.index ["categoria"], name: "index_caracteristicas_on_categoria"
   end
 
   create_table "clientes", force: :cascade do |t|
@@ -84,6 +108,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
     t.string "regime_bens"
     t.integer "estado_civil"
     t.index ["usuario_id"], name: "index_clientes_on_usuario_id"
+  end
+
+  create_table "comodos", force: :cascade do |t|
+    t.bigint "imovel_id", null: false
+    t.boolean "area_de_servico", default: false, null: false
+    t.boolean "cozinha", default: false, null: false
+    t.boolean "sala_de_estar", default: false, null: false
+    t.boolean "sala_de_jantar", default: false, null: false
+    t.boolean "suite", default: false, null: false
+    t.boolean "varanda", default: false, null: false
+    t.boolean "wc_social", default: false, null: false
+    t.boolean "wc_de_servico", default: false, null: false
+    t.boolean "despensa", default: false, null: false
+    t.boolean "quarto_de_servico", default: false, null: false
+    t.boolean "sala_de_visita", default: false, null: false
+    t.boolean "banheiro_social", default: false, null: false
+    t.boolean "lavabo", default: false, null: false
+    t.boolean "escritorio", default: false, null: false
+    t.boolean "home_office", default: false, null: false
+    t.boolean "closet", default: false, null: false
+    t.boolean "hall", default: false, null: false
+    t.boolean "sala_de_tv", default: false, null: false
+    t.boolean "terraco", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imovel_id"], name: "index_comodos_on_imovel_id", unique: true
   end
 
   create_table "conjuges", force: :cascade do |t|
@@ -140,7 +190,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
     t.integer "suites"
     t.integer "banheiros"
     t.integer "vagas_garagem"
-    t.integer "metragem"
+    t.decimal "metragem", precision: 8, scale: 2
     t.integer "ano_construcao"
     t.integer "unidades_por_andar"
     t.integer "numero_torres"
@@ -166,7 +216,47 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["caracteristica_id"], name: "index_imoveis_caracteristicas_on_caracteristica_id"
+    t.index ["imovel_id", "caracteristica_id"], name: "idx_ic_imovel_caracteristica", unique: true
     t.index ["imovel_id"], name: "index_imoveis_caracteristicas_on_imovel_id"
+  end
+
+  create_table "infraestruturas", force: :cascade do |t|
+    t.bigint "imovel_id", null: false
+    t.boolean "garagem", default: false, null: false
+    t.boolean "lavanderia", default: false, null: false
+    t.boolean "jardim_interno", default: false, null: false
+    t.boolean "jardim_externo", default: false, null: false
+    t.boolean "piscina", default: false, null: false
+    t.boolean "playground", default: false, null: false
+    t.boolean "portaria_24h", default: false, null: false
+    t.boolean "salao_de_festas", default: false, null: false
+    t.boolean "sistema_de_seguranca", default: false, null: false
+    t.boolean "churrasqueira", default: false, null: false
+    t.boolean "elevador", default: false, null: false
+    t.boolean "sauna", default: false, null: false
+    t.boolean "quadra_poliesportiva", default: false, null: false
+    t.boolean "academia", default: false, null: false
+    t.boolean "campo_de_futebol", default: false, null: false
+    t.boolean "bicicletario", default: false, null: false
+    t.boolean "area_de_lazer", default: false, null: false
+    t.boolean "central_de_gas", default: false, null: false
+    t.boolean "portao_eletronico", default: false, null: false
+    t.boolean "gerador", default: false, null: false
+    t.boolean "interfone", default: false, null: false
+    t.boolean "guarita", default: false, null: false
+    t.boolean "monitoramento", default: false, null: false
+    t.boolean "cftv", default: false, null: false
+    t.boolean "brinquedoteca", default: false, null: false
+    t.boolean "salao_de_jogos", default: false, null: false
+    t.boolean "spa", default: false, null: false
+    t.boolean "coworking", default: false, null: false
+    t.boolean "pet_place", default: false, null: false
+    t.boolean "car_wash", default: false, null: false
+    t.boolean "mini_mercado", default: false, null: false
+    t.boolean "estacionamento_visitantes", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imovel_id"], name: "index_infraestruturas_on_imovel_id", unique: true
   end
 
   create_table "lancamento_financeiros", force: :cascade do |t|
@@ -211,6 +301,39 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
     t.index ["usuario_id"], name: "index_perfil_corretors_on_usuario_id"
   end
 
+  create_table "pisos", force: :cascade do |t|
+    t.bigint "imovel_id", null: false
+    t.boolean "porcelanato", default: false, null: false
+    t.boolean "ceramica", default: false, null: false
+    t.boolean "granito", default: false, null: false
+    t.boolean "laminado", default: false, null: false
+    t.boolean "madeira", default: false, null: false
+    t.boolean "vinilico", default: false, null: false
+    t.boolean "carpete", default: false, null: false
+    t.boolean "ardosia", default: false, null: false
+    t.boolean "marmore", default: false, null: false
+    t.boolean "taco", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imovel_id"], name: "index_pisos_on_imovel_id", unique: true
+  end
+
+  create_table "posicoes", force: :cascade do |t|
+    t.bigint "imovel_id", null: false
+    t.boolean "nascente", default: false, null: false
+    t.boolean "vista_para_o_mar", default: false, null: false
+    t.boolean "beira_mar", default: false, null: false
+    t.boolean "poente", default: false, null: false
+    t.boolean "frente_para_o_mar", default: false, null: false
+    t.boolean "norte", default: false, null: false
+    t.boolean "sul", default: false, null: false
+    t.boolean "leste", default: false, null: false
+    t.boolean "oeste", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imovel_id"], name: "index_posicoes_on_imovel_id", unique: true
+  end
+
   create_table "propostas", force: :cascade do |t|
     t.decimal "valor_proposta", precision: 12, scale: 2
     t.jsonb "condicoes_pagamento"
@@ -222,10 +345,62 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
     t.datetime "updated_at", null: false
     t.bigint "corretora_id"
     t.date "data_proposta"
+    t.bigint "perfil_busca_id"
+    t.jsonb "perfil_busca_snapshot", default: {}, null: false
     t.index ["cliente_id"], name: "index_propostas_on_cliente_id"
     t.index ["corretora_id"], name: "index_propostas_on_corretora_id"
     t.index ["imovel_id"], name: "index_propostas_on_imovel_id"
+    t.index ["perfil_busca_id"], name: "index_propostas_on_perfil_busca_id"
     t.index ["usuario_id"], name: "index_propostas_on_usuario_id"
+  end
+
+  create_table "proximidades", force: :cascade do |t|
+    t.bigint "imovel_id", null: false
+    t.boolean "bares_e_restaurantes", default: false, null: false
+    t.boolean "escola", default: false, null: false
+    t.boolean "faculdade", default: false, null: false
+    t.boolean "farmacia", default: false, null: false
+    t.boolean "hospital", default: false, null: false
+    t.boolean "padaria", default: false, null: false
+    t.boolean "pet_shop", default: false, null: false
+    t.boolean "shopping_center", default: false, null: false
+    t.boolean "supermercado", default: false, null: false
+    t.boolean "banco", default: false, null: false
+    t.boolean "shopping", default: false, null: false
+    t.boolean "praia", default: false, null: false
+    t.boolean "parque", default: false, null: false
+    t.boolean "metro", default: false, null: false
+    t.boolean "estacao_de_metro", default: false, null: false
+    t.boolean "estacao", default: false, null: false
+    t.boolean "ponto_de_onibus", default: false, null: false
+    t.boolean "terminal", default: false, null: false
+    t.boolean "igreja", default: false, null: false
+    t.boolean "feira", default: false, null: false
+    t.boolean "mercado", default: false, null: false
+    t.boolean "posto_de_gasolina", default: false, null: false
+    t.boolean "delegacia", default: false, null: false
+    t.boolean "correios", default: false, null: false
+    t.boolean "loterica", default: false, null: false
+    t.boolean "universidade", default: false, null: false
+    t.boolean "creche", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imovel_id"], name: "index_proximidades_on_imovel_id", unique: true
+  end
+
+  create_table "refresh_tokens", force: :cascade do |t|
+    t.bigint "usuario_id", null: false
+    t.string "token_hash", null: false
+    t.string "device_fingerprint", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "revoked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_fingerprint"], name: "index_refresh_tokens_on_device_fingerprint"
+    t.index ["expires_at"], name: "index_refresh_tokens_on_expires_at"
+    t.index ["token_hash"], name: "index_refresh_tokens_on_token_hash", unique: true
+    t.index ["usuario_id", "device_fingerprint"], name: "index_refresh_tokens_on_usuario_id_and_device_fingerprint"
+    t.index ["usuario_id"], name: "index_refresh_tokens_on_usuario_id"
   end
 
   create_table "usuarios", force: :cascade do |t|
@@ -254,19 +429,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_120000) do
   add_foreign_key "agendamentos", "clientes"
   add_foreign_key "agendamentos", "imoveis"
   add_foreign_key "agendamentos", "usuarios"
+  add_foreign_key "audit_trails", "usuarios"
   add_foreign_key "clientes", "usuarios"
+  add_foreign_key "comodos", "imoveis"
   add_foreign_key "conjuges", "clientes"
   add_foreign_key "imoveis", "usuarios"
   add_foreign_key "imoveis_caracteristicas", "caracteristicas"
   add_foreign_key "imoveis_caracteristicas", "imoveis"
+  add_foreign_key "infraestruturas", "imoveis"
   add_foreign_key "lancamento_financeiros", "propostas"
   add_foreign_key "lancamento_financeiros", "usuarios"
   add_foreign_key "perfil_buscas", "clientes"
   add_foreign_key "perfil_corretors", "usuarios"
+  add_foreign_key "pisos", "imoveis"
+  add_foreign_key "posicoes", "imoveis"
   add_foreign_key "propostas", "clientes"
   add_foreign_key "propostas", "corretoras"
   add_foreign_key "propostas", "imoveis"
+  add_foreign_key "propostas", "perfil_buscas"
   add_foreign_key "propostas", "usuarios"
+  add_foreign_key "proximidades", "imoveis"
+  add_foreign_key "refresh_tokens", "usuarios"
   add_foreign_key "vinculos", "corretoras"
   add_foreign_key "vinculos", "usuarios"
 end

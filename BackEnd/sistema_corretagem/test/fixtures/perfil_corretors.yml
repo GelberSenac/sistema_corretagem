@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  creci: MyString
-  creci_estado: MyString
+  creci: 12345
+  creci_estado: PE
   usuario: one
 
 two:
-  creci: MyString
-  creci_estado: MyString
+  creci: 67890
+  creci_estado: SP
   usuario: two

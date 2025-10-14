@@ -11,8 +11,8 @@ class Api::V1::UsuariosController < ApplicationController
     # Pundit usa a 'Scope' da UsuarioPolicy para garantir que apenas admins acessem a lista.
     @usuarios = policy_scope(Usuario)
     
-    # A lógica de paginação que já tínhamos, agora aplicada ao escopo do Pundit.
-    @pagy, @usuarios = pagy(@usuarios.order(nome: :asc))
+    # Paginação via concern: usa per_page_limit para definir o limite por página.
+    @pagy, @usuarios = pagy(@usuarios.order(nome: :asc), limit: per_page_limit)
     pagy_headers_merge(@pagy)
     
     render json: @usuarios, each_serializer: UsuarioSerializer
@@ -29,8 +29,6 @@ class Api::V1::UsuariosController < ApplicationController
   # POST /api/v1/usuarios
   def create
     @usuario = Usuario.new(usuario_params)
-    
-    # Pundit verifica a regra 'create?'. Permite acesso público ou de admin.
     authorize @usuario
 
     # A lógica de negócio para definir o 'role' continua aqui, pois é uma regra de
@@ -42,33 +40,96 @@ class Api::V1::UsuariosController < ApplicationController
     end
 
     if @usuario.save
+      AuditTrail.log(
+        user: current_user,
+        action: 'usuario_create',
+        severity: 'info',
+        correlation_id: request.request_id,
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        entity: @usuario,
+        new_value: @usuario.attributes
+      )
       render json: @usuario, status: :created, serializer: UsuarioSerializer
     else
+      AuditTrail.log(
+        user: current_user,
+        action: 'usuario_create_failed',
+        severity: 'warning',
+        correlation_id: request.request_id,
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        details: { errors: @usuario.errors.full_messages }
+      )
       render json: @usuario.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /api/v1/usuarios/:id
   def update
-    # Pundit verifica a regra 'update?' na policy.
     authorize @usuario
-    
-    if @usuario.update(usuario_params)
+
+    Rails.logger.info("[UsuariosController#update] RAW params: #{params.to_unsafe_h.inspect}")
+    permitted_attrs = usuario_params
+    Rails.logger.info("[UsuariosController#update] Permitted attrs: #{permitted_attrs.to_h.inspect}")
+
+    old_attrs = @usuario.attributes
+    if @usuario.update(permitted_attrs)
+      AuditTrail.log(
+        user: current_user,
+        action: 'usuario_update',
+        severity: 'info',
+        correlation_id: request.request_id,
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        entity: @usuario,
+        old_value: old_attrs,
+        new_value: @usuario.attributes
+      )
+      Rails.logger.info("[UsuariosController#update] Update sucesso para usuário ##{@usuario.id}")
       render json: @usuario, serializer: UsuarioSerializer
     else
+      AuditTrail.log(
+        user: current_user,
+        action: 'usuario_update_failed',
+        severity: 'warning',
+        correlation_id: request.request_id,
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        entity: @usuario,
+        details: { errors: @usuario.errors.full_messages }
+      )
+      Rails.logger.warn("[UsuariosController#update] Falha no update: #{@usuario.errors.full_messages.inspect}")
       render json: @usuario.errors, status: :unprocessable_entity
     end
   end
   
-  # DELETE /api/v1/usuarios/:id (Inativação)
   def deactivate 
-    # Pundit verifica a regra 'deactivate?'.
-    # Garante que um admin não pode desativar a si mesmo.
     authorize @usuario
-    
+    old_attrs = @usuario.attributes
     if @usuario.update(ativo: false)
+      AuditTrail.log(
+        user: current_user,
+        action: 'usuario_deactivate',
+        severity: 'warning',
+        correlation_id: request.request_id,
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        entity: @usuario,
+        old_value: old_attrs,
+        new_value: @usuario.attributes
+      )
       head :no_content 
     else
+      AuditTrail.log(
+        user: current_user,
+        action: 'usuario_deactivate_failed',
+        severity: 'warning',
+        correlation_id: request.request_id,
+        ip: request.remote_ip,
+        user_agent: request.user_agent,
+        entity: @usuario,
+        details: { errors: @usuario.errors.full_messages }
+      )
       render json: @usuario.errors, status: :unprocessable_entity
     end
   end 
@@ -82,9 +143,7 @@ class Api::V1::UsuariosController < ApplicationController
     render json: { error: "Usuário não encontrado." }, status: :not_found
   end
 
-  # O método 'authenticate_admin!' foi REMOVIDO, pois o Pundit o torna obsoleto.
-
-  # Os métodos de parâmetros fortes continuam exatamente os mesmos.
+  # O método de parâmetros fortes continua exatamente os mesmos.
   def usuario_params
     if current_user&.admin?
       admin_usuario_params
@@ -96,8 +155,8 @@ class Api::V1::UsuariosController < ApplicationController
   def public_usuario_params
     params.require(:usuario).permit(
       :nome, :email, :login, :password, :cpf,
-      endereco_attributes: [:logradouro, :numero, :complemento, :bairro, :cidade, :estado, :cep],
-      perfil_corretor_attributes: [:creci, :creci_estado]
+      endereco_attributes: [:id, :logradouro, :numero, :complemento, :bairro, :cidade, :estado, :cep],
+      perfil_corretor_attributes: [:id, :creci, :creci_estado]
     )
   end
 

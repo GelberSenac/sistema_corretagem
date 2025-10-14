@@ -11,6 +11,7 @@ function Sidebar() {
 
   const isAdmin = user?.role === "admin";
   const isCorretor = user?.role === "corretor";
+  const isGerente = user?.role === "gerente";
 
   // Função para definir a classe do link (ativo ou não)
   const getNavLinkClass = ({ isActive }) =>
@@ -36,8 +37,8 @@ function Sidebar() {
             </li>
           )}
 
-          {/* Links visíveis para Admin E Corretor */}
-          {(isAdmin || isCorretor) && (
+          {/* Links visíveis para Admin, Gerente e Corretor */}
+          {(isAdmin || isGerente || isCorretor) && (
             <>
               <li>
                 <NavLink to="/clientes" className={getNavLinkClass}>
@@ -47,6 +48,11 @@ function Sidebar() {
               <li>
                 <NavLink to="/imoveis" className={getNavLinkClass}>
                   Gerenciar Imóveis
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/propostas" className={getNavLinkClass}>
+                  Propostas
                 </NavLink>
               </li>
               <li>

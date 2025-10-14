@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  valor_proposta: 300000.00
+  condicoes_pagamento: { entrada: 50000, parcelas: 120, juros: 0.9 }
+  status: em_analise
+  usuario: one
+  cliente: one
+  imovel: one
+  data_proposta: 2025-10-01
+
+two:
+  valor_proposta: 2500.00
+  condicoes_pagamento: { caucao: 2500, vencimento: 'mensal' }
+  status: em_analise
+  usuario: two
+  cliente: two
+  imovel: two
+  data_proposta: 2025-10-01

@@ -54,16 +54,19 @@ function ClienteLista({
               <p>CPF: {cliente.cpf}</p>
             </Link>
             <div className="card-actions">
-              <button onClick={() => onEdit(cliente)} title="Editar Rápido">
-                <FaEdit />
-              </button>
-              <button
-                onClick={() => onDelete(cliente.id)}
-                title="Excluir Cliente"
-              >
-                <FaTrash />
-              </button>
-            </div>
+                <button onClick={() => onEdit(cliente)} title="Editar Rápido">
+                  <FaEdit />
+                </button>
+                <button
+                  onClick={() => onDelete(cliente.id)}
+                  title="Excluir Cliente"
+                >
+                  <FaTrash />
+                </button>
+                <Link to={`/clientes/${cliente.id}/perfis`} title="Perfis de Busca" style={{ marginLeft: 8 }}>
+                  Perfis de Busca
+                </Link>
+              </div>
           </li>
         ))}
       </ul>
